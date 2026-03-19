@@ -43,7 +43,7 @@
     <style>
         .dark .dx-datagrid-headers .dx-datagrid-text-content { color: #e2e8f0; }
         .dx-datagrid .dx-data-row button { cursor: pointer; }
-        .dx-popup-content { overflow-y: auto !important; }
+        .dx-popup-wrapper > .dx-overlay-content > .dx-popup-content { overflow-y: auto !important; }
     </style>
 
     @stack('styles')
@@ -63,10 +63,20 @@
         $.ajaxSetup({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
         });
-
-        $(document).on('wheel', '.dx-popup-content', function(e) {
+        // Fix: capture-phase wheel listener so inner scrollable elements inside
+        // DevExtreme popups receive scroll before dxScrollable intercepts them.
+        document.addEventListener('wheel', function(e) {
+            var el = e.target.closest('.dx-popup-content .overflow-y-auto, .dx-popup-content .overflow-auto');
+            if (!el) return;
+            if (el.scrollHeight <= el.clientHeight) return;
+            var atTop = el.scrollTop === 0 && e.deltaY < 0;
+            var atBottom = (el.scrollTop + el.clientHeight >= el.scrollHeight) && e.deltaY > 0;
+            if (atTop || atBottom) return;
+            el.scrollTop += e.deltaY;
+            e.preventDefault();
             e.stopPropagation();
-        });
+        }, { capture: true, passive: false });
+        
 
         function showToast(message, type) {
             DevExpress.ui.notify({

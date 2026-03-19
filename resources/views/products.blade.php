@@ -27,6 +27,12 @@
         ::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
         .dark ::-webkit-scrollbar-thumb { background-color: #475569; }
         .dark ::-webkit-scrollbar-thumb:hover { background-color: #64748b; }
+
+        /* Thin scrollbar for category bar */
+        .scrollbar-thin::-webkit-scrollbar { height: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 9999px; }
+        .dark .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #475569; }
     </style>
 </head>
 <body x-data="productCatalog()" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -172,7 +178,7 @@
             <!-- Page Header -->
             <div class="mb-4 md:mb-8">
                 <h1 class="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Catálogo de Productos</h1>
-                <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Descubre todos nuestros productos disponibles</p>
+                <p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Explora todo nuestro catálogo de productos</p>
             </div>
 
             <div class="flex flex-col lg:flex-row gap-8">
@@ -221,6 +227,8 @@
                                 @endforeach
                             </div>
                         </div>
+
+                        <!-- Disponibilidad removed -->
 
                         <!-- Ordenar -->
                         <div class="mb-6">
@@ -279,15 +287,16 @@
 
                 <!-- Products Grid -->
                 <div class="flex-1">
+                    <!-- Horizontal Category Bar -->
                     <!-- Results count -->
                     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
                         <span x-text="filtered().length"></span> producto(s) encontrado(s)
                     </div>
 
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3">
                         <template x-for="product in paginated()" :key="product.id">
                             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
-                                <div class="aspect-[4/3] relative w-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800"
+                                <div class="aspect-square relative w-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800"
                                      :class="product.image && 'cursor-pointer'"
                                      @click="product.image ? (viewerImage = product.image, viewerName = product.name) : null">
                                     <template x-if="product.image">
@@ -306,31 +315,17 @@
                                     </template>
                                 </div>
                                 <div class="p-2 md:p-3 flex flex-col flex-1">
-                                    <div class="hidden md:flex items-center justify-between mb-1">
-                                        <span class="inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 text-xs font-semibold rounded-full"
+                                    <div class="hidden md:flex items-center justify-between mb-1 gap-1">
+                                        <span class="inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 text-xs font-semibold rounded-full truncate max-w-[60%]"
                                               x-text="product.category"></span>
                                         <template x-if="product.brand">
-                                            <span class="text-xs text-gray-500 dark:text-gray-400" x-text="product.brand"></span>
+                                            <span class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[38%]" x-text="product.brand"></span>
                                         </template>
                                     </div>
-                                    <h3 class="font-bold text-xs md:text-base text-gray-900 dark:text-white mb-0.5 md:mb-1 line-clamp-2" x-text="product.name"></h3>
-                                    <p class="hidden md:block text-gray-600 dark:text-gray-400 text-xs mb-2 line-clamp-2" x-text="product.description"></p>
-                                    <div class="mt-auto flex flex-col md:flex-row justify-between md:items-center pt-1.5 md:pt-2 border-t border-gray-200 dark:border-gray-700 gap-1 md:gap-0">
-                                        <div>
-                                            <span class="text-sm md:text-xl font-bold text-cyan-600 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2)"></span>
-                                        </div>
-                                        <div class="text-left md:text-right">
-                                            <template x-if="product.stock > 0">
-                                                <span class="inline-block px-1.5 py-0.5 md:px-2 md:py-1 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 text-xs font-semibold rounded">
-                                                    <i class="fas fa-check-circle"></i> <span class="hidden md:inline">Disponible</span>
-                                                </span>
-                                            </template>
-                                            <template x-if="product.stock <= 0">
-                                                <span class="inline-block px-1.5 py-0.5 md:px-2 md:py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 text-xs font-semibold rounded">
-                                                    <i class="fas fa-times-circle"></i> <span class="hidden md:inline">Agotado</span>
-                                                </span>
-                                            </template>
-                                        </div>
+                                    <h3 class="font-bold text-xs md:text-sm text-gray-900 dark:text-white mb-0.5 md:mb-1 line-clamp-2" x-text="product.name"></h3>
+                                    <p class="hidden md:block text-gray-600 dark:text-gray-400 text-xs mb-1 line-clamp-2" x-text="product.description"></p>
+                                    <div class="mt-auto pt-1.5 md:pt-2 border-t border-gray-200 dark:border-gray-700">
+                                        <span class="text-sm md:text-lg font-bold text-cyan-600 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2) + ' MXN'"></span>
                                     </div>
                                 </div>
                             </div>
@@ -348,21 +343,38 @@
                     </div>
 
                     <!-- Pagination -->
-                    <div x-show="totalPages() > 1" class="mt-12 flex justify-center items-center gap-2">
+                    <div x-show="totalPages() > 1" class="mt-12 flex flex-wrap justify-center items-center gap-1.5">
+                        <!-- Prev -->
                         <button @click="page = Math.max(1, page - 1)" :disabled="page === 1"
-                                class="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition">
+                                class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition text-sm">
                             <i class="fas fa-chevron-left"></i>
                         </button>
-                        <template x-for="p in totalPages()" :key="p">
-                            <button @click="page = p" 
-                                    :class="page === p ? 'bg-cyan-600 text-white' : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
-                                    class="w-10 h-10 rounded-lg font-semibold transition"
-                                    x-text="p"></button>
+
+                        <template x-for="item in pageItems()" :key="item.key">
+                            <template x-if="item.type === 'page'">
+                                <button @click="page = item.value; $nextTick(() => window.scrollTo({top: 0, behavior: 'smooth'}))"
+                                        :class="page === item.value
+                                            ? 'bg-cyan-600 text-white border-cyan-600'
+                                            : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+                                        class="w-9 h-9 rounded-lg font-semibold transition border text-sm"
+                                        x-text="item.value"></button>
+                            </template>
+                            <template x-if="item.type === 'ellipsis'">
+                                <span class="w-9 h-9 flex items-center justify-center text-gray-400 dark:text-gray-500 text-sm select-none">…</span>
+                            </template>
                         </template>
-                        <button @click="page = Math.min(totalPages(), page + 1)" :disabled="page === totalPages()"
-                                class="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition">
+
+                        <!-- Next -->
+                        <button @click="page = Math.min(totalPages(), page + 1); $nextTick(() => window.scrollTo({top: 0, behavior: 'smooth'}))" :disabled="page === totalPages()"
+                                class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed transition text-sm">
                             <i class="fas fa-chevron-right"></i>
                         </button>
+
+                        <!-- Page summary -->
+                        <span class="w-full text-center text-xs text-gray-400 dark:text-gray-500 mt-1">
+                            Página <span x-text="page"></span> de <span x-text="totalPages()"></span>
+                            &nbsp;(<span x-text="filtered().length"></span> productos)
+                        </span>
                     </div>
                 </div>
             </div>
@@ -421,14 +433,12 @@ function productCatalog() {
         {
             id: {{ $product->id_product }},
             name: @js($product->name),
-            description: @js(Str::limit($product->description, 100)),
+            description: @js(Str::limit($product->description, 100) ?? ''),
             image: @js($product->main_image_url ? asset('storage/' . $product->main_image_url) : ''),
-            category: @js($product->category->name),
-            category_id: {{ $product->category_id }},
+            category: @js($product->category?->name ?? 'Sin categoría'),
+            category_id: {{ $product->category_id ?? 0 }},
             brand: @js($product->brand ? $product->brand->name : ''),
             price: {{ $product->price ?? 0 }},
-            sale_price: {{ $product->sale_price ?? 0 }},
-            stock: {{ $product->stock ?? 0 }},
             weight: @js($product->weight ?? ''),
             created_at: @js($product->created_at->toISOString())
         },
@@ -445,7 +455,7 @@ function productCatalog() {
         categoryId: 0,
         sort: 'name',
         page: 1,
-        perPage: 16,
+        perPage: 24,
         viewerImage: '',
         viewerName: '',
         products: allProducts,
@@ -456,7 +466,7 @@ function productCatalog() {
                 if (self.categoryId !== 0 && p.category_id !== self.categoryId) return false;
                 if (self.search.trim() !== '') {
                     var s = self.search.toLowerCase();
-                    if (p.name.toLowerCase().indexOf(s) === -1 && p.description.toLowerCase().indexOf(s) === -1) return false;
+                    if (p.name.toLowerCase().indexOf(s) === -1 && (p.description || '').toLowerCase().indexOf(s) === -1) return false;
                 }
                 return true;
             });
@@ -475,6 +485,34 @@ function productCatalog() {
 
         totalPages() {
             return Math.max(1, Math.ceil(this.filtered().length / this.perPage));
+        },
+
+        // Returns an array of {type:'page'|'ellipsis', value, key} for the smart paginator
+        pageItems() {
+            var total = this.totalPages();
+            var cur = this.page;
+            var delta = 2; // pages on each side of current
+            var items = [];
+            var pages = new Set();
+
+            // Always include first and last
+            pages.add(1);
+            pages.add(total);
+            // Window around current page
+            for (var i = Math.max(2, cur - delta); i <= Math.min(total - 1, cur + delta); i++) {
+                pages.add(i);
+            }
+
+            var sorted = Array.from(pages).sort(function(a, b){ return a - b; });
+            var prev = 0;
+            sorted.forEach(function(p) {
+                if (p - prev > 1) {
+                    items.push({ type: 'ellipsis', key: 'e' + p, value: null });
+                }
+                items.push({ type: 'page', key: 'p' + p, value: p });
+                prev = p;
+            });
+            return items;
         },
 
         paginated() {

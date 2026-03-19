@@ -66,71 +66,28 @@
     <div class="bg-white dark:bg-gray-800 shadow-lg rounded-xl overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
             <h2 class="text-lg font-semibold text-gray-900 dark:text-white">Productos Recientes</h2>
-            <a href="{{ route('admin.products.index') }}" class="text-sm text-blue-600 dark:text-blue-400 hover:underline">Ver todos →</a>
+            <a href="{{ route('admin.products.index') }}" class="text-sm text-blue-500 dark:text-blue-400 hover:underline">Ver todos →</a>
         </div>
-        <div id="recentGrid" class="p-2"></div>
+        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+            @foreach($recent_products as $product)
+            <div class="flex items-center gap-4 px-6 py-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                <img src="{{ $product->main_image_url ? asset('storage/' . $product->main_image_url) : asset('images/logos/logo.webp') }}" alt="{{ $product->name }}" class="w-12 h-12 rounded-lg object-cover flex-shrink-0">
+                <div class="flex-1 min-w-0">
+                    <p class="font-semibold text-gray-900 dark:text-white truncate">{{ $product->name }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $product->category?->name ?? 'Sin categoría' }} · {{ $product->brand?->name ?? 'Sin marca' }}</p>
+                </div>
+                <div class="text-right flex-shrink-0">
+                    <p class="font-bold text-gray-900 dark:text-white">${{ number_format($product->price, 2) }}</p>
+                    @if($product->is_active)
+                    <span class="text-xs text-emerald-600 dark:text-emerald-400">Activo</span>
+                    @else
+                    <span class="text-xs text-red-500 dark:text-red-400">Inactivo</span>
+                    @endif
+                </div>
+            </div>
+            @endforeach
+        </div>
     </div>
     @endif
 </div>
 @endsection
-
-@push('scripts')
-<script>
-$(function() {
-    var recentData = @json($recent_products);
-
-    $('#recentGrid').dxDataGrid({
-        dataSource: recentData,
-        keyExpr: 'id_product',
-        showBorders: false,
-        showRowLines: true,
-        rowAlternationEnabled: true,
-        columnAutoWidth: true,
-        wordWrapEnabled: true,
-        columns: [
-            {
-                dataField: 'main_image_url',
-                caption: '',
-                width: 50,
-                allowSorting: false,
-                allowFiltering: false,
-                cellTemplate: function(container, options) {
-                    var src = options.value ? '/storage/' + options.value : '/images/logos/logo.webp';
-                    $('<img>').attr('src', src).addClass('w-10 h-10 rounded object-cover').appendTo(container);
-                }
-            },
-            { dataField: 'name', caption: 'Producto' },
-            {
-                dataField: 'category.name',
-                caption: 'Categoría',
-                calculateCellValue: function(data) { return data.category ? data.category.name : 'Sin categoría'; }
-            },
-            {
-                dataField: 'brand.name',
-                caption: 'Marca',
-                calculateCellValue: function(data) { return data.brand ? data.brand.name : 'Sin marca'; }
-            },
-            {
-                dataField: 'price',
-                caption: 'Precio',
-                dataType: 'number',
-                format: { type: 'currency', precision: 2, currency: 'MXN' },
-                customizeText: function(e) { return '$' + parseFloat(e.value || 0).toFixed(2); }
-            },
-            {
-                dataField: 'is_active',
-                caption: 'Estado',
-                width: 90,
-                alignment: 'center',
-                cellTemplate: function(container, options) {
-                    var cls = options.value ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-                    $('<span>').addClass('px-2 py-1 text-xs rounded-full font-medium ' + cls).text(options.value ? 'Activo' : 'Inactivo').appendTo(container);
-                }
-            }
-        ],
-        paging: { enabled: false },
-        searchPanel: { visible: false }
-    });
-});
-</script>
-@endpush

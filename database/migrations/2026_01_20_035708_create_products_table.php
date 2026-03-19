@@ -18,17 +18,14 @@ return new class extends Migration
             $table->string('slug', 250)->unique();
             $table->string('sku', 100)->unique()->nullable();
             $table->text('description')->nullable();
+            $table->decimal('cost_price', 10, 2)->nullable();
             $table->decimal('price', 10, 2)->nullable();
-            $table->decimal('sale_price', 10, 2)->nullable();
-            $table->integer('stock')->default(0);
             $table->string('weight', 50)->nullable();
             $table->string('color', 50)->nullable();
-            $table->smallInteger('in_stock')->default(0);
             $table->string('main_image_url')->nullable();
             $table->json('images')->nullable();
             $table->json('meta')->nullable();
             $table->smallInteger('is_active')->default(1);
-            $table->smallInteger('is_featured')->default(0);
             $table->integer('sort_order')->default(0);
             $table->integer('views_count')->default(0);
             $table->timestamps();
@@ -37,7 +34,7 @@ return new class extends Migration
             $table->index('slug');
             $table->index(['category_id', 'is_active']);
             $table->index(['brand_id', 'is_active']);
-            $table->index(['is_active', 'is_featured', 'sort_order']);
+            $table->index(['is_active', 'sort_order']);
         });
     }
 

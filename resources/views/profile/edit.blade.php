@@ -27,7 +27,7 @@
             </div>
             <div class="grid grid-cols-2 gap-4 text-sm text-gray-500 dark:text-gray-400">
                 <div><span class="font-medium">Rol:</span> {{ $user->role->display_name ?? 'Sin rol' }}</div>
-                <div><span class="font-medium">Último acceso:</span> {{ $user->last_login_at ? $user->last_login_at->format('d/m/Y H:i') : 'N/A' }}</div>
+                <div><span class="font-medium">Último acceso:</span> {{ $user->last_login_at ? $user->last_login_at->timezone('America/Merida')->format('d/m/Y, h:i a') : 'N/A' }}</div>
             </div>
             <div class="flex justify-end">
                 <div id="btnSaveProfile"></div>

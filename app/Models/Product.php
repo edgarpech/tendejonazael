@@ -21,28 +21,24 @@ class Product extends Model
         'slug',
         'sku',
         'description',
+        'cost_price',
         'price',
-        'sale_price',
-        'stock',
         'weight',
         'color',
-        'in_stock',
         'main_image_url',
         'images',
         'meta',
         'is_active',
-        'is_featured',
         'sort_order',
         'views_count',
     ];
 
     protected $casts = [
+        'cost_price' => 'decimal:2',
         'price' => 'decimal:2',
-        'in_stock' => 'integer',
         'images' => 'array',
         'meta' => 'array',
         'is_active' => 'integer',
-        'is_featured' => 'integer',
         'sort_order' => 'integer',
         'views_count' => 'integer',
         'created_at' => 'datetime',
@@ -83,22 +79,6 @@ class Product extends Model
     public function scopeActive($query)
     {
         return $query->where('is_active', 1);
-    }
-
-    /**
-     * Scope a query to only include featured products.
-     */
-    public function scopeFeatured($query)
-    {
-        return $query->where('is_featured', 1);
-    }
-
-    /**
-     * Scope a query to only include products in stock.
-     */
-    public function scopeInStock($query)
-    {
-        return $query->where('in_stock', 1);
     }
 
     /**

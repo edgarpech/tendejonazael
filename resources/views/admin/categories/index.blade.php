@@ -36,12 +36,15 @@ $(function() {
     });
 
     $('#dataGrid').dxDataGrid({
+        width: '100%',
         dataSource: categoriesData,
         keyExpr: 'id_category',
         showBorders: true,
         showRowLines: true,
         rowAlternationEnabled: true,
         columnAutoWidth: true,
+        allowColumnResizing: true,
+        columnResizingMode: 'widget',
         sorting: { mode: 'single' },
         searchPanel: { visible: true, placeholder: 'Buscar categoría...', width: 300 },
         paging: { pageSize: 10 },
@@ -56,7 +59,7 @@ $(function() {
                 width: 80,
                 alignment: 'center',
                 cellTemplate: function(container, options) {
-                    var cls = options.value ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+                    var cls = options.value ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-800/40 dark:text-emerald-300' : 'bg-red-100 text-red-700 dark:bg-red-800/40 dark:text-red-300';
                     $('<span>').addClass('px-2 py-1 text-xs rounded-full font-medium ' + cls).text(options.value ? 'Sí' : 'No').appendTo(container);
                 }
             },
@@ -68,8 +71,8 @@ $(function() {
                 allowFiltering: false,
                 cellTemplate: function(container, options) {
                     $('<div>').addClass('flex items-center justify-center gap-1').append(
-                        $('<button>').addClass('p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded').attr('title', 'Editar').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>').on('click', function() { openForm(options.data.id_category); }),
-                        $('<button>').addClass('p-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded').attr('title', 'Eliminar').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>').on('click', function() { deleteItem(options.data.id_category); })
+                        $('<button>').addClass('p-1.5 text-blue-500 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-800/30 rounded').attr('title', 'Editar').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>').on('click', function() { openForm(options.data.id_category); }),
+                        $('<button>').addClass('p-1.5 text-red-500 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-800/30 rounded').attr('title', 'Eliminar').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>').on('click', function() { deleteItem(options.data.id_category); })
                     ).appendTo(container);
                 }
             }
@@ -79,7 +82,7 @@ $(function() {
     popup = $('#formPopup').dxPopup({
         title: 'Nueva Categoría',
         showTitle: true,
-        width: function() { return Math.min(500, $(window).width() - 40); },
+        width: Math.min(500, $(window).width() - 40),
         height: 'auto',
         showCloseButton: true,
         visible: false,

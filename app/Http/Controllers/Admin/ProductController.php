@@ -35,13 +35,11 @@ class ProductController extends Controller
             'sku' => 'nullable|string|max:100|unique:products,sku',
             'category_id' => 'required|exists:categories,id_category',
             'brand_id' => 'nullable|exists:brands,id_brand',
+            'cost_price' => 'nullable|numeric|min:0',
             'price' => 'required|numeric|min:0',
-            'sale_price' => 'nullable|numeric|min:0',
-            'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|image|max:4096',
             'is_active' => 'boolean',
-            'is_featured' => 'boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -50,9 +48,7 @@ class ProductController extends Controller
         unset($validated['image']);
 
         $validated['is_active'] = $request->boolean('is_active');
-        $validated['is_featured'] = $request->boolean('is_featured');
         $validated['slug'] = Str::slug($validated['name']);
-        $validated['in_stock'] = ($validated['stock'] ?? 0) > 0 ? 1 : 0;
 
         if (empty($validated['sku'])) {
             $validated['sku'] = strtoupper(Str::random(8));
@@ -74,13 +70,11 @@ class ProductController extends Controller
             'sku' => 'nullable|string|max:100|unique:products,sku,' . $product->id_product . ',id_product',
             'category_id' => 'required|exists:categories,id_category',
             'brand_id' => 'nullable|exists:brands,id_brand',
+            'cost_price' => 'nullable|numeric|min:0',
             'price' => 'required|numeric|min:0',
-            'sale_price' => 'nullable|numeric|min:0',
-            'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|image|max:4096',
             'is_active' => 'boolean',
-            'is_featured' => 'boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -92,9 +86,7 @@ class ProductController extends Controller
         unset($validated['image']);
 
         $validated['is_active'] = $request->boolean('is_active');
-        $validated['is_featured'] = $request->boolean('is_featured');
         $validated['slug'] = Str::slug($validated['name']);
-        $validated['in_stock'] = ($validated['stock'] ?? 0) > 0 ? 1 : 0;
 
         $product->update($validated);
 

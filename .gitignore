@@ -23,6 +23,7 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 npm-debug.log
+/eleventa/*.fdb
 yarn-error.log
 
 # Storage - ignorar todo excepto .gitkeep

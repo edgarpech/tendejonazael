@@ -48,12 +48,15 @@ $(function() {
     });
 
     $('#dataGrid').dxDataGrid({
+        width: '100%',
         dataSource: productsData,
         keyExpr: 'id_product',
         showBorders: true,
         showRowLines: true,
         rowAlternationEnabled: true,
         columnAutoWidth: true,
+        allowColumnResizing: true,
+        columnResizingMode: 'widget',
         wordWrapEnabled: true,
         searchPanel: { visible: true, placeholder: 'Buscar producto...', width: 300 },
         filterRow: { visible: false },
@@ -63,12 +66,12 @@ $(function() {
             {
                 dataField: 'main_image_url',
                 caption: '',
-                width: 60,
+                width: 50,
                 allowSorting: false,
                 allowFiltering: false,
                 cellTemplate: function(container, options) {
                     var src = options.value ? '/storage/' + options.value : '/images/logos/logo.webp';
-                    $('<img>').attr('src', src).addClass('w-10 h-10 rounded-lg object-cover').appendTo(container);
+                    $('<img>').attr('src', src).addClass('w-8 h-8 rounded-lg object-cover').appendTo(container);
                 }
             },
             { dataField: 'name', caption: 'Nombre', minWidth: 120, sortOrder: 'asc' },
@@ -87,19 +90,18 @@ $(function() {
             },
             {
                 dataField: 'price',
-                caption: 'Precio',
+                caption: 'Precio Venta',
                 dataType: 'number',
-                width: 100,
+                width: 110,
                 customizeText: function(e) { return '$' + parseFloat(e.value || 0).toFixed(2); }
             },
-            { dataField: 'stock', caption: 'Stock', width: 70, dataType: 'number' },
             {
                 dataField: 'is_active',
                 caption: 'Activo',
                 width: 100,
                 alignment: 'center',
                 cellTemplate: function(container, options) {
-                    var cls = options.value ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+                    var cls = options.value ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-800/40 dark:text-emerald-300' : 'bg-red-100 text-red-700 dark:bg-red-800/40 dark:text-red-300';
                     $('<span>').addClass('px-2 py-1 text-xs rounded-full font-medium ' + cls).text(options.value ? 'Sí' : 'No').appendTo(container);
                 }
             },
@@ -111,8 +113,8 @@ $(function() {
                 allowFiltering: false,
                 cellTemplate: function(container, options) {
                     $('<div>').addClass('flex items-center justify-center gap-1').append(
-                        $('<button>').addClass('p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>').on('click', function() { openForm(options.data.id_product); }),
-                        $('<button>').addClass('p-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>').on('click', function() { deleteItem(options.data.id_product); })
+                        $('<button>').addClass('p-1.5 text-blue-500 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-800/30 rounded').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>').on('click', function() { openForm(options.data.id_product); }),
+                        $('<button>').addClass('p-1.5 text-red-500 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-800/30 rounded').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>').on('click', function() { deleteItem(options.data.id_product); })
                     ).appendTo(container);
                 }
             }
@@ -122,8 +124,8 @@ $(function() {
     popup = $('#formPopup').dxPopup({
         title: 'Nuevo Producto',
         showTitle: true,
-        width: function() { return Math.min(900, $(window).width() - 40); },
-        height: function() { return Math.min($(window).height() * 0.85, 700); },
+        width: Math.min(900, $(window).width() - 40),
+        height: Math.min($(window).height() * 0.85, 700),
         showCloseButton: true,
         visible: false,
         dragEnabled: true,
@@ -158,33 +160,23 @@ function getFormHtml() {
                     <div id="fBrand"></div>
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio *</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio Costo</label>
+                    <div id="fCostPrice"></div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio Venta *</label>
                     <div id="fPrice"></div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio Oferta</label>
-                    <div id="fSalePrice"></div>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stock *</label>
-                    <div id="fStock"></div>
                 </div>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción</label>
                 <div id="fDescription"></div>
             </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="flex items-center gap-3">
-                    <div id="fActive"></div>
-                    <label class="text-sm text-gray-700 dark:text-gray-300">Activo</label>
-                </div>
-                <div class="flex items-center gap-3">
-                    <div id="fFeatured"></div>
-                    <label class="text-sm text-gray-700 dark:text-gray-300">Destacado</label>
-                </div>
+            <div class="flex items-center gap-3">
+                <div id="fActive"></div>
+                <label class="text-sm text-gray-700 dark:text-gray-300">Activo</label>
             </div>
             <div>
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Imagen</label>
@@ -215,7 +207,8 @@ function initFormWidgets(data) {
         valueExpr: 'id_category',
         value: data.category_id || null,
         placeholder: 'Seleccionar categoría',
-        searchEnabled: true
+        searchEnabled: true,
+        dropDownOptions: { container: 'body' }
     });
     $('#fBrand').dxSelectBox({
         dataSource: brandsData,
@@ -224,14 +217,13 @@ function initFormWidgets(data) {
         value: data.brand_id || null,
         placeholder: 'Seleccionar marca',
         searchEnabled: true,
-        showClearButton: true
+        showClearButton: true,
+        dropDownOptions: { container: 'body' }
     });
-    $('#fPrice').dxNumberBox({ value: data.price || 0, min: 0, format: '$#,##0.00', placeholder: '0.00' });
-    $('#fSalePrice').dxNumberBox({ value: data.sale_price || null, min: 0, format: '$#,##0.00', placeholder: '0.00' });
-    $('#fStock').dxNumberBox({ value: data.stock || 0, min: 0, showSpinButtons: true });
+    $('#fPrice').dxNumberBox({ value: parseFloat(data.price) || 0, min: 0, format: '#,##0.00', placeholder: '0.00' });
+    $('#fCostPrice').dxNumberBox({ value: parseFloat(data.cost_price) || null, min: 0, format: '#,##0.00', placeholder: '0.00' });
     $('#fDescription').dxTextArea({ value: data.description || '', height: 80, placeholder: 'Descripción del producto' });
     $('#fActive').dxSwitch({ value: data.is_active !== undefined ? !!data.is_active : true });
-    $('#fFeatured').dxSwitch({ value: data.is_featured !== undefined ? !!data.is_featured : false });
 
     $('#btnCancel').dxButton({ text: 'Cancelar', stylingMode: 'outlined', onClick: function() { popup.hide(); } });
     $('#btnSave').dxButton({ text: 'Guardar', type: 'default', stylingMode: 'contained', onClick: saveForm });
@@ -288,12 +280,10 @@ function saveForm() {
     formData.append('category_id', $('#fCategory').dxSelectBox('instance').option('value') || '');
     formData.append('brand_id', $('#fBrand').dxSelectBox('instance').option('value') || '');
     formData.append('price', $('#fPrice').dxNumberBox('instance').option('value') || 0);
-    var salePrice = $('#fSalePrice').dxNumberBox('instance').option('value');
-    if (salePrice) formData.append('sale_price', salePrice);
-    formData.append('stock', $('#fStock').dxNumberBox('instance').option('value') || 0);
+    var costPrice = $('#fCostPrice').dxNumberBox('instance').option('value');
+    if (costPrice) formData.append('cost_price', costPrice);
     formData.append('description', $('#fDescription').dxTextArea('instance').option('value') || '');
     formData.append('is_active', $('#fActive').dxSwitch('instance').option('value') ? 1 : 0);
-    formData.append('is_featured', $('#fFeatured').dxSwitch('instance').option('value') ? 1 : 0);
 
     if (editingId) formData.append('_method', 'PUT');
 

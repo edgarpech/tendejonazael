@@ -21,6 +21,10 @@
     .goog-te-gadget span { display: none; }
 
     .splide__slide { display: flex; align-items: center; justify-content: center; }
+    .scrollbar-thin::-webkit-scrollbar { height: 4px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 9999px; }
+    .dark .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #475569; }
 </style>
 </head>
 <body x-data="homeApp()" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -273,16 +277,16 @@
                     <input type="text" x-model="search" placeholder="Buscar productos..." 
                            class="w-full px-3 py-2 md:px-4 md:py-3 text-sm md:text-base border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent">
 
-                    <div class="flex gap-1.5 md:gap-2 flex-wrap justify-center">
+                    <div class="flex gap-1.5 md:gap-2 overflow-x-auto pb-2 scrollbar-thin" style="-webkit-overflow-scrolling: touch;">
                         <button @click="catActiva = 0; search = ''" 
-                                :class="catActiva === 0 ? 'bg-cyan-600 text-white shadow-lg scale-105' : 'bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 border border-cyan-600 dark:border-cyan-400'"
-                                class="px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm rounded-lg font-medium transition-all hover:shadow-lg hover:scale-105 cursor-pointer">
+                                :class="catActiva === 0 ? 'bg-cyan-600 text-white shadow-lg' : 'bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 border border-cyan-600 dark:border-cyan-400'"
+                                class="flex-shrink-0 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm rounded-lg font-medium transition-all hover:shadow-md cursor-pointer">
                             Todos
                         </button>
                         @foreach($categories as $category)
                         <button @click="catActiva = {{ $category->id_category }}; search = ''" 
-                                :class="catActiva === {{ $category->id_category }} ? 'bg-cyan-600 text-white shadow-lg scale-105' : 'bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 border border-cyan-600 dark:border-cyan-400'"
-                                class="px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm rounded-lg font-medium transition-all hover:shadow-lg hover:scale-105 cursor-pointer">
+                                :class="catActiva === {{ $category->id_category }} ? 'bg-cyan-600 text-white shadow-lg' : 'bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 border border-cyan-600 dark:border-cyan-400'"
+                                class="flex-shrink-0 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm rounded-lg font-medium transition-all hover:shadow-md cursor-pointer">
                             {{ $category->name }}
                         </button>
                         @endforeach
@@ -291,11 +295,11 @@
             </div>
 
             <!-- Grid de Productos -->
-            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-4">
                 <template x-for="product in displayProducts" :key="product.id">
                     <div x-transition
                          class="bg-white dark:bg-gray-900 rounded-lg md:rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
-                        <div class="h-32 md:h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center overflow-hidden">
+                        <div class="h-28 md:h-36 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center overflow-hidden">
                             <template x-if="product.image">
                                 <img :src="product.image" :alt="product.name" 
                                      class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
@@ -306,22 +310,16 @@
                                 </div>
                             </template>
                         </div>
-                        <div class="p-2 md:p-4">
-                            <span class="hidden md:inline-block px-2 py-1 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 text-xs font-semibold rounded mb-2"
+                        <div class="p-2 md:p-3">
+                            <span class="hidden md:inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 text-xs font-semibold rounded mb-1 truncate max-w-full"
                                   x-text="product.category"></span>
-                            <h3 class="font-bold text-xs md:text-lg text-gray-900 dark:text-white mb-1 md:mb-2 line-clamp-2" x-text="product.name"></h3>
-                            <p class="hidden md:block text-gray-600 dark:text-gray-400 text-sm mb-2 line-clamp-2" x-text="product.description"></p>
+                            <h3 class="font-bold text-xs md:text-sm text-gray-900 dark:text-white mb-1 line-clamp-2" x-text="product.name"></h3>
+                            <p class="hidden md:block text-gray-600 dark:text-gray-400 text-xs mb-1 line-clamp-2" x-text="product.description"></p>
                             <template x-if="product.weight">
                                 <p class="hidden md:block text-gray-500 dark:text-gray-500 text-xs mb-2" x-text="product.weight"></p>
                             </template>
-                            <div class="flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-0">
-                                <span class="text-base md:text-2xl font-bold text-cyan-600 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2)"></span>
-                                <template x-if="product.stock > 0">
-                                    <span class="text-green-600 dark:text-green-400 text-xs md:text-sm"><i class="fas fa-check-circle"></i> <span class="hidden md:inline">Disponible</span></span>
-                                </template>
-                                <template x-if="product.stock <= 0">
-                                    <span class="text-red-500 dark:text-red-400 text-xs md:text-sm"><i class="fas fa-times-circle"></i> <span class="hidden md:inline">Agotado</span></span>
-                                </template>
+                            <div class="mt-auto pt-1 md:pt-2 border-t border-gray-200 dark:border-gray-700">
+                                <span class="text-sm md:text-lg font-bold text-cyan-600 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2) + ' MXN'"></span>
                             </div>
                         </div>
                     </div>
@@ -506,10 +504,9 @@ $productsJson = $featuredProducts->map(function($p) {
         'name' => $p->name,
         'description' => Str::limit($p->description, 80),
         'image' => $p->main_image_url ? asset('storage/' . $p->main_image_url) : null,
-        'category' => $p->category->name,
-        'category_id' => $p->category_id,
+        'category' => $p->category?->name ?? 'Sin categoría',
+        'category_id' => $p->category_id ?? 0,
         'price' => (float) $p->price,
-        'stock' => (int) $p->stock,
         'weight' => $p->weight,
     ];
 })->values();
@@ -537,7 +534,7 @@ function homeApp() {
                 filtered = filtered.filter(p => p.category_id === this.catActiva);
             }
 
-            return filtered.slice(0, 8);
+            return filtered.slice(0, 5);
         },
         translatePage() {
             if (this.lang === 'es') {

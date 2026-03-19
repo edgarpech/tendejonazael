@@ -37,19 +37,22 @@ $(function() {
     });
 
     var levelColors = {
-        3: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-        2: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-        1: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
+        3: 'bg-red-100 text-red-700 dark:bg-red-800/40 dark:text-red-300',
+        2: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-800/40 dark:text-yellow-300',
+        1: 'bg-blue-100 text-blue-700 dark:bg-blue-800/40 dark:text-blue-300'
     };
     var levelNames = { 3: 'Alto', 2: 'Medio', 1: 'Básico' };
 
     $('#dataGrid').dxDataGrid({
+        width: '100%',
         dataSource: rolesData,
         keyExpr: 'id_role',
         showBorders: true,
         showRowLines: true,
         rowAlternationEnabled: true,
         columnAutoWidth: true,
+        allowColumnResizing: true,
+        columnResizingMode: 'widget',
         sorting: { mode: 'single' },
         searchPanel: { visible: true, placeholder: 'Buscar rol...', width: 300 },
         paging: { pageSize: 10 },
@@ -78,9 +81,9 @@ $(function() {
                 cellTemplate: function(container, options) {
                     var d = options.data;
                     $('<div>').addClass('flex items-center justify-center gap-1').append(
-                        $('<button>').addClass('p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded').attr('title', 'Editar').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>').on('click', function() { openForm(d.id_role); }),
+                        $('<button>').addClass('p-1.5 text-blue-500 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-800/30 rounded').attr('title', 'Editar').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>').on('click', function() { openForm(d.id_role); }),
                         (d.name !== 'admin' && d.users_count === 0)
-                            ? $('<button>').addClass('p-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded').attr('title', 'Eliminar').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>').on('click', function() { deleteItem(d.id_role); })
+                            ? $('<button>').addClass('p-1.5 text-red-500 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-800/30 rounded').attr('title', 'Eliminar').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>').on('click', function() { deleteItem(d.id_role); })
                             : ''
                     ).appendTo(container);
                 }
@@ -91,7 +94,7 @@ $(function() {
     popup = $('#formPopup').dxPopup({
         title: 'Nuevo Rol',
         showTitle: true,
-        width: function() { return Math.min(650, $(window).width() - 40); },
+        width: Math.min(650, $(window).width() - 40),
         height: 'auto',
         maxHeight: '90vh',
         showCloseButton: true,
@@ -99,12 +102,22 @@ $(function() {
         dragEnabled: true,
         shading: true,
         contentTemplate: function(container) {
+            var moduleTranslations = {
+                'users': 'Usuarios', 'roles': 'Roles', 'products': 'Productos',
+                'categories': 'Categor\u00edas', 'brands': 'Marcas', 'gallery': 'Galer\u00eda',
+                'configurations': 'Configuraciones', 'security': 'Seguridad'
+            };
+            var actionTranslations = {
+                'view': 'Ver', 'create': 'Crear', 'edit': 'Editar', 'delete': 'Eliminar',
+                'manage': 'Gestionar', 'export': 'Exportar', 'import': 'Importar'
+            };
             var permissionsHtml = '';
             $.each(modulesData, function(moduleName, perms) {
-                var label = moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
+                var label = moduleTranslations[moduleName] || moduleName.charAt(0).toUpperCase() + moduleName.slice(1);
                 permissionsHtml += '<div class="mb-3"><h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">' + label + '</h4><div class="flex flex-wrap gap-2">';
                 $.each(perms, function(i, p) {
-                    permissionsHtml += '<label class="inline-flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400"><input type="checkbox" class="perm-cb rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500" value="' + p.id_permission + '"> ' + p.action + '</label>';
+                    var actionLabel = actionTranslations[p.action] || p.action;
+                    permissionsHtml += '<label class="inline-flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400"><input type="checkbox" class="perm-cb rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500" value="' + p.id_permission + '"> ' + actionLabel + '</label>';
                 });
                 permissionsHtml += '</div></div>';
             });
@@ -131,7 +144,7 @@ $(function() {
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Permisos</label>
-                        <div class="max-h-48 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-lg p-3">
+                        <div class="max-h-48 overflow-y-auto border border-gray-200 dark:border-gray-700 rounded-lg p-3" style="overscroll-behavior: contain;">
                             ${permissionsHtml}
                         </div>
                     </div>
@@ -155,7 +168,8 @@ function initFormWidgets(data) {
         displayExpr: 'text',
         valueExpr: 'id',
         value: data.level || 1,
-        placeholder: 'Seleccionar nivel'
+        placeholder: 'Seleccionar nivel',
+        dropDownOptions: { container: 'body' }
     });
     $('#btnCancel').dxButton({ text: 'Cancelar', stylingMode: 'outlined', onClick: function() { popup.hide(); } });
     $('#btnSave').dxButton({ text: 'Guardar', type: 'default', stylingMode: 'contained', onClick: saveForm });

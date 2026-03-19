@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id_category');
+            $table->unsignedInteger('eleventa_id')->nullable()->unique();
             $table->string('name', 200);
             $table->string('slug', 250)->unique();
             $table->text('description')->nullable();
