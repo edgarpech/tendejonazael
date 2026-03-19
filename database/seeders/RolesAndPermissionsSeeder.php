@@ -16,7 +16,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'display_name' => 'Administrador',
             'description' => 'Acceso total al sistema',
             'level' => 3,
-            'is_active' => true,
+            'is_active' => 1,
         ]);
 
         $worker = Role::create([
@@ -24,7 +24,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'display_name' => 'Trabajador',
             'description' => 'Puede gestionar productos, categorías, marcas y galería',
             'level' => 2,
-            'is_active' => true,
+            'is_active' => 1,
         ]);
 
         $apprentice = Role::create([
@@ -32,7 +32,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'display_name' => 'Aprendiz',
             'description' => 'Solo lectura',
             'level' => 1,
-            'is_active' => true,
+            'is_active' => 1,
         ]);
 
         // Create Permissions

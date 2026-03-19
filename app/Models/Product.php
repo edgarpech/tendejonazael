@@ -12,13 +12,18 @@ class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $primaryKey = 'id_product';
+
     protected $fillable = [
         'category_id',
         'brand_id',
         'name',
         'slug',
+        'sku',
         'description',
         'price',
+        'sale_price',
+        'stock',
         'weight',
         'color',
         'in_stock',
@@ -33,11 +38,11 @@ class Product extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
-        'in_stock' => 'boolean',
+        'in_stock' => 'integer',
         'images' => 'array',
         'meta' => 'array',
-        'is_active' => 'boolean',
-        'is_featured' => 'boolean',
+        'is_active' => 'integer',
+        'is_featured' => 'integer',
         'sort_order' => 'integer',
         'views_count' => 'integer',
         'created_at' => 'datetime',
@@ -50,7 +55,7 @@ class Product extends Model
      */
     public function category(): BelongsTo
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class, 'category_id', 'id_category');
     }
 
     /**
@@ -58,7 +63,7 @@ class Product extends Model
      */
     public function brand(): BelongsTo
     {
-        return $this->belongsTo(Brand::class);
+        return $this->belongsTo(Brand::class, 'brand_id', 'id_brand');
     }
 
     /**
@@ -77,7 +82,7 @@ class Product extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('is_active', true);
+        return $query->where('is_active', 1);
     }
 
     /**
@@ -85,7 +90,7 @@ class Product extends Model
      */
     public function scopeFeatured($query)
     {
-        return $query->where('is_featured', true);
+        return $query->where('is_featured', 1);
     }
 
     /**
@@ -93,7 +98,7 @@ class Product extends Model
      */
     public function scopeInStock($query)
     {
-        return $query->where('in_stock', true);
+        return $query->where('in_stock', 1);
     }
 
     /**

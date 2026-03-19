@@ -14,7 +14,7 @@ class LogoutController extends Controller
         $user = Auth::user();
         
         if ($user) {
-            SecurityLog::log('logout', $user->id, 'User logged out');
+            SecurityLog::log('logout', $user->id_user, 'User logged out');
         }
 
         Auth::logout();

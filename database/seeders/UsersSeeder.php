@@ -19,8 +19,8 @@ class UsersSeeder extends Seeder
             'name' => 'Administrador',
             'email' => 'admin@tendejonazael.com',
             'password' => Hash::make('admin123'),
-            'role_id' => $adminRole->id,
-            'is_active' => true,
+            'role_id' => $adminRole->id_role,
+            'is_active' => 1,
             'email_verified_at' => now(),
         ]);
 
@@ -29,8 +29,8 @@ class UsersSeeder extends Seeder
             'name' => 'Trabajador Demo',
             'email' => 'trabajador@tendejonazael.com',
             'password' => Hash::make('trabajador123'),
-            'role_id' => $workerRole->id,
-            'is_active' => true,
+            'role_id' => $workerRole->id_role,
+            'is_active' => 1,
             'email_verified_at' => now(),
         ]);
 

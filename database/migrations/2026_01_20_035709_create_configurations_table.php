@@ -9,13 +9,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('configurations', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id_configuration');
             $table->string('key', 100)->unique();
             $table->text('value')->nullable();
             $table->string('group', 50)->default('general');
             $table->string('type', 20)->default('string');
             $table->text('description')->nullable();
-            $table->boolean('is_public')->default(false);
+            $table->smallInteger('is_public')->default(0);
             $table->timestamps();
             
             $table->index('key');

@@ -8,130 +8,115 @@ use App\Models\Category;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Product::with(['category', 'brand']);
+        $products = Product::with(['category', 'brand'])
+        ->orderBy('name', 'asc')
+        ->get();
 
-        // Búsqueda
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'ilike', "%{$search}%")
-                  ->orWhere('sku', 'ilike', "%{$search}%")
-                  ->orWhere('description', 'ilike', "%{$search}%");
-            });
+        if ($request->ajax()) {
+            return response()->json($products);
         }
 
-        // Filtro por categoría
-        if ($request->filled('category_id')) {
-            $query->where('category_id', $request->category_id);
-        }
-
-        // Filtro por marca
-        if ($request->filled('brand_id')) {
-            $query->where('brand_id', $request->brand_id);
-        }
-
-        $products = $query->latest()->paginate(15);
-        $categories = Category::where('active', true)->orderBy('name')->get();
-        $brands = Brand::where('active', true)->orderBy('name')->get();
+        $categories = Category::where('is_active', 1)->orderBy('name')->get();
+        $brands = Brand::where('is_active', 1)->orderBy('name')->get();
 
         return view('admin.products.index', compact('products', 'categories', 'brands'));
-    }
-
-    public function create()
-    {
-        $categories = Category::where('active', true)->orderBy('name')->get();
-        $brands = Brand::where('active', true)->orderBy('name')->get();
-        
-        return view('admin.products.form', compact('categories', 'brands'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'sku' => 'required|string|max:100|unique:products,sku',
-            'category_id' => 'required|exists:categories,id',
-            'brand_id' => 'nullable|exists:brands,id',
+            'name' => 'required|string|max:200',
+            'sku' => 'nullable|string|max:100|unique:products,sku',
+            'category_id' => 'required|exists:categories,id_category',
+            'brand_id' => 'nullable|exists:brands,id_brand',
             'price' => 'required|numeric|min:0',
-            'sale_price' => 'nullable|numeric|min:0|lt:price',
+            'sale_price' => 'nullable|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
-            'active' => 'boolean',
-            'featured' => 'boolean',
+            'image' => 'nullable|image|max:4096',
+            'is_active' => 'boolean',
+            'is_featured' => 'boolean',
         ]);
 
-        // Manejar imagen
         if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('products', 'public');
+            $validated['main_image_url'] = $request->file('image')->store('products', 'public');
+        }
+        unset($validated['image']);
+
+        $validated['is_active'] = $request->boolean('is_active');
+        $validated['is_featured'] = $request->boolean('is_featured');
+        $validated['slug'] = Str::slug($validated['name']);
+        $validated['in_stock'] = ($validated['stock'] ?? 0) > 0 ? 1 : 0;
+
+        if (empty($validated['sku'])) {
+            $validated['sku'] = strtoupper(Str::random(8));
         }
 
-        $validated['active'] = $request->has('active');
-        $validated['featured'] = $request->has('featured');
+        $product = Product::create($validated);
 
-        Product::create($validated);
+        if ($request->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Producto creado exitosamente', 'data' => $product->load(['category', 'brand'])]);
+        }
 
-        return redirect()->route('admin.products.index')
-                       ->with('success', 'Producto creado exitosamente');
-    }
-
-    public function edit(Product $product)
-    {
-        $categories = Category::where('active', true)->orderBy('name')->get();
-        $brands = Brand::where('active', true)->orderBy('name')->get();
-        
-        return view('admin.products.form', compact('product', 'categories', 'brands'));
+        return redirect()->route('admin.products.index')->with('success', 'Producto creado exitosamente');
     }
 
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'sku' => 'required|string|max:100|unique:products,sku,' . $product->id,
-            'category_id' => 'required|exists:categories,id',
-            'brand_id' => 'nullable|exists:brands,id',
+            'name' => 'required|string|max:200',
+            'sku' => 'nullable|string|max:100|unique:products,sku,' . $product->id_product . ',id_product',
+            'category_id' => 'required|exists:categories,id_category',
+            'brand_id' => 'nullable|exists:brands,id_brand',
             'price' => 'required|numeric|min:0',
-            'sale_price' => 'nullable|numeric|min:0|lt:price',
+            'sale_price' => 'nullable|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
-            'active' => 'boolean',
-            'featured' => 'boolean',
+            'image' => 'nullable|image|max:4096',
+            'is_active' => 'boolean',
+            'is_featured' => 'boolean',
         ]);
 
-        // Manejar imagen
         if ($request->hasFile('image')) {
-            // Eliminar imagen anterior
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
+            if ($product->main_image_url) {
+                Storage::disk('public')->delete($product->main_image_url);
             }
-            $validated['image'] = $request->file('image')->store('products', 'public');
+            $validated['main_image_url'] = $request->file('image')->store('products', 'public');
         }
+        unset($validated['image']);
 
-        $validated['active'] = $request->has('active');
-        $validated['featured'] = $request->has('featured');
+        $validated['is_active'] = $request->boolean('is_active');
+        $validated['is_featured'] = $request->boolean('is_featured');
+        $validated['slug'] = Str::slug($validated['name']);
+        $validated['in_stock'] = ($validated['stock'] ?? 0) > 0 ? 1 : 0;
 
         $product->update($validated);
 
-        return redirect()->route('admin.products.index')
-                       ->with('success', 'Producto actualizado exitosamente');
+        if ($request->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Producto actualizado exitosamente', 'data' => $product->load(['category', 'brand'])]);
+        }
+
+        return redirect()->route('admin.products.index')->with('success', 'Producto actualizado exitosamente');
     }
 
     public function destroy(Product $product)
     {
-        // Eliminar imagen
-        if ($product->image) {
-            Storage::disk('public')->delete($product->image);
+        if ($product->main_image_url) {
+            Storage::disk('public')->delete($product->main_image_url);
         }
 
         $product->delete();
 
-        return redirect()->route('admin.products.index')
-                       ->with('success', 'Producto eliminado exitosamente');
+        if (request()->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Producto eliminado exitosamente']);
+        }
+
+        return redirect()->route('admin.products.index')->with('success', 'Producto eliminado exitosamente');
     }
 }

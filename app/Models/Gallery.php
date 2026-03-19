@@ -11,6 +11,7 @@ class Gallery extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'gallery';
+    protected $primaryKey = 'id_gallery';
 
     protected $fillable = [
         'title',
@@ -25,8 +26,8 @@ class Gallery extends Model
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
-        'is_featured' => 'boolean',
+        'is_active' => 'integer',
+        'is_featured' => 'integer',
         'sort_order' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -38,7 +39,7 @@ class Gallery extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('is_active', true);
+        return $query->where('is_active', 1);
     }
 
     /**
@@ -46,7 +47,7 @@ class Gallery extends Model
      */
     public function scopeFeatured($query)
     {
-        return $query->where('is_featured', true);
+        return $query->where('is_featured', 1);
     }
 
     /**

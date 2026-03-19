@@ -13,52 +13,52 @@ class CategorySeeder extends Seeder
             [
                 'name' => 'Bebidas',
                 'description' => 'Refrescos, jugos, aguas y bebidas energéticas',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Lácteos',
                 'description' => 'Leche, yogurt, quesos y productos lácteos',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Limpieza',
                 'description' => 'Productos de limpieza para el hogar',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Cuidado Personal',
                 'description' => 'Jabones, shampoos, desodorantes y más',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Golosinas',
                 'description' => 'Dulces, chocolates y snacks dulces',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Pan Dulce',
                 'description' => 'Pan empaquetado y productos de panadería',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Papelería',
                 'description' => 'Útiles escolares y artículos de oficina',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Botanas',
                 'description' => 'Frituras, cacahuates y botanas saladas',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Abarrotes',
                 'description' => 'Productos básicos de despensa',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Enlatados',
                 'description' => 'Conservas y productos enlatados',
-                'active' => true,
+                'is_active' => 1,
             ],
         ];
 

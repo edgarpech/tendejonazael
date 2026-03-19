@@ -9,21 +9,26 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('category_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('brand_id')->nullable()->constrained()->onDelete('set null');
+            $table->increments('id_product');
+            $table->unsignedInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id_category')->on('categories')->onDelete('set null');
+            $table->unsignedInteger('brand_id')->nullable();
+            $table->foreign('brand_id')->references('id_brand')->on('brands')->onDelete('set null');
             $table->string('name', 200);
             $table->string('slug', 250)->unique();
+            $table->string('sku', 100)->unique()->nullable();
             $table->text('description')->nullable();
             $table->decimal('price', 10, 2)->nullable();
+            $table->decimal('sale_price', 10, 2)->nullable();
+            $table->integer('stock')->default(0);
             $table->string('weight', 50)->nullable();
             $table->string('color', 50)->nullable();
-            $table->boolean('in_stock')->default(true);
+            $table->smallInteger('in_stock')->default(0);
             $table->string('main_image_url')->nullable();
             $table->json('images')->nullable();
             $table->json('meta')->nullable();
-            $table->boolean('is_active')->default(true);
-            $table->boolean('is_featured')->default(false);
+            $table->smallInteger('is_active')->default(1);
+            $table->smallInteger('is_featured')->default(0);
             $table->integer('sort_order')->default(0);
             $table->integer('views_count')->default(0);
             $table->timestamps();

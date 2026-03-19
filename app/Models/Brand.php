@@ -12,6 +12,8 @@ class Brand extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $primaryKey = 'id_brand';
+
     protected $fillable = [
         'name',
         'slug',
@@ -19,11 +21,13 @@ class Brand extends Model
         'logo_url',
         'website_url',
         'is_active',
+        'show_in_home',
         'sort_order',
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'is_active' => 'integer',
+        'show_in_home' => 'integer',
         'sort_order' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -35,7 +39,7 @@ class Brand extends Model
      */
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'brand_id', 'id_brand');
     }
 
     /**
@@ -43,7 +47,7 @@ class Brand extends Model
      */
     public function activeProducts(): HasMany
     {
-        return $this->products()->where('is_active', true);
+        return $this->products()->where('is_active', 1);
     }
 
     /**
@@ -62,7 +66,7 @@ class Brand extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('is_active', true);
+        return $query->where('is_active', 1);
     }
 
     /**

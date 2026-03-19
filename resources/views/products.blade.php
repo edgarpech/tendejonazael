@@ -7,14 +7,29 @@
     <meta name="description" content="Explora nuestro catálogo completo de productos en Tendejón Azael.">
     <link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
     <script>
         if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         }
     </script>
+    <style>
+        .goog-te-banner-frame, .skiptranslate { display: none !important; }
+        body { top: 0 !important; }
+        .goog-te-gadget .goog-te-combo { display: none !important; }
+        .goog-te-gadget { font-size: 0 !important; }
+        .goog-te-gadget span { display: none; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+        .dark ::-webkit-scrollbar-thumb { background-color: #475569; }
+        .dark ::-webkit-scrollbar-thumb:hover { background-color: #64748b; }
+    </style>
 </head>
-<body x-data="{ mobileMenu: false, scrolled: false, showFilters: false, darkMode: localStorage.getItem('darkMode') === 'true' }" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+<body x-data="productCatalog()" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
 <script>
     function toggleDarkMode() {
         const body = document.body;
@@ -25,6 +40,11 @@
             Alpine.store('darkMode', isDark);
         }
         return isDark;
+    }
+
+    function goToContact() {
+        sessionStorage.setItem('scrollTo', 'contacto');
+        window.location.href = '/';
     }
 </script>
 
@@ -41,7 +61,7 @@
                 <ul class="hidden lg:flex items-center gap-8">
                     <li><a href="/" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium">Inicio</a></li>
                     <li><a href="{{ route('products') }}" class="text-cyan-600 dark:text-cyan-400 font-semibold">Productos</a></li>
-                    <li><a href="/#contacto" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium">Contacto</a></li>
+                    <li><a href="javascript:void(0)" onclick="goToContact()" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Contacto</a></li>
                     
                     <!-- Dark Mode Toggle -->
                     <li>
@@ -51,10 +71,26 @@
                             <i x-show="darkMode" x-cloak class="fas fa-sun"></i>
                         </button>
                     </li>
+
+                    <!-- Translate -->
+                    <li>
+                        <div id="google_translate_element_desktop" class="hidden"></div>
+                        <button @click="translatePage()" 
+                                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition cursor-pointer"
+                                :class="lang === 'en' ? 'bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'">
+                            <i class="fas fa-globe"></i>
+                            <span x-text="lang === 'en' ? 'EN' : 'ES'"></span>
+                        </button>
+                    </li>
                 </ul>
 
                 <!-- Mobile Controls -->
-                <div class="flex lg:hidden items-center gap-3">
+                <div class="flex lg:hidden items-center gap-2">
+                    <button @click="translatePage()" 
+                            class="w-10 h-10 flex items-center justify-center transition cursor-pointer"
+                            :class="lang === 'en' ? 'text-cyan-500' : 'text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400'">
+                        <i class="fas fa-globe text-xl"></i>
+                    </button>
                     <button @click="darkMode = toggleDarkMode()" 
                             class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer">
                         <i x-show="!darkMode" class="fas fa-moon text-xl"></i>
@@ -110,7 +146,7 @@
                         </a>
                     </li>
                     <li>
-                        <a @click="mobileMenu = false" href="/#contacto" 
+                        <a @click="mobileMenu = false" href="javascript:void(0)" onclick="goToContact()" 
                            class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-all font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
                             <i class="fas fa-phone w-5 text-gray-400 group-hover:text-cyan-500"></i>
                             <span>Contacto</span>
@@ -126,7 +162,7 @@
             x-show="scrolled"
             x-cloak
             x-transition
-            class="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-300 z-40">
+            class="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-cyan-600 to-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-300 z-40">
         <i class="fas fa-arrow-up"></i>
     </button>
 
@@ -147,69 +183,61 @@
                             <i class="fas fa-filter text-cyan-600 dark:text-cyan-400"></i> Filtros
                         </h3>
                         
-                        <form method="GET" action="{{ route('products') }}">
-                            <!-- Búsqueda -->
-                            <div class="mb-6">
-                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                                    <i class="fas fa-search mr-1"></i> Buscar
-                                </label>
-                                <input type="text" name="search" placeholder="Nombre del producto..." 
-                                       value="{{ request('search') }}"
-                                       class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent">
-                            </div>
+                        <!-- Búsqueda -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-search mr-1"></i> Buscar
+                            </label>
+                            <input type="text" x-model="search" placeholder="Nombre del producto..." 
+                                   class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent">
+                        </div>
 
-                            <!-- Categorías -->
-                            <div class="mb-6">
-                                <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                                    <i class="fas fa-tags mr-1"></i> Categorías
-                                </h4>
-                                <div class="space-y-2 max-h-64 overflow-y-auto">
-                                    <div class="flex items-center">
-                                        <input type="radio" name="category" value="" 
-                                               {{ !request('category') ? 'checked' : '' }}
-                                               id="cat-all"
-                                               class="rounded-full border-gray-300 text-cyan-600 focus:ring-cyan-500">
-                                        <label for="cat-all" class="ml-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
-                                            Todas las categorías
-                                        </label>
-                                    </div>
-                                    @foreach($categories as $category)
-                                    <div class="flex items-center">
-                                        <input type="radio" name="category" value="{{ $category->slug }}" 
-                                               {{ request('category') == $category->slug ? 'checked' : '' }}
-                                               id="cat-{{ $category->id }}"
-                                               class="rounded-full border-gray-300 text-cyan-600 focus:ring-cyan-500">
-                                        <label for="cat-{{ $category->id }}" class="ml-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer flex-1">
-                                            {{ $category->name }}
-                                            <span class="text-xs text-gray-500 dark:text-gray-400">({{ $category->products_count }})</span>
-                                        </label>
-                                    </div>
-                                    @endforeach
+                        <!-- Categorías -->
+                        <div class="mb-6">
+                            <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
+                                <i class="fas fa-tags mr-1"></i> Categorías
+                            </h4>
+                            <div class="space-y-2 max-h-64 overflow-y-auto">
+                                <div class="flex items-center">
+                                    <input type="radio" name="category" value="0" 
+                                           x-model.number="categoryId"
+                                           id="cat-all"
+                                           class="rounded-full border-gray-300 text-cyan-600 focus:ring-cyan-500">
+                                    <label for="cat-all" class="ml-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                                        Todas las categorías
+                                    </label>
                                 </div>
+                                @foreach($categories as $category)
+                                <div class="flex items-center">
+                                    <input type="radio" name="category" value="{{ $category->id_category }}" 
+                                           x-model.number="categoryId"
+                                           id="cat-{{ $category->id_category }}"
+                                           class="rounded-full border-gray-300 text-cyan-600 focus:ring-cyan-500">
+                                    <label for="cat-{{ $category->id_category }}" class="ml-2 text-sm text-gray-700 dark:text-gray-300 cursor-pointer flex-1">
+                                        {{ $category->name }}
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">({{ $category->products_count }})</span>
+                                    </label>
+                                </div>
+                                @endforeach
                             </div>
+                        </div>
 
-                            <!-- Ordenar -->
-                            <div class="mb-6">
-                                <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                                    <i class="fas fa-sort mr-1"></i> Ordenar por
-                                </label>
-                                <select name="sort" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent">
-                                    <option value="latest" {{ request('sort') == 'latest' ? 'selected' : '' }}>Más recientes</option>
-                                    <option value="price_asc" {{ request('sort') == 'price_asc' ? 'selected' : '' }}>Menor precio</option>
-                                    <option value="price_desc" {{ request('sort') == 'price_desc' ? 'selected' : '' }}>Mayor precio</option>
-                                    <option value="name" {{ request('sort') == 'name' ? 'selected' : '' }}>Nombre A-Z</option>
-                                </select>
-                            </div>
+                        <!-- Ordenar -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                                <i class="fas fa-sort mr-1"></i> Ordenar por
+                            </label>
+                            <select x-model="sort" class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-transparent">
+                                <option value="name">Nombre A-Z</option>
+                                <option value="price_asc">Menor precio</option>
+                                <option value="price_desc">Mayor precio</option>
+                                <option value="latest">Más recientes</option>
+                            </select>
+                        </div>
 
-                            <div class="space-y-2">
-                                <button type="submit" class="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold py-2 px-4 rounded-lg transition">
-                                    <i class="fas fa-check mr-2"></i> Aplicar Filtros
-                                </button>
-                                <a href="{{ route('products') }}" class="block w-full text-center bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-lg transition">
-                                    <i class="fas fa-times mr-2"></i> Limpiar
-                                </a>
-                            </div>
-                        </form>
+                        <button @click="search = ''; categoryId = 0; sort = 'name'; page = 1;" class="w-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded-lg transition">
+                            <i class="fas fa-times mr-2"></i> Limpiar Filtros
+                        </button>
                     </div>
                 </aside>
 
@@ -222,110 +250,136 @@
                     
                     <!-- Mobile Filters Panel -->
                     <div x-show="showFilters" x-cloak x-transition class="mt-3 md:mt-4 bg-white dark:bg-gray-800 rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6">
-                        <form method="GET" action="{{ route('products') }}">
-                            <div class="space-y-3 md:space-y-4">
-                                <input type="text" name="search" placeholder="Buscar productos..." 
-                                       value="{{ request('search') }}"
-                                       class="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg">
-                                
-                                <select name="category" class="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg">
-                                    <option value="">Todas las categorías</option>
-                                    @foreach($categories as $category)
-                                    <option value="{{ $category->slug }}" {{ request('category') == $category->slug ? 'selected' : '' }}>
-                                        {{ $category->name }} ({{ $category->products_count }})
-                                    </option>
-                                    @endforeach
-                                </select>
-                                
-                                <select name="sort" class="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg">
-                                    <option value="latest">Más recientes</option>
-                                    <option value="price_asc">Menor precio</option>
-                                    <option value="price_desc">Mayor precio</option>
-                                    <option value="name">Nombre A-Z</option>
-                                </select>
-                                
-                                <div class="flex gap-2">
-                                    <button type="submit" class="flex-1 bg-cyan-500 text-white font-bold text-sm md:text-base py-2 px-3 md:px-4 rounded-lg">
-                                        Aplicar
-                                    </button>
-                                    <a href="{{ route('products') }}" class="flex-1 text-center bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold text-sm md:text-base py-2 px-3 md:px-4 rounded-lg">
-                                        Limpiar
-                                    </a>
-                                </div>
-                            </div>
-                        </form>
+                        <div class="space-y-3 md:space-y-4">
+                            <input type="text" x-model="search" placeholder="Buscar productos..." 
+                                   class="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg">
+                            
+                            <select x-model.number="categoryId" class="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg">
+                                <option value="0">Todas las categorías</option>
+                                @foreach($categories as $category)
+                                <option value="{{ $category->id_category }}">
+                                    {{ $category->name }} ({{ $category->products_count }})
+                                </option>
+                                @endforeach
+                            </select>
+                            
+                            <select x-model="sort" class="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg">
+                                <option value="name">Nombre A-Z</option>
+                                <option value="price_asc">Menor precio</option>
+                                <option value="price_desc">Mayor precio</option>
+                                <option value="latest">Más recientes</option>
+                            </select>
+                            
+                            <button @click="search = ''; categoryId = 0; sort = 'name'; page = 1;" class="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold text-sm md:text-base py-2 px-3 md:px-4 rounded-lg">
+                                Limpiar
+                            </button>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Products Grid -->
                 <div class="flex-1">
-                    @if($products->count() > 0)
-                        <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-                            @foreach($products as $product)
-                            <div class="bg-white dark:bg-gray-800 rounded-lg md:rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden group">
-                                <div class="h-32 md:h-56 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center overflow-hidden">
-                                    @if($product->image)
-                                    <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" 
-                                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                                    @else
-                                    <i class="fas fa-box-open text-4xl md:text-7xl text-gray-400 dark:text-gray-600"></i>
-                                    @endif
+                    <!-- Results count -->
+                    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+                        <span x-text="filtered().length"></span> producto(s) encontrado(s)
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-4">
+                        <template x-for="product in paginated()" :key="product.id">
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
+                                <div class="aspect-[4/3] relative w-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800"
+                                     :class="product.image && 'cursor-pointer'"
+                                     @click="product.image ? (viewerImage = product.image, viewerName = product.name) : null">
+                                    <template x-if="product.image">
+                                        <img :src="product.image" :alt="product.name" 
+                                             class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                                    </template>
+                                    <template x-if="!product.image">
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <i class="fas fa-image text-3xl md:text-4xl text-gray-300 dark:text-gray-600"></i>
+                                        </div>
+                                    </template>
+                                    <template x-if="product.image">
+                                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                            <i class="fas fa-search-plus text-white text-xl drop-shadow-lg"></i>
+                                        </div>
+                                    </template>
                                 </div>
-                                <div class="p-2 md:p-5">
-                                    <div class="hidden md:flex items-center justify-between mb-2">
-                                        <span class="inline-block px-3 py-1 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 text-xs font-semibold rounded-full">
-                                            {{ $product->category->name }}
-                                        </span>
-                                        @if($product->brand)
-                                        <span class="text-xs text-gray-500 dark:text-gray-400">{{ $product->brand->name }}</span>
-                                        @endif
+                                <div class="p-2 md:p-3 flex flex-col flex-1">
+                                    <div class="hidden md:flex items-center justify-between mb-1">
+                                        <span class="inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 text-xs font-semibold rounded-full"
+                                              x-text="product.category"></span>
+                                        <template x-if="product.brand">
+                                            <span class="text-xs text-gray-500 dark:text-gray-400" x-text="product.brand"></span>
+                                        </template>
                                     </div>
-                                    <h3 class="font-bold text-xs md:text-xl text-gray-900 dark:text-white mb-1 md:mb-2 line-clamp-2">{{ $product->name }}</h3>
-                                    <p class="hidden md:block text-gray-600 dark:text-gray-400 text-sm mb-3 line-clamp-2">{{ Str::limit($product->description, 100) }}</p>
-                                    @if($product->weight)
-                                    <p class="hidden md:block text-gray-500 dark:text-gray-500 text-xs mb-3"><i class="fas fa-weight mr-1"></i>{{ $product->weight }}</p>
-                                    @endif
-                                    <div class="flex flex-col md:flex-row justify-between md:items-center pt-2 md:pt-3 border-t border-gray-200 dark:border-gray-700 gap-1 md:gap-0">
+                                    <h3 class="font-bold text-xs md:text-base text-gray-900 dark:text-white mb-0.5 md:mb-1 line-clamp-2" x-text="product.name"></h3>
+                                    <p class="hidden md:block text-gray-600 dark:text-gray-400 text-xs mb-2 line-clamp-2" x-text="product.description"></p>
+                                    <div class="mt-auto flex flex-col md:flex-row justify-between md:items-center pt-1.5 md:pt-2 border-t border-gray-200 dark:border-gray-700 gap-1 md:gap-0">
                                         <div>
-                                            <span class="text-base md:text-3xl font-bold text-cyan-600 dark:text-cyan-400">${{ number_format($product->price, 2) }}</span>
-                                            @if($product->sale_price && $product->sale_price < $product->price)
-                                            <span class="block text-xs md:text-sm line-through text-gray-400 dark:text-gray-500">${{ number_format($product->sale_price, 2) }}</span>
-                                            @endif
+                                            <span class="text-sm md:text-xl font-bold text-cyan-600 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2)"></span>
                                         </div>
                                         <div class="text-left md:text-right">
-                                            @if($product->stock > 0)
-                                            <span class="inline-block px-1.5 py-0.5 md:px-2 md:py-1 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 text-xs font-semibold rounded">
-                                                <i class="fas fa-check-circle"></i> <span class="hidden md:inline">Disponible</span>
-                                            </span>
-                                            @else
-                                            <span class="inline-block px-1.5 py-0.5 md:px-2 md:py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 text-xs font-semibold rounded">
-                                                <i class="fas fa-times-circle"></i> <span class="hidden md:inline">Agotado</span>
-                                            </span>
-                                            @endif
+                                            <template x-if="product.stock > 0">
+                                                <span class="inline-block px-1.5 py-0.5 md:px-2 md:py-1 bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-300 text-xs font-semibold rounded">
+                                                    <i class="fas fa-check-circle"></i> <span class="hidden md:inline">Disponible</span>
+                                                </span>
+                                            </template>
+                                            <template x-if="product.stock <= 0">
+                                                <span class="inline-block px-1.5 py-0.5 md:px-2 md:py-1 bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 text-xs font-semibold rounded">
+                                                    <i class="fas fa-times-circle"></i> <span class="hidden md:inline">Agotado</span>
+                                                </span>
+                                            </template>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            @endforeach
-                        </div>
+                        </template>
+                    </div>
 
-                        <!-- Pagination -->
-                        <div class="mt-12">
-                            {{ $products->links() }}
-                        </div>
-                    @else
-                        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-12 text-center">
-                            <i class="fas fa-search text-6xl text-gray-400 dark:text-gray-600 mb-4"></i>
-                            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">No se encontraron productos</h3>
-                            <p class="text-gray-600 dark:text-gray-400 mb-6">Intenta con otros filtros de búsqueda</p>
-                            <a href="{{ route('products') }}" class="inline-block bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:shadow-xl transition">
-                                Ver todos los productos
-                            </a>
-                        </div>
-                    @endif
+                    <!-- No results -->
+                    <div x-show="filtered().length === 0" x-cloak class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-12 text-center">
+                        <i class="fas fa-search text-6xl text-gray-400 dark:text-gray-600 mb-4"></i>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">No se encontraron productos</h3>
+                        <p class="text-gray-600 dark:text-gray-400 mb-6">Intenta con otros filtros de búsqueda</p>
+                        <button @click="search = ''; categoryId = 0; sort = 'name'; page = 1;" class="inline-block bg-gradient-to-r from-cyan-600 to-blue-700 text-white font-bold py-3 px-8 rounded-lg hover:shadow-xl transition cursor-pointer">
+                            Ver todos los productos
+                        </button>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div x-show="totalPages() > 1" class="mt-12 flex justify-center items-center gap-2">
+                        <button @click="page = Math.max(1, page - 1)" :disabled="page === 1"
+                                class="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <template x-for="p in totalPages()" :key="p">
+                            <button @click="page = p" 
+                                    :class="page === p ? 'bg-cyan-600 text-white' : 'bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'"
+                                    class="w-10 h-10 rounded-lg font-semibold transition"
+                                    x-text="p"></button>
+                        </template>
+                        <button @click="page = Math.min(totalPages(), page + 1)" :disabled="page === totalPages()"
+                                class="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Image Viewer Modal -->
+    <div x-show="viewerImage" x-cloak
+         x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+         @click="viewerImage = ''" @keydown.escape.window="viewerImage = ''"
+         class="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4 cursor-pointer">
+        <button @click="viewerImage = ''" class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 transition cursor-pointer">
+            <i class="fas fa-times"></i>
+        </button>
+        <img :src="viewerImage" :alt="viewerName" @click.stop
+             class="max-w-full max-h-[85vh] rounded-xl shadow-2xl object-contain cursor-default">
     </div>
 
     <!-- Footer -->
@@ -341,7 +395,7 @@
                     <ul class="space-y-1 md:space-y-2 text-sm md:text-base">
                         <li><a href="/" class="text-gray-400 hover:text-cyan-400 transition">Inicio</a></li>
                         <li><a href="{{ route('products') }}" class="text-gray-400 hover:text-cyan-400 transition">Productos</a></li>
-                        <li><a href="/#contacto" class="text-gray-400 hover:text-cyan-400 transition">Contacto</a></li>
+                        <li><a href="javascript:void(0)" onclick="goToContact()" class="text-gray-400 hover:text-cyan-400 transition cursor-pointer">Contacto</a></li>
                     </ul>
                 </div>
                 <div>
@@ -358,6 +412,108 @@
             </div>
         </div>
     </footer>
+
+<script>
+function productCatalog() {
+    var storageBase = '{{ asset("storage") }}/';
+    var allProducts = [
+        @foreach($products as $product)
+        {
+            id: {{ $product->id_product }},
+            name: @js($product->name),
+            description: @js(Str::limit($product->description, 100)),
+            image: @js($product->main_image_url ? asset('storage/' . $product->main_image_url) : ''),
+            category: @js($product->category->name),
+            category_id: {{ $product->category_id }},
+            brand: @js($product->brand ? $product->brand->name : ''),
+            price: {{ $product->price ?? 0 }},
+            sale_price: {{ $product->sale_price ?? 0 }},
+            stock: {{ $product->stock ?? 0 }},
+            weight: @js($product->weight ?? ''),
+            created_at: @js($product->created_at->toISOString())
+        },
+        @endforeach
+    ];
+
+    return {
+        mobileMenu: false,
+        scrolled: false,
+        showFilters: false,
+        darkMode: localStorage.getItem('darkMode') === 'true',
+        lang: document.cookie.match(/googtrans=\/es\/en/) ? 'en' : 'es',
+        search: '',
+        categoryId: 0,
+        sort: 'name',
+        page: 1,
+        perPage: 16,
+        viewerImage: '',
+        viewerName: '',
+        products: allProducts,
+
+        filtered() {
+            var self = this;
+            var result = this.products.filter(function(p) {
+                if (self.categoryId !== 0 && p.category_id !== self.categoryId) return false;
+                if (self.search.trim() !== '') {
+                    var s = self.search.toLowerCase();
+                    if (p.name.toLowerCase().indexOf(s) === -1 && p.description.toLowerCase().indexOf(s) === -1) return false;
+                }
+                return true;
+            });
+
+            result.sort(function(a, b) {
+                switch (self.sort) {
+                    case 'price_asc': return a.price - b.price;
+                    case 'price_desc': return b.price - a.price;
+                    case 'latest': return new Date(b.created_at) - new Date(a.created_at);
+                    default: return a.name.localeCompare(b.name);
+                }
+            });
+
+            return result;
+        },
+
+        totalPages() {
+            return Math.max(1, Math.ceil(this.filtered().length / this.perPage));
+        },
+
+        paginated() {
+            var f = this.filtered();
+            var start = (this.page - 1) * this.perPage;
+            return f.slice(start, start + this.perPage);
+        },
+
+        init() {
+            var self = this;
+            this.$watch('search', function() { self.page = 1; });
+            this.$watch('categoryId', function() { self.page = 1; });
+            this.$watch('sort', function() { self.page = 1; });
+        },
+        translatePage() {
+            if (this.lang === 'es') {
+                document.cookie = 'googtrans=/es/en; path=/';
+                this.lang = 'en';
+            } else {
+                document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+                document.cookie = 'googtrans=; path=/; domain=.' + location.hostname + '; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+                this.lang = 'es';
+            }
+            location.reload();
+        }
+    };
+}
+</script>
+
+<script>
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'en',
+        autoDisplay: false
+    }, 'google_translate_element_desktop');
+}
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>

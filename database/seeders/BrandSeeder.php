@@ -13,77 +13,77 @@ class BrandSeeder extends Seeder
             [
                 'name' => 'Coca Cola',
                 'description' => 'Bebidas refrescantes',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Bimbo',
                 'description' => 'Pan y productos de panadería',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Sabritas',
                 'description' => 'Botanas y frituras',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Gamesa',
                 'description' => 'Galletas y productos dulces',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Lala',
                 'description' => 'Productos lácteos',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Ricolino',
                 'description' => 'Dulces y chocolates',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Barcel',
                 'description' => 'Botanas y golosinas',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Fud',
                 'description' => 'Embutidos y carnes frías',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'La Lupita',
                 'description' => 'Tostadas y productos de maíz',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Herdez',
                 'description' => 'Enlatados y conservas',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Carnation',
                 'description' => 'Leche y productos lácteos',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'McCormick',
                 'description' => 'Mayonesas y aderezos',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'La Sierra',
                 'description' => 'Frijoles y leguminosas',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Marinela',
                 'description' => 'Pastelitos y galletas',
-                'active' => true,
+                'is_active' => 1,
             ],
             [
                 'name' => 'Pepsi',
                 'description' => 'Bebidas refrescantes',
-                'active' => true,
+                'is_active' => 1,
             ],
         ];
 

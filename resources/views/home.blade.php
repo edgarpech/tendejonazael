@@ -7,14 +7,23 @@
     <meta name="description" content="Tendejón Azael, tu tienda de abarrotes con los mejores precios y atención personalizada desde 2007.">
     <link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
     <script>
-        if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
-        }
-    </script>
+    if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    }
+</script>
+<style>
+    .goog-te-banner-frame, .skiptranslate { display: none !important; }
+    body { top: 0 !important; }
+    .goog-te-gadget .goog-te-combo { display: none !important; }
+    .goog-te-gadget { font-size: 0 !important; }
+    .goog-te-gadget span { display: none; }
+
+    .splide__slide { display: flex; align-items: center; justify-content: center; }
+</style>
 </head>
-<body x-data="{ mobileMenu: false, scrolled: false, catActiva: 0, search: '', darkMode: localStorage.getItem('darkMode') === 'true' }" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
+<body x-data="homeApp()" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
 <script>
     function toggleDarkMode() {
         const body = document.body;
@@ -40,6 +49,14 @@
             });
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var target = sessionStorage.getItem('scrollTo');
+        if (target) {
+            sessionStorage.removeItem('scrollTo');
+            setTimeout(function() { scrollToSection(target); }, 300);
+        }
+    });
 </script>
 
     <!-- Header / Nav -->
@@ -67,10 +84,26 @@
                             <i x-show="darkMode" x-cloak class="fas fa-sun"></i>
                         </button>
                     </li>
+
+                    <!-- Translate -->
+                    <li>
+                        <div id="google_translate_element_desktop" class="hidden"></div>
+                        <button @click="translatePage()" 
+                                class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition cursor-pointer"
+                                :class="lang === 'en' ? 'bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'">
+                            <i class="fas fa-globe"></i>
+                            <span x-text="lang === 'en' ? 'EN' : 'ES'"></span>
+                        </button>
+                    </li>
                 </ul>
 
                 <!-- Mobile Controls -->
-                <div class="flex lg:hidden items-center gap-3">
+                <div class="flex lg:hidden items-center gap-2">
+                    <button @click="translatePage()" 
+                            class="w-10 h-10 flex items-center justify-center transition cursor-pointer"
+                            :class="lang === 'en' ? 'text-cyan-500' : 'text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400'">
+                        <i class="fas fa-globe text-xl"></i>
+                    </button>
                     <button @click="darkMode = toggleDarkMode()" 
                             class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer">
                         <i x-show="!darkMode" class="fas fa-moon text-xl"></i>
@@ -161,7 +194,7 @@
     </button>
 
     <!-- Hero Section -->
-    <section id="hero" class="pt-16 bg-gradient-to-br from-cyan-600 via-blue-700 to-blue-800 text-white min-h-[400px] md:min-h-[600px] flex items-center">
+    <section id="hero" class="pt-16 bg-gradient-to-br from-cyan-600 to-blue-700 text-white min-h-[400px] md:min-h-[600px] flex items-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 text-center">
             <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
                 Calidad y confianza en cada compra
@@ -208,7 +241,7 @@
                         Desde 2007, nos hemos esforzado en transformar cada visita de nuestros clientes en una experiencia satisfactoria, adaptándonos constantemente a sus necesidades.
                     </p>
                 </div>
-                <div class="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl md:rounded-2xl shadow-lg p-4 md:p-8 text-white hover:shadow-xl transition">
+                <div class="bg-gradient-to-br from-cyan-600 to-blue-700 rounded-xl md:rounded-2xl shadow-lg p-4 md:p-8 text-white hover:shadow-xl transition">
                     <h3 class="text-lg md:text-2xl font-bold mb-3 md:mb-4">¿Por qué elegirnos?</h3>
                     <ul class="space-y-2 md:space-y-3 text-sm md:text-base">
                         <li class="flex items-center gap-2">
@@ -242,13 +275,13 @@
 
                     <div class="flex gap-1.5 md:gap-2 flex-wrap justify-center">
                         <button @click="catActiva = 0; search = ''" 
-                                :class="catActiva === 0 ? 'bg-cyan-500 text-white shadow-lg scale-105' : 'bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 border border-cyan-500 dark:border-cyan-400'"
+                                :class="catActiva === 0 ? 'bg-cyan-600 text-white shadow-lg scale-105' : 'bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 border border-cyan-600 dark:border-cyan-400'"
                                 class="px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm rounded-lg font-medium transition-all hover:shadow-lg hover:scale-105 cursor-pointer">
                             Todos
                         </button>
                         @foreach($categories as $category)
-                        <button @click="catActiva = {{ $category->id }}; search = ''" 
-                                :class="catActiva === {{ $category->id }} ? 'bg-cyan-500 text-white shadow-lg scale-105' : 'bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 border border-cyan-500 dark:border-cyan-400'"
+                        <button @click="catActiva = {{ $category->id_category }}; search = ''" 
+                                :class="catActiva === {{ $category->id_category }} ? 'bg-cyan-600 text-white shadow-lg scale-105' : 'bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 border border-cyan-600 dark:border-cyan-400'"
                                 class="px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm rounded-lg font-medium transition-all hover:shadow-lg hover:scale-105 cursor-pointer">
                             {{ $category->name }}
                         </button>
@@ -259,43 +292,44 @@
 
             <!-- Grid de Productos -->
             <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
-                @foreach($featuredProducts as $product)
-                <div x-show="(catActiva === 0 || catActiva === {{ $product->category_id }}) && 
-                            ('{{ strtolower($product->name) }}'.includes(search.toLowerCase()) || search === '')"
-                     x-transition
-                     class="bg-white dark:bg-gray-900 rounded-lg md:rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
-                    <div class="h-32 md:h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center overflow-hidden">
-                        @if($product->image)
-                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" 
-                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
-                        @else
-                        <i class="fas fa-box-open text-4xl md:text-6xl text-gray-400 dark:text-gray-600"></i>
-                        @endif
-                    </div>
-                    <div class="p-2 md:p-4">
-                        <span class="hidden md:inline-block px-2 py-1 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 text-xs font-semibold rounded mb-2">
-                            {{ $product->category->name }}
-                        </span>
-                        <h3 class="font-bold text-xs md:text-lg text-gray-900 dark:text-white mb-1 md:mb-2 line-clamp-2">{{ $product->name }}</h3>
-                        <p class="hidden md:block text-gray-600 dark:text-gray-400 text-sm mb-2 line-clamp-2">{{ Str::limit($product->description, 80) }}</p>
-                        @if($product->weight)
-                        <p class="hidden md:block text-gray-500 dark:text-gray-500 text-xs mb-2">{{ $product->weight }}</p>
-                        @endif
-                        <div class="flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-0">
-                            <span class="text-base md:text-2xl font-bold text-cyan-600 dark:text-cyan-400">${{ number_format($product->price, 2) }}</span>
-                            @if($product->stock > 0)
-                            <span class="text-green-600 dark:text-green-400 text-xs md:text-sm"><i class="fas fa-check-circle"></i> <span class="hidden md:inline">Disponible</span></span>
-                            @else
-                            <span class="text-red-500 dark:text-red-400 text-xs md:text-sm"><i class="fas fa-times-circle"></i> <span class="hidden md:inline">Agotado</span></span>
-                            @endif
+                <template x-for="product in displayProducts" :key="product.id">
+                    <div x-transition
+                         class="bg-white dark:bg-gray-900 rounded-lg md:rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group">
+                        <div class="h-32 md:h-48 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center overflow-hidden">
+                            <template x-if="product.image">
+                                <img :src="product.image" :alt="product.name" 
+                                     class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300">
+                            </template>
+                            <template x-if="!product.image">
+                                <div class="w-full h-full flex items-center justify-center">
+                                    <i class="fas fa-image text-4xl md:text-5xl text-gray-300 dark:text-gray-600"></i>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="p-2 md:p-4">
+                            <span class="hidden md:inline-block px-2 py-1 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 text-xs font-semibold rounded mb-2"
+                                  x-text="product.category"></span>
+                            <h3 class="font-bold text-xs md:text-lg text-gray-900 dark:text-white mb-1 md:mb-2 line-clamp-2" x-text="product.name"></h3>
+                            <p class="hidden md:block text-gray-600 dark:text-gray-400 text-sm mb-2 line-clamp-2" x-text="product.description"></p>
+                            <template x-if="product.weight">
+                                <p class="hidden md:block text-gray-500 dark:text-gray-500 text-xs mb-2" x-text="product.weight"></p>
+                            </template>
+                            <div class="flex flex-col md:flex-row justify-between md:items-center gap-1 md:gap-0">
+                                <span class="text-base md:text-2xl font-bold text-cyan-600 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2)"></span>
+                                <template x-if="product.stock > 0">
+                                    <span class="text-green-600 dark:text-green-400 text-xs md:text-sm"><i class="fas fa-check-circle"></i> <span class="hidden md:inline">Disponible</span></span>
+                                </template>
+                                <template x-if="product.stock <= 0">
+                                    <span class="text-red-500 dark:text-red-400 text-xs md:text-sm"><i class="fas fa-times-circle"></i> <span class="hidden md:inline">Agotado</span></span>
+                                </template>
+                            </div>
                         </div>
                     </div>
-                </div>
-                @endforeach
+                </template>
             </div>
 
             <div class="text-center mt-6 md:mt-12">
-                <a href="{{ route('products') }}" class="inline-block bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold text-sm md:text-base py-3 px-6 md:py-4 md:px-10 rounded-lg shadow-lg hover:shadow-2xl transition-all hover:scale-105 cursor-pointer">
+                <a href="{{ route('products') }}" class="inline-block bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-700 hover:to-blue-800 text-white font-bold text-sm md:text-base py-3 px-6 md:py-4 md:px-10 rounded-lg shadow-lg hover:shadow-2xl transition-all hover:scale-105 cursor-pointer">
                     <i class="fas fa-box-open mr-1 md:mr-2"></i> Ver Todos los Productos <i class="fas fa-arrow-right ml-1 md:ml-2"></i>
                 </a>
             </div>
@@ -303,19 +337,83 @@
     </section>
 
     <!-- Marcas -->
+    @if($homeBrands->count() > 0)
     <section id="marcas" class="py-10 md:py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-2xl md:text-4xl font-bold text-center mb-6 md:mb-12 text-gray-900 dark:text-white">Marcas que manejamos</h2>
-            <div class="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6">
-                @foreach($brands as $brand)
-                <div class="bg-gray-50 dark:bg-gray-800 rounded-lg md:rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-3 md:p-6 flex items-center justify-center">
-                    @if($brand->logo)
-                    <img src="{{ asset('storage/' . $brand->logo) }}" alt="{{ $brand->name }}" class="max-h-12 md:max-h-20 w-auto object-contain">
+            @if($homeBrands->count() === 1)
+            {{-- Single brand: just center it --}}
+            <div class="flex justify-center">
+                <div class="bg-gray-50 dark:bg-gray-800 rounded-xl shadow-md p-6 flex items-center justify-center min-w-[160px] h-[100px]">
+                    @if($homeBrands->first()->logo_url)
+                    <img src="{{ asset('storage/' . $homeBrands->first()->logo_url) }}" alt="{{ $homeBrands->first()->name }}" class="max-h-16 w-auto object-contain">
                     @else
-                    <span class="text-xs md:text-lg font-bold text-gray-700 dark:text-gray-300">{{ $brand->name }}</span>
+                    <span class="text-base font-bold text-gray-700 dark:text-gray-300">{{ $homeBrands->first()->name }}</span>
                     @endif
                 </div>
-                @endforeach
+            </div>
+            @else
+            <div id="brands-splide" class="splide" aria-label="Marcas">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        @foreach($homeBrands as $brand)
+                        <li class="splide__slide">
+                            <div class="bg-gray-50 dark:bg-gray-800 rounded-lg md:rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-4 md:p-6 flex items-center justify-center w-[120px] md:w-[180px] h-[80px] md:h-[110px]">
+                                @if($brand->logo_url)
+                                <img src="{{ asset('storage/' . $brand->logo_url) }}" alt="{{ $brand->name }}" class="max-h-10 md:max-h-16 w-auto object-contain">
+                                @else
+                                <span class="text-xs md:text-base font-bold text-gray-700 dark:text-gray-300 whitespace-nowrap text-center">{{ $brand->name }}</span>
+                                @endif
+                            </div>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+            <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                if (window.Splide) {
+                    new Splide('#brands-splide', {
+                        type: 'loop',
+                        autoplay: true,
+                        interval: 2500,
+                        speed: 800,
+                        pauseOnHover: true,
+                        drag: true,
+                        perPage: 5,
+                        perMove: 1,
+                        gap: '1.5rem',
+                        arrows: false,
+                        pagination: false,
+                        breakpoints: {
+                            1024: { perPage: 4 },
+                            768: { perPage: 3 },
+                            480: { perPage: 2 }
+                        }
+                    }).mount();
+                }
+            });
+            </script>
+            @endif
+        </div>
+    </section>
+    @endif
+
+    <!-- ¿Nos visitaste? - Google Review -->
+    <section class="py-10 md:py-16 bg-gradient-to-r from-cyan-600 to-blue-700 text-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-xl md:text-3xl font-bold mb-3 md:mb-4">¿Nos visitaste?</h2>
+            <p class="text-base md:text-lg mb-6 md:mb-8 text-white/90">
+                Tu opinión nos ayuda a mejorar. ¡Déjanos una reseña en Google!
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-8">
+                <a href="https://g.page/r/CbNf1vMGf5DcEBM/review" target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-2 bg-white text-gray-900 font-bold text-sm md:text-base py-3 px-6 md:py-4 md:px-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all">
+                    <i class="fab fa-google text-lg md:text-xl"></i> Dejar Reseña en Google
+                </a>
+                <div class="bg-white rounded-xl p-2 shadow-lg">
+                    <img src="{{ asset('images/opinionqr.png') }}" alt="QR Reseña Google" class="w-28 h-28 md:w-36 md:h-36 object-contain">
+                </div>
             </div>
         </div>
     </section>
@@ -327,14 +425,14 @@
             <div class="grid md:grid-cols-2 gap-4 md:gap-8">
                 <div class="space-y-3 md:space-y-6">
                     <div class="bg-white dark:bg-gray-900 rounded-lg md:rounded-xl shadow-lg p-3 md:p-6 flex gap-3 md:gap-4 hover:shadow-xl transition">
-                        <div class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center text-white text-base md:text-xl">
+                        <div class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-cyan-600 to-blue-700 rounded-lg flex items-center justify-center text-white text-base md:text-xl">
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div>
                             <h4 class="font-bold text-sm md:text-base text-gray-900 dark:text-white mb-0.5 md:mb-1">Dirección</h4>
                             <p class="text-xs md:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
                                 <span class="block font-semibold text-gray-800 dark:text-gray-200">Calle 21 #88E entre 14 y 16</span>
-                                <span class="block">Camino rumbo a Santa Clara</span>
+                                <span class="block">Calle principal rumbo a Santa Clara</span>
                                 <span class="block">Chabihau, Yobaín, Yucatán</span>
                                 <span class="block text-cyan-600 dark:text-cyan-400 font-medium">C.P. 97426</span>
                             </p>
@@ -342,7 +440,7 @@
                     </div>
 
                     <div class="bg-white dark:bg-gray-900 rounded-lg md:rounded-xl shadow-lg p-3 md:p-6 flex gap-3 md:gap-4 hover:shadow-xl transition">
-                        <div class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center text-white text-base md:text-xl">
+                        <div class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-cyan-600 to-blue-700 rounded-lg flex items-center justify-center text-white text-base md:text-xl">
                             <i class="fas fa-phone-alt"></i>
                         </div>
                         <div>
@@ -352,7 +450,7 @@
                     </div>
 
                     <div class="bg-white dark:bg-gray-900 rounded-lg md:rounded-xl shadow-lg p-3 md:p-6 flex gap-3 md:gap-4 hover:shadow-xl transition">
-                        <div class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center text-white text-base md:text-xl">
+                        <div class="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-cyan-600 to-blue-700 rounded-lg flex items-center justify-center text-white text-base md:text-xl">
                             <i class="fas fa-clock"></i>
                         </div>
                         <div>
@@ -400,6 +498,72 @@
             </div>
         </div>
     </footer>
+
+@php
+$productsJson = $featuredProducts->map(function($p) {
+    return [
+        'id' => $p->id_product,
+        'name' => $p->name,
+        'description' => Str::limit($p->description, 80),
+        'image' => $p->main_image_url ? asset('storage/' . $p->main_image_url) : null,
+        'category' => $p->category->name,
+        'category_id' => $p->category_id,
+        'price' => (float) $p->price,
+        'stock' => (int) $p->stock,
+        'weight' => $p->weight,
+    ];
+})->values();
+@endphp
+
+<script>
+function homeApp() {
+    return {
+        mobileMenu: false,
+        scrolled: false,
+        catActiva: 0,
+        search: '',
+        lang: document.cookie.match(/googtrans=\/es\/en/) ? 'en' : 'es',
+        darkMode: localStorage.getItem('darkMode') === 'true',
+        allProducts: @json($productsJson),
+        get displayProducts() {
+            let filtered = this.allProducts;
+
+            if (this.search) {
+                const q = this.search.toLowerCase();
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(q));
+            }
+
+            if (this.catActiva !== 0) {
+                filtered = filtered.filter(p => p.category_id === this.catActiva);
+            }
+
+            return filtered.slice(0, 8);
+        },
+        translatePage() {
+            if (this.lang === 'es') {
+                document.cookie = 'googtrans=/es/en; path=/';
+                this.lang = 'en';
+            } else {
+                document.cookie = 'googtrans=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+                document.cookie = 'googtrans=; path=/; domain=.' + location.hostname + '; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+                this.lang = 'es';
+            }
+            location.reload();
+        }
+    };
+}
+</script>
+
+<script>
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'es',
+        includedLanguages: 'en',
+        autoDisplay: false
+    }, 'google_translate_element_desktop');
+}
+</script>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>

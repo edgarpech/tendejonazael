@@ -9,6 +9,8 @@ class Configuration extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_configuration';
+
     protected $fillable = [
         'key',
         'value',
@@ -19,7 +21,7 @@ class Configuration extends Model
     ];
 
     protected $casts = [
-        'is_public' => 'boolean',
+        'is_public' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

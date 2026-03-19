@@ -7,7 +7,6 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\User;
-use App\Models\Gallery;
 
 class DashboardController extends Controller
 {
@@ -15,11 +14,10 @@ class DashboardController extends Controller
     {
         $stats = [
             'products' => Product::count(),
-            'active_products' => Product::where('is_active', true)->count(),
+            'active_products' => Product::where('is_active', 1)->count(),
             'categories' => Category::count(),
             'brands' => Brand::count(),
             'users' => User::count(),
-            'gallery_images' => Gallery::count(),
         ];
 
         $recent_products = Product::with(['category', 'brand'])

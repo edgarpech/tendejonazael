@@ -1,167 +1,343 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Productos') }}
-            </h2>
-            <a href="{{ route('admin.products.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Nuevo Producto
-            </a>
+@extends('layouts.app')
+
+@section('title', 'Productos - Tendejón Azael')
+
+@section('content')
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between mb-6">
+        <div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Productos</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Gestión del catálogo de productos</p>
         </div>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @if(session('success'))
-                <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                    <span class="block sm:inline">{{ session('success') }}</span>
-                </div>
-            @endif
-
-            <!-- Filtros y búsqueda -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                <div class="p-6">
-                    <form method="GET" action="{{ route('admin.products.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div>
-                            <input type="text" name="search" placeholder="Buscar productos..." 
-                                   value="{{ request('search') }}"
-                                   class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
-                        </div>
-                        <div>
-                            <select name="category_id" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
-                                <option value="">Todas las categorías</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
-                                        {{ $category->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div>
-                            <select name="brand_id" class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300">
-                                <option value="">Todas las marcas</option>
-                                @foreach($brands as $brand)
-                                    <option value="{{ $brand->id }}" {{ request('brand_id') == $brand->id ? 'selected' : '' }}>
-                                        {{ $brand->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="flex gap-2">
-                            <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded flex-1">
-                                Filtrar
-                            </button>
-                            <a href="{{ route('admin.products.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
-                                Limpiar
-                            </a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Tabla de productos -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead class="bg-gray-50 dark:bg-gray-700">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Imagen
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Nombre
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Categoría
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Marca
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Precio
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Stock
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Estado
-                                    </th>
-                                    <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                                        Acciones
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                @forelse($products as $product)
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($product->image)
-                                                <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="h-10 w-10 rounded object-cover">
-                                            @else
-                                                <div class="h-10 w-10 bg-gray-200 dark:bg-gray-700 rounded flex items-center justify-center">
-                                                    <span class="text-gray-400 text-xs">Sin imagen</span>
-                                                </div>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
-                                                {{ $product->name }}
-                                            </div>
-                                            <div class="text-sm text-gray-500 dark:text-gray-400">
-                                                SKU: {{ $product->sku }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $product->category->name ?? 'N/A' }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $product->brand->name ?? 'N/A' }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                                            ${{ number_format($product->price, 2) }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="text-sm {{ $product->stock > 10 ? 'text-green-600' : ($product->stock > 0 ? 'text-yellow-600' : 'text-red-600') }}">
-                                                {{ $product->stock }}
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $product->active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                                {{ $product->active ? 'Activo' : 'Inactivo' }}
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <div class="flex justify-end gap-2">
-                                                <a href="{{ route('admin.products.edit', $product) }}" class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400">
-                                                    Editar
-                                                </a>
-                                                <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="inline" onsubmit="return confirm('¿Estás seguro de eliminar este producto?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400">
-                                                        Eliminar
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="8" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
-                                            No se encontraron productos
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div class="mt-4">
-                        {{ $products->links() }}
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="btnAdd"></div>
     </div>
-</x-app-layout>
+
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4">
+        <div id="dataGrid"></div>
+    </div>
+</div>
+
+<div id="formPopup"></div>
+@endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('vendor/cropperjs/cropper.min.css') }}">
+<style>
+    #cropperContainer { max-height: 200px; overflow: hidden; }
+    #cropperContainer img { max-width: 100%; display: block; }
+</style>
+@endpush
+
+@push('scripts')
+<script src="{{ asset('vendor/cropperjs/cropper.min.js') }}"></script>
+<script>
+var productsData = @json($products);
+var categoriesData = @json($categories);
+var brandsData = @json($brands);
+var editingId = null;
+var cropper = null;
+var popup = null;
+
+$(function() {
+    $('#btnAdd').dxButton({
+        text: 'Nuevo Producto',
+        icon: 'plus',
+        type: 'default',
+        stylingMode: 'contained',
+        onClick: function() { openForm(); }
+    });
+
+    $('#dataGrid').dxDataGrid({
+        dataSource: productsData,
+        keyExpr: 'id_product',
+        showBorders: true,
+        showRowLines: true,
+        rowAlternationEnabled: true,
+        columnAutoWidth: true,
+        wordWrapEnabled: true,
+        searchPanel: { visible: true, placeholder: 'Buscar producto...', width: 300 },
+        filterRow: { visible: false },
+        paging: { pageSize: 10 },
+        pager: { showPageSizeSelector: true, allowedPageSizes: [10, 15, 25, 50], showInfo: true },
+        columns: [
+            {
+                dataField: 'main_image_url',
+                caption: '',
+                width: 60,
+                allowSorting: false,
+                allowFiltering: false,
+                cellTemplate: function(container, options) {
+                    var src = options.value ? '/storage/' + options.value : '/images/logos/logo.webp';
+                    $('<img>').attr('src', src).addClass('w-10 h-10 rounded-lg object-cover').appendTo(container);
+                }
+            },
+            { dataField: 'name', caption: 'Nombre', minWidth: 120, sortOrder: 'asc' },
+            { dataField: 'sku', caption: 'SKU', width: 110 },
+            {
+                dataField: 'category_id',
+                caption: 'Categoría',
+                width: 150,
+                lookup: { dataSource: categoriesData, valueExpr: 'id_category', displayExpr: 'name' }
+            },
+            {
+                dataField: 'brand_id',
+                caption: 'Marca',
+                width: 150,
+                lookup: { dataSource: brandsData, valueExpr: 'id_brand', displayExpr: 'name' }
+            },
+            {
+                dataField: 'price',
+                caption: 'Precio',
+                dataType: 'number',
+                width: 100,
+                customizeText: function(e) { return '$' + parseFloat(e.value || 0).toFixed(2); }
+            },
+            { dataField: 'stock', caption: 'Stock', width: 70, dataType: 'number' },
+            {
+                dataField: 'is_active',
+                caption: 'Activo',
+                width: 100,
+                alignment: 'center',
+                cellTemplate: function(container, options) {
+                    var cls = options.value ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+                    $('<span>').addClass('px-2 py-1 text-xs rounded-full font-medium ' + cls).text(options.value ? 'Sí' : 'No').appendTo(container);
+                }
+            },
+            {
+                caption: 'Acciones',
+                width: 100,
+                alignment: 'center',
+                allowSorting: false,
+                allowFiltering: false,
+                cellTemplate: function(container, options) {
+                    $('<div>').addClass('flex items-center justify-center gap-1').append(
+                        $('<button>').addClass('p-1.5 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>').on('click', function() { openForm(options.data.id_product); }),
+                        $('<button>').addClass('p-1.5 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded').html('<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>').on('click', function() { deleteItem(options.data.id_product); })
+                    ).appendTo(container);
+                }
+            }
+        ]
+    });
+
+    popup = $('#formPopup').dxPopup({
+        title: 'Nuevo Producto',
+        showTitle: true,
+        width: function() { return Math.min(900, $(window).width() - 40); },
+        height: function() { return Math.min($(window).height() * 0.85, 700); },
+        showCloseButton: true,
+        visible: false,
+        dragEnabled: true,
+        shading: true,
+        contentTemplate: function(container) {
+            container.append(getFormHtml());
+        },
+        onHidden: function() { destroyCropper(); }
+    }).dxPopup('instance');
+});
+
+function getFormHtml() {
+    return `
+        <form id="productForm" class="space-y-4 p-2" onsubmit="return false;">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nombre *</label>
+                    <div id="fName"></div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">SKU</label>
+                    <div id="fSku"></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Categoría *</label>
+                    <div id="fCategory"></div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Marca</label>
+                    <div id="fBrand"></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio *</label>
+                    <div id="fPrice"></div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Precio Oferta</label>
+                    <div id="fSalePrice"></div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Stock *</label>
+                    <div id="fStock"></div>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Descripción</label>
+                <div id="fDescription"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="flex items-center gap-3">
+                    <div id="fActive"></div>
+                    <label class="text-sm text-gray-700 dark:text-gray-300">Activo</label>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div id="fFeatured"></div>
+                    <label class="text-sm text-gray-700 dark:text-gray-300">Destacado</label>
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Imagen</label>
+                <div id="currentImage" class="mb-2 hidden">
+                    <img id="currentImgPreview" class="w-20 h-20 rounded-lg object-cover" src="">
+                </div>
+                <input type="file" id="imageFile" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900 dark:file:text-blue-300">
+                <div id="cropperContainer" class="mt-2 hidden">
+                    <img id="cropImage" src="">
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div id="btnCancel"></div>
+                <div id="btnSave"></div>
+            </div>
+        </form>
+    `;
+}
+
+function initFormWidgets(data) {
+    data = data || {};
+
+    $('#fName').dxTextBox({ value: data.name || '', placeholder: 'Nombre del producto' });
+    $('#fSku').dxTextBox({ value: data.sku || '', placeholder: 'Código SKU (auto si vacío)' });
+    $('#fCategory').dxSelectBox({
+        dataSource: categoriesData,
+        displayExpr: 'name',
+        valueExpr: 'id_category',
+        value: data.category_id || null,
+        placeholder: 'Seleccionar categoría',
+        searchEnabled: true
+    });
+    $('#fBrand').dxSelectBox({
+        dataSource: brandsData,
+        displayExpr: 'name',
+        valueExpr: 'id_brand',
+        value: data.brand_id || null,
+        placeholder: 'Seleccionar marca',
+        searchEnabled: true,
+        showClearButton: true
+    });
+    $('#fPrice').dxNumberBox({ value: data.price || 0, min: 0, format: '$#,##0.00', placeholder: '0.00' });
+    $('#fSalePrice').dxNumberBox({ value: data.sale_price || null, min: 0, format: '$#,##0.00', placeholder: '0.00' });
+    $('#fStock').dxNumberBox({ value: data.stock || 0, min: 0, showSpinButtons: true });
+    $('#fDescription').dxTextArea({ value: data.description || '', height: 80, placeholder: 'Descripción del producto' });
+    $('#fActive').dxSwitch({ value: data.is_active !== undefined ? !!data.is_active : true });
+    $('#fFeatured').dxSwitch({ value: data.is_featured !== undefined ? !!data.is_featured : false });
+
+    $('#btnCancel').dxButton({ text: 'Cancelar', stylingMode: 'outlined', onClick: function() { popup.hide(); } });
+    $('#btnSave').dxButton({ text: 'Guardar', type: 'default', stylingMode: 'contained', onClick: saveForm });
+
+    if (data.main_image_url) {
+        $('#currentImage').removeClass('hidden');
+        $('#currentImgPreview').attr('src', '/storage/' + data.main_image_url);
+    } else {
+        $('#currentImage').addClass('hidden');
+    }
+
+    $('#imageFile').off('change').on('change', function(e) {
+        var file = e.target.files[0];
+        if (!file) return;
+        destroyCropper();
+        var reader = new FileReader();
+        reader.onload = function(ev) {
+            $('#cropImage').attr('src', ev.target.result);
+            $('#cropperContainer').removeClass('hidden');
+            cropper = new Cropper(document.getElementById('cropImage'), {
+                aspectRatio: 1,
+                viewMode: 2,
+                autoCropArea: 0.8,
+                responsive: true,
+                guides: true,
+                background: false
+            });
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+function destroyCropper() {
+    if (cropper) { cropper.destroy(); cropper = null; }
+    $('#cropperContainer').addClass('hidden');
+    $('#cropImage').attr('src', '');
+}
+
+function openForm(id) {
+    editingId = id || null;
+    popup.option('title', id ? 'Editar Producto' : 'Nuevo Producto');
+    popup.show();
+
+    setTimeout(function() {
+        var data = id ? productsData.find(function(p) { return p.id_product === id; }) : {};
+        initFormWidgets(data || {});
+    }, 100);
+}
+
+function saveForm() {
+    var formData = new FormData();
+    formData.append('name', $('#fName').dxTextBox('instance').option('value') || '');
+    formData.append('sku', $('#fSku').dxTextBox('instance').option('value') || '');
+    formData.append('category_id', $('#fCategory').dxSelectBox('instance').option('value') || '');
+    formData.append('brand_id', $('#fBrand').dxSelectBox('instance').option('value') || '');
+    formData.append('price', $('#fPrice').dxNumberBox('instance').option('value') || 0);
+    var salePrice = $('#fSalePrice').dxNumberBox('instance').option('value');
+    if (salePrice) formData.append('sale_price', salePrice);
+    formData.append('stock', $('#fStock').dxNumberBox('instance').option('value') || 0);
+    formData.append('description', $('#fDescription').dxTextArea('instance').option('value') || '');
+    formData.append('is_active', $('#fActive').dxSwitch('instance').option('value') ? 1 : 0);
+    formData.append('is_featured', $('#fFeatured').dxSwitch('instance').option('value') ? 1 : 0);
+
+    if (editingId) formData.append('_method', 'PUT');
+
+    function submitData(fd) {
+        $.ajax({
+            url: editingId ? '/admin/products/' + editingId : '/admin/products',
+            method: 'POST',
+            data: fd,
+            processData: false,
+            contentType: false,
+            success: function(res) {
+                popup.hide();
+                ajaxSuccess(res.message);
+            },
+            error: handleAjaxError
+        });
+    }
+
+    if (cropper) {
+        cropper.getCroppedCanvas({ width: 800, height: 800, imageSmoothingQuality: 'high' }).toBlob(function(blob) {
+            formData.append('image', blob, 'product.jpg');
+            submitData(formData);
+        }, 'image/jpeg', 0.85);
+    } else {
+        var fileInput = document.getElementById('imageFile');
+        if (fileInput && fileInput.files[0] && !cropper) {
+            formData.append('image', fileInput.files[0]);
+        }
+        submitData(formData);
+    }
+}
+
+function deleteItem(id) {
+    var result = DevExpress.ui.dialog.confirm('¿Estás seguro de que deseas eliminar este producto?', 'Confirmar eliminación');
+    result.done(function(dialogResult) {
+        if (dialogResult) {
+            $.ajax({
+                url: '/admin/products/' + id,
+                method: 'DELETE',
+                success: function(res) { ajaxSuccess(res.message); },
+                error: handleAjaxError
+            });
+        }
+    });
+}
+</script>
+@endpush

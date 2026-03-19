@@ -62,7 +62,7 @@ class LoginController extends Controller
 
         RateLimiter::hit($this->throttleKey($request));
 
-        SecurityLog::log('login_failed', $user?->id, 'Failed login attempt for ' . $request->email);
+        SecurityLog::log('login_failed', $user?->id_user, 'Failed login attempt for ' . $request->email);
 
         throw ValidationException::withMessages([
             'email' => ['Las credenciales proporcionadas son incorrectas.'],

@@ -11,6 +11,8 @@ class Permission extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $primaryKey = 'id_permission';
+
     protected $fillable = [
         'name',
         'display_name',
@@ -21,7 +23,7 @@ class Permission extends Model
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'is_active' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
@@ -32,7 +34,7 @@ class Permission extends Model
      */
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class, 'role_permission')
+        return $this->belongsToMany(Role::class, 'role_permission', 'permission_id', 'role_id')
                     ->withTimestamps();
     }
 }

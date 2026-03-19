@@ -9,13 +9,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('brands', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id_brand');
             $table->string('name', 200);
             $table->string('slug', 250)->unique();
             $table->text('description')->nullable();
             $table->string('logo_url')->nullable();
             $table->string('website_url')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->smallInteger('is_active')->default(1);
+            $table->smallInteger('show_in_home')->default(0);
             $table->integer('sort_order')->default(0);
             $table->timestamps();
             $table->softDeletes();

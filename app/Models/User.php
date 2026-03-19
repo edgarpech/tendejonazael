@@ -13,6 +13,8 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, SoftDeletes;
 
+    protected $primaryKey = 'id_user';
+
     protected $fillable = [
         'name',
         'email',
@@ -36,7 +38,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
-        'is_active' => 'boolean',
+        'is_active' => 'integer',
         'last_login_at' => 'datetime',
         'login_attempts' => 'integer',
         'blocked_until' => 'datetime',
@@ -48,12 +50,12 @@ class User extends Authenticatable
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_id', 'id_role');
     }
 
     public function securityLogs(): HasMany
     {
-        return $this->hasMany(SecurityLog::class);
+        return $this->hasMany(SecurityLog::class, 'user_id', 'id_user');
     }
 
     public function hasPermission(string $permission): bool
@@ -99,6 +101,6 @@ class User extends Authenticatable
         
         $this->resetLoginAttempts();
         
-        SecurityLog::log('login_success', $this->id, 'User logged in successfully');
+        SecurityLog::log('login_success', $this->id_user, 'User logged in successfully');
     }
 }

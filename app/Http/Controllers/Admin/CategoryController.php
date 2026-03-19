@@ -5,12 +5,18 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::withCount('products')->latest()->get();
+        $categories = Category::withCount('products')->get();
+
+        if ($request->ajax()) {
+            return response()->json($categories);
+        }
+
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -19,43 +25,56 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name',
             'description' => 'nullable|string',
-            'active' => 'boolean',
+            'is_active' => 'boolean',
         ]);
 
-        $validated['active'] = $request->has('active');
+        $validated['is_active'] = $request->boolean('is_active');
+        $validated['slug'] = Str::slug($validated['name']);
 
-        Category::create($validated);
+        $category = Category::create($validated);
 
-        return redirect()->route('admin.categories.index')
-                       ->with('success', 'Categoría creada exitosamente');
+        if ($request->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Categoría creada exitosamente', 'data' => $category]);
+        }
+
+        return redirect()->route('admin.categories.index')->with('success', 'Categoría creada exitosamente');
     }
 
     public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name,' . $category->id,
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id_category . ',id_category',
             'description' => 'nullable|string',
-            'active' => 'boolean',
+            'is_active' => 'boolean',
         ]);
 
-        $validated['active'] = $request->has('active');
+        $validated['is_active'] = $request->boolean('is_active');
+        $validated['slug'] = Str::slug($validated['name']);
 
         $category->update($validated);
 
-        return redirect()->route('admin.categories.index')
-                       ->with('success', 'Categoría actualizada exitosamente');
+        if ($request->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Categoría actualizada exitosamente', 'data' => $category]);
+        }
+
+        return redirect()->route('admin.categories.index')->with('success', 'Categoría actualizada exitosamente');
     }
 
     public function destroy(Category $category)
     {
         if ($category->products()->count() > 0) {
-            return redirect()->route('admin.categories.index')
-                           ->with('error', 'No se puede eliminar una categoría con productos asociados');
+            if (request()->ajax()) {
+                return response()->json(['success' => false, 'message' => 'No se puede eliminar una categoría con productos asociados'], 422);
+            }
+            return redirect()->route('admin.categories.index')->with('error', 'No se puede eliminar una categoría con productos asociados');
         }
 
         $category->delete();
 
-        return redirect()->route('admin.categories.index')
-                       ->with('success', 'Categoría eliminada exitosamente');
+        if (request()->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Categoría eliminada exitosamente']);
+        }
+
+        return redirect()->route('admin.categories.index')->with('success', 'Categoría eliminada exitosamente');
     }
 }

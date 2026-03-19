@@ -10,6 +10,8 @@ class SecurityLog extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id_security_log';
+
     const UPDATED_AT = null;
 
     protected $fillable = [
@@ -31,7 +33,7 @@ class SecurityLog extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id_user');
     }
 
     /**

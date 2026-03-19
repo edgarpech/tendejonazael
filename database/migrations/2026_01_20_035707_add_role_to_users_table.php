@@ -9,8 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('role_id')->nullable()->after('id')->constrained()->onDelete('set null');
-            $table->boolean('is_active')->default(true)->after('remember_token');
+            $table->unsignedInteger('role_id')->nullable()->after('id_user');
+            $table->foreign('role_id')->references('id_role')->on('roles')->onDelete('set null');
+            $table->smallInteger('is_active')->default(1)->after('remember_token');
             $table->timestamp('last_login_at')->nullable()->after('is_active');
             $table->integer('login_attempts')->default(0)->after('last_login_at');
             $table->timestamp('blocked_until')->nullable()->after('login_attempts');

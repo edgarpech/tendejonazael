@@ -12,6 +12,8 @@ class Category extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $primaryKey = 'id_category';
+
     protected $fillable = [
         'name',
         'slug',
@@ -22,7 +24,7 @@ class Category extends Model
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'is_active' => 'integer',
         'sort_order' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -34,7 +36,7 @@ class Category extends Model
      */
     public function products(): HasMany
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'category_id', 'id_category');
     }
 
     /**
@@ -42,7 +44,7 @@ class Category extends Model
      */
     public function activeProducts(): HasMany
     {
-        return $this->products()->where('is_active', true);
+        return $this->products()->where('is_active', 1);
     }
 
     /**
@@ -61,7 +63,7 @@ class Category extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('is_active', true);
+        return $query->where('is_active', 1);
     }
 
     /**

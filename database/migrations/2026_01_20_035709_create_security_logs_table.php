@@ -9,8 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('security_logs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null');
+            $table->increments('id_security_log');
+            $table->unsignedInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('set null');
             $table->string('event_type', 50);
             $table->string('ip_address', 45)->nullable();
             $table->string('user_agent')->nullable();

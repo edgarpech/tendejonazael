@@ -10,16 +10,17 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::with('role')->latest()->paginate(15);
-        return view('admin.users.index', compact('users'));
-    }
+        $users = User::with('role')->get();
 
-    public function create()
-    {
+        if ($request->ajax()) {
+            return response()->json($users);
+        }
+
         $roles = Role::orderBy('name')->get();
-        return view('admin.users.form', compact('roles'));
+
+        return view('admin.users.index', compact('users', 'roles'));
     }
 
     public function store(Request $request)
@@ -28,33 +29,31 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'role_id' => 'required|exists:roles,id',
-            'blocked' => 'boolean',
+            'role_id' => 'required|exists:roles,id_role',
+            'is_active' => 'boolean',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
-        $validated['blocked'] = $request->has('blocked');
+        $validated['is_active'] = $request->boolean('is_active');
 
-        User::create($validated);
+        $user = User::create($validated);
+        $user->load('role');
 
-        return redirect()->route('admin.users.index')
-                       ->with('success', 'Usuario creado exitosamente');
-    }
+        if ($request->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Usuario creado exitosamente', 'data' => $user]);
+        }
 
-    public function edit(User $user)
-    {
-        $roles = Role::orderBy('name')->get();
-        return view('admin.users.form', compact('user', 'roles'));
+        return redirect()->route('admin.users.index')->with('success', 'Usuario creado exitosamente');
     }
 
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id_user . ',id_user',
             'password' => 'nullable|string|min:8|confirmed',
-            'role_id' => 'required|exists:roles,id',
-            'blocked' => 'boolean',
+            'role_id' => 'required|exists:roles,id_role',
+            'is_active' => 'boolean',
         ]);
 
         if ($request->filled('password')) {
@@ -63,24 +62,33 @@ class UserController extends Controller
             unset($validated['password']);
         }
 
-        $validated['blocked'] = $request->has('blocked');
+        $validated['is_active'] = $request->boolean('is_active');
 
         $user->update($validated);
+        $user->load('role');
 
-        return redirect()->route('admin.users.index')
-                       ->with('success', 'Usuario actualizado exitosamente');
+        if ($request->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Usuario actualizado exitosamente', 'data' => $user]);
+        }
+
+        return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado exitosamente');
     }
 
     public function destroy(User $user)
     {
-        if ($user->id === auth()->id()) {
-            return redirect()->route('admin.users.index')
-                           ->with('error', 'No puedes eliminarte a ti mismo');
+        if ($user->id_user === auth()->id()) {
+            if (request()->ajax()) {
+                return response()->json(['success' => false, 'message' => 'No puedes eliminarte a ti mismo'], 422);
+            }
+            return redirect()->route('admin.users.index')->with('error', 'No puedes eliminarte a ti mismo');
         }
 
         $user->delete();
 
-        return redirect()->route('admin.users.index')
-                       ->with('success', 'Usuario eliminado exitosamente');
+        if (request()->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Usuario eliminado exitosamente']);
+        }
+
+        return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado exitosamente');
     }
 }
