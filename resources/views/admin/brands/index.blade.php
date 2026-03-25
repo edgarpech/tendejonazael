@@ -86,10 +86,10 @@ $(function() {
         order: [[1, 'asc']],
         columns: [
             {
-                data: 'logo_url', title: '', width: '50px', orderable: false, searchable: false,
+                data: 'logo_url', title: 'Logo', width: '50px', orderable: false, searchable: false, responsivePriority: 4,
                 render: function(v) {
                     var src = v ? '/storage/' + v : '/images/logos/logo.webp';
-                    return '<img src="' + src + '" class="w-8 h-8 rounded-lg object-contain">';
+                    return '<img src="' + src + '" class="dt-thumb" style="object-fit:contain" alt="">';
                 }
             },
             { data: 'name', title: 'Nombre' },

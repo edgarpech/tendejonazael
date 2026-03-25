@@ -736,7 +736,7 @@ div.dt-container .dt-paging .dt-paging-button {
     text-align: center;
     text-decoration: none !important;
     cursor: pointer;
-    color: inherit !important;
+    color: inherit;
     border: 1px solid transparent;
     border-radius: 2px;
     background: transparent
@@ -744,7 +744,7 @@ div.dt-container .dt-paging .dt-paging-button {
 
 div.dt-container .dt-paging .dt-paging-button.current,
 div.dt-container .dt-paging .dt-paging-button.current:hover {
-    color: inherit !important;
+    color: inherit;
     border: 1px solid rgba(0, 0, 0, 0.3);
     background-color: rgba(0, 0, 0, 0.05);
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(230, 230, 230, 0.05)), color-stop(100%, rgba(0, 0, 0, 0.05)));
@@ -759,14 +759,14 @@ div.dt-container .dt-paging .dt-paging-button.disabled,
 div.dt-container .dt-paging .dt-paging-button.disabled:hover,
 div.dt-container .dt-paging .dt-paging-button.disabled:active {
     cursor: default;
-    color: rgba(0, 0, 0, 0.5) !important;
+    color: rgba(0, 0, 0, 0.5);
     border: 1px solid transparent;
     background: transparent;
     box-shadow: none
 }
 
 div.dt-container .dt-paging .dt-paging-button:hover {
-    color: white !important;
+    color: white;
     border: 1px solid #111;
     background-color: #111;
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #585858), color-stop(100%, #111));
@@ -892,29 +892,54 @@ html.dark .dt-container.dt-empty-footer table.dataTable {
 
 html.dark .dt-container .dt-search input,
 html.dark .dt-container .dt-length select {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background-color: var(--dt-html-background)
+    border: 1px solid #4b5563;
+    background: #1f2937;
+    color: #e2e8f0
+}
+
+html.dark table.dataTable>thead>tr>th {
+    background: #1f2937;
+    color: #e2e8f0
+}
+
+html.dark table.dataTable>tbody>tr>td {
+    color: #d1d5db
+}
+
+html.dark .dt-container .dt-info,
+html.dark .dt-container .dt-length {
+    color: #9ca3af
+}
+
+html.dark .dt-container .dt-paging .dt-paging-button {
+    color: #d1d5db;
+    background: #1f2937;
+    border-color: #4b5563
 }
 
 html.dark .dt-container .dt-paging .dt-paging-button.current,
 html.dark .dt-container .dt-paging .dt-paging-button.current:hover {
-    border: 1px solid rgb(89, 91, 94);
-    background: rgba(255, 255, 255, 0.15)
+    border: 1px solid #3b82f6;
+    background: #3b82f6;
+    color: #fff
 }
 
 html.dark .dt-container .dt-paging .dt-paging-button.disabled,
 html.dark .dt-container .dt-paging .dt-paging-button.disabled:hover,
 html.dark .dt-container .dt-paging .dt-paging-button.disabled:active {
-    color: #666 !important
+    color: #6b7280;
+    background: transparent;
+    border-color: transparent
 }
 
-html.dark .dt-container .dt-paging .dt-paging-button:hover {
-    border: 1px solid rgb(53, 53, 53);
-    background: rgb(53, 53, 53)
+html.dark .dt-container .dt-paging .dt-paging-button:hover:not(.disabled) {
+    border: 1px solid #374151;
+    background: #374151;
+    color: #fff
 }
 
-html.dark .dt-container .dt-paging .dt-paging-button:active {
-    background: #3a3a3a
+html.dark .dt-container .dt-paging .dt-paging-button:active:not(.disabled) {
+    background: #4b5563
 }
 
 *[dir=rtl] table.dataTable thead th,

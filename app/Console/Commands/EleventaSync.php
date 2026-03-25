@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use PDO;
 use Throwable;
 
@@ -54,11 +55,23 @@ class EleventaSync extends Command
             return self::FAILURE;
         }
 
-        $this->syncCategories();
-        $this->syncBrands();
-        $this->syncProducts();
+        DB::beginTransaction();
+        try {
+            $this->syncCategories();
+            $this->syncBrands();
+            $this->syncProducts();
+            $this->cleanupOrphans();
 
-        $this->cleanupOrphans();
+            if (!$this->dryRun) {
+                DB::commit();
+            } else {
+                DB::rollBack();
+            }
+        } catch (Throwable $e) {
+            DB::rollBack();
+            $this->error('Sync failed: ' . $e->getMessage());
+            return self::FAILURE;
+        }
 
         $this->newLine();
         $this->info('Sync completed.');
@@ -123,11 +136,11 @@ class EleventaSync extends Command
                 'name' => $name,
                 'slug' => $slug,
                 'is_active' => $isActive,
-                'updated_at' => now(),
+                'updated_at' => now()->toDateTimeString(),
             ];
 
             if (isset($existingSlugs[$eleventaId])) {
-                $toUpdate[] = ['eleventa_id' => $eleventaId, 'data' => $data];
+                $toUpdate[] = array_merge(['eleventa_id' => $eleventaId], $data);
             } else {
                 $toInsert[] = array_merge($data, [
                     'eleventa_id' => $eleventaId,
@@ -141,8 +154,8 @@ class EleventaSync extends Command
             foreach (array_chunk($toInsert, 500) as $chunk) {
                 DB::table('categories')->insert($chunk);
             }
-            foreach ($toUpdate as $item) {
-                DB::table('categories')->where('eleventa_id', $item['eleventa_id'])->update($item['data']);
+            if (!empty($toUpdate)) {
+                $this->bulkUpdateBy('categories', 'eleventa_id', $toUpdate, ['name', 'slug', 'is_active', 'updated_at']);
             }
         }
 
@@ -191,11 +204,11 @@ class EleventaSync extends Command
                 'name' => $name,
                 'slug' => $slug,
                 'is_active' => 1,
-                'updated_at' => now(),
+                'updated_at' => now()->toDateTimeString(),
             ];
 
             if (isset($existingSlugs[$eleventaId])) {
-                $toUpdate[] = ['eleventa_id' => $eleventaId, 'data' => $data];
+                $toUpdate[] = array_merge(['eleventa_id' => $eleventaId], $data);
             } else {
                 $toInsert[] = array_merge($data, [
                     'eleventa_id' => $eleventaId,
@@ -209,8 +222,8 @@ class EleventaSync extends Command
             foreach (array_chunk($toInsert, 500) as $chunk) {
                 DB::table('brands')->insert($chunk);
             }
-            foreach ($toUpdate as $item) {
-                DB::table('brands')->where('eleventa_id', $item['eleventa_id'])->update($item['data']);
+            if (!empty($toUpdate)) {
+                $this->bulkUpdateBy('brands', 'eleventa_id', $toUpdate, ['name', 'slug', 'is_active', 'updated_at']);
             }
         }
 
@@ -238,7 +251,6 @@ class EleventaSync extends Command
             ->whereNotNull('eleventa_id')
             ->pluck('id_brand', 'eleventa_id');
 
-        // Load ALL existing product SKUs in one query
         $existingProducts = DB::table('products')
             ->pluck('sku')
             ->flip()
@@ -275,28 +287,38 @@ class EleventaSync extends Command
                 continue;
             }
 
-            $data = [
-                'name' => $nombre,
-                'category_id' => $categoryId,
-                'brand_id' => $brandId,
-                'cost_price' => $costPrice ?: null,
-                'price' => $price ?: null,
-                'is_active' => 1,
-                'updated_at' => now(),
-                'meta' => json_encode(['eleventa_id' => (int)$prod->ID]),
-            ];
+            $now = now()->toDateTimeString();
+            $meta = json_encode(['eleventa_id' => (int)$prod->ID]);
 
             if (isset($existingProducts[$codigo])) {
-                $toUpdate[] = ['sku' => $codigo, 'data' => $data];
+                $toUpdate[] = [
+                    'sku' => $codigo,
+                    'name' => $nombre,
+                    'category_id' => $categoryId,
+                    'brand_id' => $brandId,
+                    'cost_price' => $costPrice ?: null,
+                    'price' => $price ?: null,
+                    'is_active' => 1,
+                    'updated_at' => $now,
+                    'meta' => $meta,
+                ];
             } else {
                 $slug = $this->generateSlug($nombre, $allProductSlugs);
                 $allProductSlugs[$slug] = true;
 
-                $toInsert[] = array_merge($data, [
+                $toInsert[] = [
                     'sku' => $codigo,
                     'slug' => $slug,
-                    'created_at' => now(),
-                ]);
+                    'name' => $nombre,
+                    'category_id' => $categoryId,
+                    'brand_id' => $brandId,
+                    'cost_price' => $costPrice ?: null,
+                    'price' => $price ?: null,
+                    'is_active' => 1,
+                    'meta' => $meta,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
             }
             $synced++;
         }
@@ -307,15 +329,69 @@ class EleventaSync extends Command
                 DB::table('products')->insert($chunk);
             }
 
-            // Batch updates (grouped by identical data to minimize queries)
-            foreach (array_chunk($toUpdate, 100) as $chunk) {
-                foreach ($chunk as $item) {
-                    DB::table('products')->where('sku', $item['sku'])->update($item['data']);
-                }
+            // Bulk update existing products using PostgreSQL upsert
+            $updateFields = ['name', 'category_id', 'brand_id', 'cost_price', 'price', 'is_active', 'updated_at', 'meta'];
+            foreach (array_chunk($toUpdate, 500) as $chunk) {
+                $this->bulkUpdateBySku($chunk, $updateFields);
             }
         }
 
         $this->info("  {$synced} products synced, {$skipped} skipped.");
+    }
+
+    /**
+     * Bulk update products by SKU using a single query with CASE statements.
+     */
+    private function bulkUpdateBySku(array $rows, array $fields): void
+    {
+        $this->bulkUpdateBy('products', 'sku', $rows, $fields);
+    }
+
+    private static array $pgCasts = [
+        'is_active' => '::smallint',
+        'updated_at' => '::timestamp',
+        'created_at' => '::timestamp',
+        'deleted_at' => '::timestamp',
+        'cost_price' => '::numeric',
+        'price' => '::numeric',
+        'category_id' => '::integer',
+        'brand_id' => '::integer',
+        'sort_order' => '::integer',
+        'views_count' => '::integer',
+        'meta' => '::json',
+    ];
+
+    /**
+     * Bulk update a table by a key column using CASE statements (single query per chunk).
+     */
+    private function bulkUpdateBy(string $table, string $keyCol, array $rows, array $fields): void
+    {
+        if (empty($rows)) {
+            return;
+        }
+
+        foreach (array_chunk($rows, 500) as $chunk) {
+            $keys = array_column($chunk, $keyCol);
+            $bindings = [];
+            $cases = [];
+
+            foreach ($fields as $field) {
+                $parts = [];
+                foreach ($chunk as $row) {
+                    $parts[] = "WHEN ? THEN ?";
+                    $bindings[] = $row[$keyCol];
+                    $bindings[] = $row[$field];
+                }
+                $cast = self::$pgCasts[$field] ?? '';
+                $cases[] = "\"{$field}\" = (CASE \"{$keyCol}\" " . implode(' ', $parts) . " END){$cast}";
+            }
+
+            $placeholders = implode(',', array_fill(0, count($keys), '?'));
+            $bindings = array_merge($bindings, $keys);
+
+            $sql = "UPDATE \"{$table}\" SET " . implode(', ', $cases) . " WHERE \"{$keyCol}\" IN ({$placeholders})";
+            DB::statement($sql, $bindings);
+        }
     }
 
     // ── Cleanup: remove records no longer in Eleventa ────────────────────────
@@ -398,15 +474,30 @@ class EleventaSync extends Command
             $eleventaProducts = DB::table('products')
                 ->where('meta', 'like', '%eleventa_id%')
                 ->whereNotIn('sku', $validSkus)
+                ->whereNull('deleted_at')
                 ->get();
 
             $deletedProds = $eleventaProducts->count();
 
+            if ($deletedProds > 0) {
+                foreach ($eleventaProducts as $prod) {
+                    $this->line("  [orphan] sku={$prod->sku} name={$prod->name}");
+                }
+            }
+
             if (!$this->dryRun && $deletedProds > 0) {
+                foreach ($eleventaProducts as $prod) {
+                    // Delete image file from disk if present
+                    if (!empty($prod->main_image_url)) {
+                        Storage::disk('public')->delete($prod->main_image_url);
+                    }
+                }
+                // Soft-delete instead of hard delete
                 DB::table('products')
                     ->where('meta', 'like', '%eleventa_id%')
                     ->whereNotIn('sku', $validSkus)
-                    ->delete();
+                    ->whereNull('deleted_at')
+                    ->update(['deleted_at' => now(), 'is_active' => 0]);
             }
         }
         $this->info("  {$deletedProds} products removed.");

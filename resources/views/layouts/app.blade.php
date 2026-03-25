@@ -15,16 +15,16 @@
     <title>@yield('title', config('app.name', 'Tendejón Azael'))</title>
     <link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
 
+    {{-- DataTables vendor CSS loads first--}}
+    <link rel="stylesheet" href="{{ asset('vendor/datatables/css/dataTables.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/datatables/css/responsive.dataTables.min.css') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <link href="{{ asset('vendor/fonts/inter/inter.css') }}" rel="stylesheet">
 
     {{-- jQuery --}}
     <script src="{{ asset('vendor/jquery/jquery-3.7.1.min.js') }}"></script>
-
-    {{-- DataTables --}}
-    <link rel="stylesheet" href="{{ asset('vendor/datatables/css/dataTables.dataTables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/datatables/css/responsive.dataTables.min.css') }}">
     <script src="{{ asset('vendor/datatables/js/dataTables.min.js') }}"></script>
     <script src="{{ asset('vendor/datatables/js/dataTables.responsive.min.js') }}"></script>
 
@@ -50,10 +50,25 @@
         });
 
         var dtLang = {
-            search: "Buscar:", lengthMenu: "Mostrar _MENU_", info: "_START_-_END_ de _TOTAL_",
+            search: "", lengthMenu: "Mostrar _MENU_", info: "_START_-_END_ de _TOTAL_",
             infoEmpty: "Sin registros", infoFiltered: "(de _MAX_)", zeroRecords: "Sin resultados",
             emptyTable: "No hay datos", paginate: { first: "«", last: "»", next: "›", previous: "‹" }
         };
+
+        // Add placeholder to DataTables search inputs + move length to bottom on mobile
+        $(document).on('init.dt', function(e, settings) {
+            var $container = $(settings.nTableWrapper);
+            $container.find('.dt-search input').attr('placeholder', 'Buscar...');
+
+            // On mobile: move length selector to bottom row
+            if (window.innerWidth < 768) {
+                var $length = $container.find('.dt-length');
+                var $bottomRow = $container.find('.dt-layout-row').last();
+                if ($length.length && $bottomRow.length) {
+                    $length.detach().prependTo($bottomRow);
+                }
+            }
+        });
 
         function showToast(message, type) {
             var icon = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';

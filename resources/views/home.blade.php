@@ -513,7 +513,7 @@
                     <div class="flex gap-3 md:gap-4 text-xl md:text-2xl">
                         <a href="https://www.facebook.com/TendejonAzael" class="text-gray-400 hover:text-cyan-400 transition"><i class="fab fa-facebook"></i></a>
                         <a href="https://www.instagram.com/tendejonazael" class="text-gray-400 hover:text-cyan-400 transition"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/9911161668" target="_blank" class="text-gray-400 hover:text-cyan-400 transition"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://wa.me/+5219911161668" target="_blank" class="text-gray-400 hover:text-cyan-400 transition"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>

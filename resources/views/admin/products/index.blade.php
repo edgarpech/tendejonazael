@@ -131,35 +131,35 @@ $(function() {
         order: [[1, 'asc']],
         columns: [
             {
-                data: 'main_image_url', title: '', width: '50px', orderable: false, searchable: false,
+                data: 'main_image_url', title: 'Foto', width: '50px', orderable: false, searchable: false, responsivePriority: 4,
                 render: function(v) {
                     var src = v ? '/storage/' + v : '/images/logos/logo.webp';
-                    return '<img src="' + src + '" class="w-8 h-8 rounded-lg object-cover">';
+                    return '<img src="' + src + '" class="dt-thumb" alt="">';
                 }
             },
-            { data: 'name', title: 'Nombre' },
-            { data: 'sku', title: 'SKU', defaultContent: '', responsivePriority: 5 },
+            { data: 'name', title: 'Nombre', responsivePriority: 1 },
+            { data: 'sku', title: 'SKU', defaultContent: '', responsivePriority: 6 },
             {
-                data: 'category_id', title: 'Categoría',
+                data: 'category_id', title: 'Categoría', responsivePriority: 5,
                 render: function(v) { return catMap[v] || ''; }
             },
             {
-                data: 'brand_id', title: 'Marca', responsivePriority: 5,
+                data: 'brand_id', title: 'Marca', responsivePriority: 6,
                 render: function(v) { return brandMap[v] || ''; }
             },
             {
-                data: 'price', title: 'Precio', className: 'dt-right',
+                data: 'price', title: 'Precio', className: 'dt-right', responsivePriority: 2,
                 render: function(v) { return '$' + parseFloat(v || 0).toFixed(2); }
             },
             {
-                data: 'is_active', title: 'Activo', className: 'dt-center', width: '80px',
+                data: 'is_active', title: 'Activo', className: 'dt-center', width: '80px', responsivePriority: 5,
                 render: function(v) {
                     var cls = v ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-800/40 dark:text-emerald-300' : 'bg-red-100 text-red-700 dark:bg-red-800/40 dark:text-red-300';
                     return '<span class="px-2 py-1 text-xs rounded-full font-medium ' + cls + '">' + (v ? 'Sí' : 'No') + '</span>';
                 }
             },
             {
-                data: 'id_product', title: 'Acciones', className: 'dt-center', width: '90px', orderable: false, searchable: false,
+                data: 'id_product', title: 'Acciones', className: 'dt-center', width: '90px', orderable: false, searchable: false, responsivePriority: 3,
                 render: function(id) {
                     return '<div class="flex items-center justify-center gap-1">' +
                         '<button onclick="openForm(' + id + ')" class="p-1.5 text-blue-500 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-800/30 rounded" title="Editar"><svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>' +
