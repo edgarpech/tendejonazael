@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6130FGQMRE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6130FGQMRE');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tendejón Azael - Tienda de Abarrotes en Chabihau, Yucatán | Vacaciones y Semana Santa</title>
-    <meta name="description" content="Tendejón Azael, tu tienda de abarrotes y minisuper en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo, abarrotes y más. ¡Visítanos en tus vacaciones y Semana Santa! Desde 2007 al servicio de la comunidad y turistas del puerto.">
-    <meta name="keywords" content="tienda abarrotes Chabihau, minisuper Yucatán, tienda Chabihau, Tendejón Azael, abarrotes puerto Yucatán, vacaciones Chabihau, Semana Santa Chabihau, tienda playa Yucatán, bebidas Chabihau, snacks playa, hielo Chabihau, abarrotes Yobaín, tienda costa Yucatán, minisuper playa, Puerto Chabihau tienda, compras vacaciones Yucatán, abarrotes cerca de la playa, tienda familiar Yucatán, productos abarrotes Mérida">
+    <title>Tendejón Azael - Tienda de Abarrotes en Chabihau, Yucatán</title>
+    <meta name="description" content="Tendejón Azael, tu tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo, abarrotes y más. ¡Visítanos en tus vacaciones y Semana Santa! Desde 2007 al servicio de la comunidad y turistas del puerto.">
+    <meta name="keywords" content="tienda abarrotes Chabihau, Yucatán, tienda Chabihau, Tendejón Azael, abarrotes puerto Yucatán, vacaciones Chabihau, Semana Santa Chabihau, tienda playa Yucatán, bebidas Chabihau, snacks playa, hielo Chabihau, abarrotes Yobaín, tienda costa Yucatán, playa, Puerto Chabihau tienda, compras vacaciones Yucatán, abarrotes cerca de la playa, tienda familiar Yucatán, productos abarrotes Mérida">
     <meta name="author" content="Tendejón Azael">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url('/') }}">
@@ -47,10 +50,7 @@
     .goog-te-gadget span { display: none; }
 
     .splide__slide { display: flex; align-items: center; justify-content: center; }
-    .scrollbar-thin::-webkit-scrollbar { height: 4px; }
-    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-    .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 9999px; }
-    .dark .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #475569; }
+
 </style>
 </head>
 <body x-data="homeApp()" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">

@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6130FGQMRE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6130FGQMRE');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos - Tendejón Azael | Abarrotes, Bebidas y más en Chabihau, Yucatán</title>
+    <title>Productos - Tendejón Azael | Chabihau, Yucatán</title>
     <meta name="description" content="Explora nuestro catálogo completo de productos en Tendejón Azael, Chabihau, Yucatán. Abarrotes, bebidas, snacks, hielo y todo lo que necesitas para tus vacaciones en el puerto.">
     <meta name="keywords" content="productos abarrotes Chabihau, catálogo tienda Yucatán, bebidas playa, snacks vacaciones, compras Chabihau, precios abarrotes Yucatán, tienda cerca playa Chabihau">
     <meta name="robots" content="index, follow">
@@ -38,19 +41,7 @@
         .goog-te-gadget { font-size: 0 !important; }
         .goog-te-gadget span { display: none; }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 9999px; }
-        ::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
-        .dark ::-webkit-scrollbar-thumb { background-color: #475569; }
-        .dark ::-webkit-scrollbar-thumb:hover { background-color: #64748b; }
 
-        /* Thin scrollbar for category bar */
-        .scrollbar-thin::-webkit-scrollbar { height: 4px; }
-        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-        .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 9999px; }
-        .dark .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #475569; }
     </style>
 </head>
 <body x-data="productCatalog()" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -280,24 +271,38 @@
                             <input type="text" x-model="search" placeholder="Buscar productos..." 
                                    class="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg">
                             
-                            <select x-model.number="categoryId" class="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg">
-                                <option value="0">Todas las categorías</option>
-                                @foreach($categories as $category)
-                                <option value="{{ $category->id_category }}">
-                                    {{ $category->name }} ({{ $category->products_count }})
-                                </option>
-                                @endforeach
-                            </select>
+                            <!-- Categorías como botones (traducibles por Google Translate) -->
+                            <div>
+                                <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2"><i class="fas fa-tags mr-1"></i> Categorías</p>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <button @click="categoryId = 0; page = 1;"
+                                            :class="categoryId === 0 ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                                            class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">
+                                        Todas
+                                    </button>
+                                    @foreach($categories as $category)
+                                    <button @click="categoryId = {{ $category->id_category }}; page = 1;"
+                                            :class="categoryId === {{ $category->id_category }} ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
+                                            class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">
+                                        {{ $category->name }} <span class="opacity-60">({{ $category->products_count }})</span>
+                                    </button>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- Ordenar como botones (traducibles) -->
+                            <div>
+                                <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2"><i class="fas fa-sort mr-1"></i> Ordenar por</p>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <button @click="sort = 'name'" :class="sort === 'name' ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">Nombre A-Z</button>
+                                    <button @click="sort = 'price_asc'" :class="sort === 'price_asc' ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">Menor precio</button>
+                                    <button @click="sort = 'price_desc'" :class="sort === 'price_desc' ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">Mayor precio</button>
+                                    <button @click="sort = 'latest'" :class="sort === 'latest' ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">Más recientes</button>
+                                </div>
+                            </div>
                             
-                            <select x-model="sort" class="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg">
-                                <option value="name">Nombre A-Z</option>
-                                <option value="price_asc">Menor precio</option>
-                                <option value="price_desc">Mayor precio</option>
-                                <option value="latest">Más recientes</option>
-                            </select>
-                            
-                            <button @click="search = ''; categoryId = 0; sort = 'name'; page = 1;" class="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold text-sm md:text-base py-2 px-3 md:px-4 rounded-lg">
-                                Limpiar
+                            <button @click="search = ''; categoryId = 0; sort = 'name'; page = 1;" class="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold text-sm md:text-base py-2 px-3 md:px-4 rounded-lg cursor-pointer">
+                                <i class="fas fa-times mr-1"></i> Limpiar
                             </button>
                         </div>
                     </div>

@@ -14,3 +14,42 @@
     .swal2-html-container { font-size: 0.8rem !important; }
     .swal2-actions button { font-size: 0.75rem !important; padding: 0.35rem 1rem !important; }
 }
+
+/* SweetAlert2 dark mode */
+html.dark .swal2-popup {
+    background: #1f2937;
+    color: #e5e7eb;
+}
+html.dark .swal2-title {
+    color: #f3f4f6;
+}
+html.dark .swal2-html-container {
+    color: #d1d5db;
+}
+html.dark .swal2-input,
+html.dark .swal2-textarea,
+html.dark .swal2-select {
+    background: #374151;
+    color: #e5e7eb;
+    border-color: #4b5563;
+}
+html.dark .swal2-validation-message {
+    background: #374151;
+    color: #f87171;
+}
+html.dark .swal2-close {
+    color: #9ca3af;
+}
+html.dark .swal2-close:hover {
+    color: #f3f4f6;
+}
+/* Dark toast */
+html.dark .swal2-popup.swal2-toast {
+    background: #1f2937;
+}
+html.dark .swal2-popup.swal2-toast .swal2-title {
+    color: #e5e7eb;
+}
+html.dark .swal2-timer-progress-bar {
+    background: rgba(99, 102, 241, 0.4);
+}

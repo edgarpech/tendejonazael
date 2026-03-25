@@ -92,7 +92,7 @@ $(function() {
         order: [[1, 'asc']],
         columns: [
             {
-                data: 'name', title: '', width: '50px', orderable: false, searchable: false,
+                data: 'name', title: '', width: '50px', orderable: false, searchable: false, responsivePriority: 10001,
                 render: function(v) {
                     var initial = (v || '?').charAt(0).toUpperCase();
                     return '<div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-bold">' + initial + '</div>';

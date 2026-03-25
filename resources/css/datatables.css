@@ -30,7 +30,8 @@
 .dt-thumb { width: 36px; height: 36px; border-radius: 0.5rem; object-fit: cover; image-rendering: auto; }
 
 /* Responsive expanded child rows */
-table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before { top: 50%; transform: translateY(-50%); }
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control { vertical-align: middle; }
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control::before { top: 50%; }
 table.dataTable > tbody > tr.child ul.dtr-details { width: 100%; }
 table.dataTable > tbody > tr.child ul.dtr-details li { display: flex; align-items: center; gap: 0.5rem; padding: 4px 0; border-bottom: 1px solid #e5e7eb; font-size: 0.8rem; }
 table.dataTable > tbody > tr.child ul.dtr-details li .dtr-title { font-weight: 600; min-width: 80px; flex-shrink: 0; }

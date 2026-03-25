@@ -8,6 +8,9 @@
     }
 }" :class="{ 'dark': darkMode }">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6130FGQMRE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6130FGQMRE');</script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -50,7 +53,7 @@
         });
 
         var dtLang = {
-            search: "", lengthMenu: "Mostrar _MENU_", info: "_START_-_END_ de _TOTAL_",
+            search: "", lengthMenu: "Mostrar _MENU_", info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
             infoEmpty: "Sin registros", infoFiltered: "(de _MAX_)", zeroRecords: "Sin resultados",
             emptyTable: "No hay datos", paginate: { first: "«", last: "»", next: "›", previous: "‹" }
         };
@@ -70,9 +73,13 @@
             }
         });
 
+        function isDark() {
+            return document.documentElement.classList.contains('dark');
+        }
+
         function showToast(message, type) {
             var icon = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';
-            Swal.fire({ toast: true, position: 'bottom-end', icon: icon, title: message, showConfirmButton: false, timer: 3500, timerProgressBar: true, customClass: { popup: 'swal-toast-sm' } });
+            Swal.fire({ toast: true, position: 'bottom-end', icon: icon, title: message, showConfirmButton: false, timer: 3500, timerProgressBar: true, customClass: { popup: 'swal-toast-sm' }, background: isDark() ? '#1f2937' : '#fff', color: isDark() ? '#e5e7eb' : '#545454' });
         }
 
         function confirmAction(text) {
@@ -85,7 +92,9 @@
                 cancelButtonColor: '#6b7280',
                 confirmButtonText: 'Sí, continuar',
                 cancelButtonText: 'Cancelar',
-                width: 360
+                width: 360,
+                background: isDark() ? '#1f2937' : '#fff',
+                color: isDark() ? '#e5e7eb' : '#545454'
             });
         }
 

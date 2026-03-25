@@ -80,7 +80,14 @@
                                 Eliminar imagen
                             </button>
                         </div>
-                        <input type="file" id="imageFile" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900 dark:file:text-blue-300">
+                        <div class="flex gap-2">
+                            <input type="file" id="imageFile" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900 dark:file:text-blue-300">
+                            <button type="button" onclick="document.getElementById('cameraFile').click()" class="lg:hidden flex-shrink-0 px-3 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition text-sm font-medium flex items-center gap-1 cursor-pointer" title="Tomar foto">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                <span class="hidden sm:inline">Cámara</span>
+                            </button>
+                            <input type="file" id="cameraFile" accept="image/*" capture="environment" class="hidden">
+                        </div>
                         <div id="cropperContainer" class="mt-2 hidden" style="max-height:200px;overflow:hidden;">
                             <img id="cropImage" src="" style="max-width:100%;display:block;">
                         </div>
@@ -131,7 +138,7 @@ $(function() {
         order: [[1, 'asc']],
         columns: [
             {
-                data: 'main_image_url', title: 'Foto', width: '50px', orderable: false, searchable: false, responsivePriority: 4,
+                data: 'main_image_url', title: 'Foto', width: '50px', orderable: false, searchable: false, responsivePriority: 10001,
                 render: function(v) {
                     var src = v ? '/storage/' + v : '/images/logos/logo.webp';
                     return '<img src="' + src + '" class="dt-thumb" alt="">';
@@ -170,8 +177,7 @@ $(function() {
         ]
     });
 
-    $('#imageFile').on('change', function(e) {
-        var file = e.target.files[0];
+    function handleImageFile(file) {
         if (!file) return;
         destroyCropper();
         var reader = new FileReader();
@@ -183,6 +189,15 @@ $(function() {
             });
         };
         reader.readAsDataURL(file);
+    }
+
+    $('#imageFile').on('change', function(e) {
+        handleImageFile(e.target.files[0]);
+    });
+
+    $('#cameraFile').on('change', function(e) {
+        handleImageFile(e.target.files[0]);
+        $(this).val('');
     });
 });
 
@@ -209,6 +224,7 @@ function openForm(id) {
     $('#fDescription').val(data.description || '');
     $('#fActive').prop('checked', data.is_active !== undefined ? !!data.is_active : true);
     $('#imageFile').val('');
+    $('#cameraFile').val('');
     destroyCropper();
 
     if (data.main_image_url) {

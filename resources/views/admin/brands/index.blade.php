@@ -86,7 +86,7 @@ $(function() {
         order: [[1, 'asc']],
         columns: [
             {
-                data: 'logo_url', title: 'Logo', width: '50px', orderable: false, searchable: false, responsivePriority: 4,
+                data: 'logo_url', title: 'Logo', width: '50px', orderable: false, searchable: false, responsivePriority: 10001,
                 render: function(v) {
                     var src = v ? '/storage/' + v : '/images/logos/logo.webp';
                     return '<img src="' + src + '" class="dt-thumb" style="object-fit:contain" alt="">';

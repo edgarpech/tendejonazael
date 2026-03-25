@@ -21,7 +21,7 @@ class EleventaSync extends Command
     private string $fbPassword;
 
     private array $skipDeptIds = [2]; // "Productos Comunes"
-    private array $skipDeptNames = ['Eliminado']; // partial match to skip deleted depts
+    private array $skipDeptNames = ['Eliminado', 'Sin Departamento'];
 
     private PDO $firebird;
     private bool $dryRun = false;
@@ -276,10 +276,23 @@ class EleventaSync extends Command
                 continue;
             }
 
+            // Skip products without department or with skipped department
+            $deptId = (int)($prod->DEPT ?? 0);
+            if ($deptId === 0 || in_array($deptId, $this->skipDeptIds)) {
+                $skipped++;
+                continue;
+            }
+
             $price = round((float)($prod->PVENTA ?? 0), 2);
             $costPrice = round((float)($prod->PCOSTO ?? 0), 2);
-            $categoryId = isset($prod->DEPT) ? ($categoryMap[(int)$prod->DEPT] ?? null) : null;
+            $categoryId = $categoryMap[$deptId] ?? null;
             $brandId = ($prod->PROVID > 0) ? ($brandMap[(int)$prod->PROVID] ?? null) : null;
+
+            // Skip if department was filtered out (e.g. Sin Departamento)
+            if ($categoryId === null) {
+                $skipped++;
+                continue;
+            }
 
             if ($this->dryRun) {
                 $this->line("  [prod] sku={$codigo} name={$nombre} price={$price}");
