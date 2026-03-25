@@ -34,6 +34,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="twitter:image" content="{{ asset('images/logos/logo_general.jpg') }}">
 
     <link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
+    <link rel="preload" href="{{ asset('vendor/font-awesome/webfonts/fa-solid-900.woff2') }}" as="font" type="font/woff2" crossorigin>
     <link rel="preconnect" href="https://translate.googleapis.com" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
@@ -115,7 +116,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div class="flex lg:hidden items-center gap-2">
                     <button @click="translatePage()" 
                             class="w-10 h-10 flex items-center justify-center transition cursor-pointer"
-                            :class="lang === 'en' ? 'text-cyan-500' : 'text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400'">
+                            :class="lang === 'en' ? 'text-cyan-500' : 'text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400'"
+                            aria-label="Traducir página">
                         <i class="fas fa-globe text-xl"></i>
                     </button>
                     <button @click="darkMode = toggleDarkMode()" 
@@ -125,7 +127,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <i x-show="darkMode" x-cloak class="fas fa-sun text-xl"></i>
                     </button>
                     <button @click="mobileMenu = !mobileMenu" 
-                            class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-all duration-300">
+                            class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-300"
+                            aria-label="Abrir menú de navegación">
                         <i :class="mobileMenu ? 'fas fa-times' : 'fas fa-bars'" class="text-xl"></i>
                     </button>
                 </div>
@@ -161,7 +164,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <ul class="space-y-1">
                     <li>
                         <a @click="mobileMenu = false" href="/" 
-                           class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-all font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
+                           class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
                             <i class="fas fa-home w-5 text-gray-400 group-hover:text-cyan-500"></i>
                             <span>Inicio</span>
                         </a>
@@ -175,7 +178,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     </li>
                     <li>
                         <a @click="mobileMenu = false" href="/#contacto" onclick="goToContact(); return false;" 
-                           class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-all font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
+                           class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
                             <i class="fas fa-phone w-5 text-gray-400 group-hover:text-cyan-500"></i>
                             <span>Contacto</span>
                         </a>
@@ -190,7 +193,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             x-show="scrolled"
             x-cloak
             x-transition
-            class="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-cyan-600 to-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-300 z-40">
+            class="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-cyan-600 to-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-[transform,box-shadow] duration-300 z-40"
+            aria-label="Volver arriba">
         <i class="fas fa-arrow-up"></i>
     </button>
 
@@ -331,7 +335,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3">
                         <template x-for="product in paginated()" :key="product.id">
-                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col">
+                            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group flex flex-col">
                                 <div class="aspect-square relative w-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800"
                                      :class="product.image && 'cursor-pointer'"
                                      @click="product.image ? (viewerImage = product.image, viewerName = product.name) : null">
