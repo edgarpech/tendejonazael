@@ -45,32 +45,10 @@ class HomeController extends Controller
         return view('products', compact('products', 'categories'));
     }
 
-    public function show(Product $product)
-    {
-        if (!$product->is_active) {
-            abort(404);
-        }
-
-        $product->load(['category', 'brand']);
-        
-        $relatedProducts = Product::where('is_active', 1)
-                                  ->where('category_id', $product->category_id)
-                                  ->where('id_product', '!=', $product->id_product)
-                                  ->take(4)
-                                  ->get();
-
-        return view('product-detail', compact('product', 'relatedProducts'));
-    }
-
     public function sitemap()
     {
-        $products = Product::where('is_active', 1)
-            ->select('slug', 'updated_at')
-            ->orderBy('updated_at', 'desc')
-            ->get();
-
         return response()
-            ->view('sitemap', compact('products'))
+            ->view('sitemap')
             ->header('Content-Type', 'application/xml');
     }
 }

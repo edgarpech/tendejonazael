@@ -10,12 +10,4 @@
         <changefreq>daily</changefreq>
         <priority>0.9</priority>
     </url>
-@foreach($products as $product)
-    <url>
-        <loc>{{ url('/producto/' . $product->slug) }}</loc>
-        <lastmod>{{ $product->updated_at->toW3cString() }}</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
-    </url>
-@endforeach
 </urlset>
