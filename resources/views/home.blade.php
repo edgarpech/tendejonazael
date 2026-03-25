@@ -45,8 +45,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="preconnect" href="https://maps.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://maps.gstatic.com" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" /></noscript>
+    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
     <script>
     if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
@@ -122,7 +121,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <!-- Dark Mode Toggle -->
                     <li>
                         <button @click="darkMode = toggleDarkMode()" 
-                                class="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer">
+                                class="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer"
+                                aria-label="Cambiar modo oscuro">
                             <i x-show="!darkMode" class="fas fa-moon"></i>
                             <i x-show="darkMode" x-cloak class="fas fa-sun"></i>
                         </button>
@@ -148,7 +148,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <i class="fas fa-globe text-xl"></i>
                     </button>
                     <button @click="darkMode = toggleDarkMode()" 
-                            class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer">
+                            class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer"
+                            aria-label="Cambiar modo oscuro">
                         <i x-show="!darkMode" class="fas fa-moon text-xl"></i>
                         <i x-show="darkMode" x-cloak class="fas fa-sun text-xl"></i>
                     </button>
@@ -237,6 +238,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </button>
 
     <!-- Hero Section -->
+    <main>
     <section id="hero" class="pt-16 bg-gradient-to-br from-cyan-600 to-blue-700 text-white min-h-[400px] md:min-h-[600px] flex items-center">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 text-center">
             <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-6">
@@ -276,7 +278,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <h2 class="text-2xl md:text-4xl font-bold text-center mb-6 md:mb-12 text-gray-900 dark:text-white">Sobre Nosotros</h2>
             <div class="grid md:grid-cols-2 gap-4 md:gap-8">
                 <div class="bg-gray-50 dark:bg-gray-800 rounded-xl md:rounded-2xl shadow-lg p-4 md:p-8 hover:shadow-xl transition">
-                    <h3 class="text-lg md:text-2xl font-bold text-cyan-600 dark:text-cyan-400 mb-2 md:mb-4">Nuestra Historia</h3>
+                    <h3 class="text-lg md:text-2xl font-bold text-cyan-700 dark:text-cyan-400 mb-2 md:mb-4">Nuestra Historia</h3>
                     <p class="text-sm md:text-base text-gray-700 dark:text-gray-300 mb-2 md:mb-4">
                         En el corazón de Chabihau, <strong>Tendejón Azael</strong> nació como un emprendimiento familiar con un propósito claro: ofrecer a nuestra comunidad una tienda donde la calidad, la variedad y el trato amable fueran lo primordial.
                     </p>
@@ -318,13 +320,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                     <div class="flex gap-1.5 md:gap-2 overflow-x-auto pb-2 scrollbar-thin" style="-webkit-overflow-scrolling: touch;">
                         <button @click="catActiva = 0; search = ''" 
-                                :class="catActiva === 0 ? 'bg-cyan-600 text-white shadow-lg' : 'bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 border border-cyan-600 dark:border-cyan-400'"
+                                :class="catActiva === 0 ? 'bg-cyan-700 text-white shadow-lg' : 'bg-white dark:bg-gray-800 text-cyan-700 dark:text-cyan-400 border border-cyan-700 dark:border-cyan-400'"
                                 class="flex-shrink-0 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm rounded-lg font-medium transition-all hover:shadow-md cursor-pointer">
                             Todos
                         </button>
                         @foreach($categories as $category)
                         <button @click="catActiva = {{ $category->id_category }}; search = ''" 
-                                :class="catActiva === {{ $category->id_category }} ? 'bg-cyan-600 text-white shadow-lg' : 'bg-white dark:bg-gray-800 text-cyan-600 dark:text-cyan-400 border border-cyan-600 dark:border-cyan-400'"
+                                :class="catActiva === {{ $category->id_category }} ? 'bg-cyan-700 text-white shadow-lg' : 'bg-white dark:bg-gray-800 text-cyan-700 dark:text-cyan-400 border border-cyan-700 dark:border-cyan-400'"
                                 class="flex-shrink-0 px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm rounded-lg font-medium transition-all hover:shadow-md cursor-pointer">
                             {{ $category->name }}
                         </button>
@@ -350,7 +352,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             </template>
                         </div>
                         <div class="p-2 md:p-3">
-                            <span class="hidden md:inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 text-xs font-semibold rounded mb-1 truncate max-w-full"
+                            <span class="hidden md:inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300 text-xs font-semibold rounded mb-1 truncate max-w-full"
                                   x-text="product.category"></span>
                             <h3 class="font-bold text-xs md:text-sm text-gray-900 dark:text-white mb-1 line-clamp-2" x-text="product.name"></h3>
                             <p class="hidden md:block text-gray-600 dark:text-gray-400 text-xs mb-1 line-clamp-2" x-text="product.description"></p>
@@ -358,7 +360,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 <p class="hidden md:block text-gray-500 dark:text-gray-500 text-xs mb-2" x-text="product.weight"></p>
                             </template>
                             <div class="mt-auto pt-1 md:pt-2 border-t border-gray-200 dark:border-gray-700">
-                                <span class="text-sm md:text-lg font-bold text-cyan-600 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2) + ' MXN'"></span>
+                                <span class="text-sm md:text-lg font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2) + ' MXN'"></span>
                             </div>
                         </div>
                     </div>
@@ -466,7 +468,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <i class="fas fa-map-marker-alt"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-sm md:text-base text-gray-900 dark:text-white mb-0.5 md:mb-1">Dirección</h4>
+                            <h3 class="font-bold text-sm md:text-base text-gray-900 dark:text-white mb-0.5 md:mb-1">Dirección</h3>
                             <p class="text-xs md:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
                                 <span class="block font-semibold text-gray-800 dark:text-gray-200">Calle 21 #88E entre 14 y 16</span>
                                 <span class="block">Calle principal rumbo a Santa Clara</span>
@@ -481,7 +483,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <i class="fas fa-phone-alt"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-sm md:text-base text-gray-900 dark:text-white mb-0.5 md:mb-1">Teléfonos</h4>
+                            <h3 class="font-bold text-sm md:text-base text-gray-900 dark:text-white mb-0.5 md:mb-1">Teléfonos</h3>
                             <p class="text-xs md:text-base text-gray-600 dark:text-gray-400">991-116-1668<br>991-107-8633</p>
                         </div>
                     </div>
@@ -491,7 +493,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <i class="fas fa-clock"></i>
                         </div>
                         <div>
-                            <h4 class="font-bold text-sm md:text-base text-gray-900 dark:text-white mb-0.5 md:mb-1">Horario de Atención</h4>
+                            <h3 class="font-bold text-sm md:text-base text-gray-900 dark:text-white mb-0.5 md:mb-1">Horario de Atención</h3>
                             <p class="text-xs md:text-base text-gray-600 dark:text-gray-400">Lunes a Domingo<br>7:00 AM - 09:00 PM</p>
                         </div>
                     </div>
@@ -499,11 +501,13 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                 <div class="bg-white dark:bg-gray-900 rounded-lg md:rounded-xl shadow-lg overflow-hidden h-[250px] md:h-[400px]">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3715.844260194039!2d-89.115341!3d21.3566374!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f543dc1aaa96f11%3A0xdc907f06f3d65fb3!2sTendej%C3%B3n%20Azael!5e0!3m2!1ses-419!2smx!4v1768965529551!5m2!1ses-419!2smx"
-                            class="w-full h-full border-0" allowfullscreen="" loading="lazy"></iframe>
+                            class="w-full h-full border-0" allowfullscreen="" loading="lazy" title="Ubicación de Tendejón Azael en Google Maps"></iframe>
                 </div>
             </div>
         </div>
     </section>
+
+    </main>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-6 md:py-12">
@@ -524,9 +528,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div>
                     <h3 class="text-base md:text-xl font-bold mb-2 md:mb-4">Síguenos</h3>
                     <div class="flex gap-3 md:gap-4 text-xl md:text-2xl">
-                        <a href="https://www.facebook.com/TendejonAzael" class="text-gray-400 hover:text-cyan-400 transition"><i class="fab fa-facebook"></i></a>
-                        <a href="https://www.instagram.com/tendejonazael" class="text-gray-400 hover:text-cyan-400 transition"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/+5219911161668" target="_blank" class="text-gray-400 hover:text-cyan-400 transition"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.facebook.com/TendejonAzael" class="text-gray-400 hover:text-cyan-400 transition" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/tendejonazael" class="text-gray-400 hover:text-cyan-400 transition" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/+5219911161668" target="_blank" class="text-gray-400 hover:text-cyan-400 transition" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>

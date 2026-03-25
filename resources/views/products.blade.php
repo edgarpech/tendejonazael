@@ -36,8 +36,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
     <link rel="preconnect" href="https://translate.googleapis.com" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" /></noscript>
+    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
     <script>
         if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -87,13 +86,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- Desktop Menu -->
                 <ul class="hidden lg:flex items-center gap-8">
                     <li><a href="/" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium">Inicio</a></li>
-                    <li><a href="{{ route('products') }}" class="text-cyan-600 dark:text-cyan-400 font-semibold">Productos</a></li>
+                    <li><a href="{{ route('products') }}" class="text-cyan-700 dark:text-cyan-400 font-semibold">Productos</a></li>
                     <li><a href="javascript:void(0)" onclick="goToContact()" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Contacto</a></li>
                     
                     <!-- Dark Mode Toggle -->
                     <li>
                         <button @click="darkMode = toggleDarkMode()" 
-                                class="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                                class="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                                aria-label="Cambiar modo oscuro">
                             <i x-show="!darkMode" class="fas fa-moon"></i>
                             <i x-show="darkMode" x-cloak class="fas fa-sun"></i>
                         </button>
@@ -119,7 +119,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <i class="fas fa-globe text-xl"></i>
                     </button>
                     <button @click="darkMode = toggleDarkMode()" 
-                            class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer">
+                            class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer"
+                            aria-label="Cambiar modo oscuro">
                         <i x-show="!darkMode" class="fas fa-moon text-xl"></i>
                         <i x-show="darkMode" x-cloak class="fas fa-sun text-xl"></i>
                     </button>
@@ -167,7 +168,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     </li>
                     <li>
                         <a @click="mobileMenu = false" href="{{ route('products') }}" 
-                           class="flex items-center gap-3 py-3 px-4 bg-cyan-50 dark:bg-gray-700 rounded-lg font-semibold text-cyan-600 dark:text-cyan-400 group">
+                           class="flex items-center gap-3 py-3 px-4 bg-cyan-50 dark:bg-gray-700 rounded-lg font-semibold text-cyan-700 dark:text-cyan-400 group">
                             <i class="fas fa-shopping-bag w-5 text-cyan-500"></i>
                             <span>Productos</span>
                         </a>
@@ -194,7 +195,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     </button>
 
     <!-- Main Content -->
-    <div class="pt-20 md:pt-24 pb-8 md:pb-12">
+    <main class="pt-20 md:pt-24 pb-8 md:pb-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Page Header -->
             <div class="mb-4 md:mb-8">
@@ -207,7 +208,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <aside class="hidden lg:block w-64 flex-shrink-0">
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sticky top-24">
                         <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
-                            <i class="fas fa-filter text-cyan-600 dark:text-cyan-400"></i> Filtros
+                            <i class="fas fa-filter text-cyan-700 dark:text-cyan-400"></i> Filtros
                         </h3>
                         
                         <!-- Búsqueda -->
@@ -273,7 +274,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <!-- Mobile Filters Button -->
                 <div class="lg:hidden mb-3 md:mb-4">
                     <button @click="showFilters = !showFilters" class="w-full bg-white dark:bg-gray-800 rounded-lg md:rounded-xl shadow-lg p-3 md:p-4 flex items-center justify-between text-gray-900 dark:text-white font-semibold text-sm md:text-base">
-                        <span><i class="fas fa-filter mr-2 text-cyan-600 dark:text-cyan-400"></i> Filtros</span>
+                        <span><i class="fas fa-filter mr-2 text-cyan-700 dark:text-cyan-400"></i> Filtros</span>
                         <i :class="showFilters ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
                     </button>
                     
@@ -351,7 +352,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 </div>
                                 <div class="p-2 md:p-3 flex flex-col flex-1">
                                     <div class="hidden md:flex items-center justify-between mb-1 gap-1">
-                                        <span class="inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-600 dark:text-cyan-300 text-xs font-semibold rounded-full truncate max-w-[60%]"
+                                        <span class="inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300 text-xs font-semibold rounded-full truncate max-w-[60%]"
                                               x-text="product.category"></span>
                                         <template x-if="product.brand">
                                             <span class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[38%]" x-text="product.brand"></span>
@@ -360,7 +361,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                     <h3 class="font-bold text-xs md:text-sm text-gray-900 dark:text-white mb-0.5 md:mb-1 line-clamp-2" x-text="product.name"></h3>
                                     <p class="hidden md:block text-gray-600 dark:text-gray-400 text-xs mb-1 line-clamp-2" x-text="product.description"></p>
                                     <div class="mt-auto pt-1.5 md:pt-2 border-t border-gray-200 dark:border-gray-700">
-                                        <span class="text-sm md:text-lg font-bold text-cyan-600 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2) + ' MXN'"></span>
+                                        <span class="text-sm md:text-lg font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2) + ' MXN'"></span>
                                     </div>
                                 </div>
                             </div>
@@ -427,7 +428,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </button>
         <img :src="viewerImage" :alt="viewerName" @click.stop
              class="max-w-full max-h-[85vh] rounded-xl shadow-2xl object-contain cursor-default">
-    </div>
+    </main>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-6 md:py-12 mt-6 md:mt-12">
@@ -448,9 +449,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <div>
                     <h3 class="text-base md:text-xl font-bold mb-2 md:mb-4">Síguenos</h3>
                     <div class="flex gap-3 md:gap-4 text-xl md:text-2xl">
-                        <a href="#" class="text-gray-400 hover:text-cyan-400 transition"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-cyan-400 transition"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/9991161668" target="_blank" class="text-gray-400 hover:text-cyan-400 transition"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://www.facebook.com/TendejonAzael" class="text-gray-400 hover:text-cyan-400 transition" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/tendejonazael" class="text-gray-400 hover:text-cyan-400 transition" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/+5219911161668" target="_blank" class="text-gray-400 hover:text-cyan-400 transition" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
