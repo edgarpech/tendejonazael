@@ -61,4 +61,16 @@ class HomeController extends Controller
 
         return view('product-detail', compact('product', 'relatedProducts'));
     }
+
+    public function sitemap()
+    {
+        $products = Product::where('is_active', 1)
+            ->select('slug', 'updated_at')
+            ->orderBy('updated_at', 'desc')
+            ->get();
+
+        return response()
+            ->view('sitemap', compact('products'))
+            ->header('Content-Type', 'application/xml');
+    }
 }
