@@ -101,4 +101,18 @@ class BrandController extends Controller
 
         return redirect()->route('admin.brands.index')->with('success', 'Marca eliminada exitosamente');
     }
+
+    public function destroyLogo(Brand $brand)
+    {
+        if ($brand->logo_url) {
+            Storage::disk('public')->delete($brand->logo_url);
+            $brand->update(['logo_url' => null]);
+        }
+
+        if (request()->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Logo eliminado exitosamente']);
+        }
+
+        return redirect()->route('admin.brands.index')->with('success', 'Logo eliminado exitosamente');
+    }
 }

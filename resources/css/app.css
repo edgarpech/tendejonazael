@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 @import '@splidejs/splide/css/core';
+@import './datatables.css';
+@import './sweetalert.css';
+@import './forms.css';
+@import './admin.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';

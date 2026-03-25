@@ -39,8 +39,10 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('products', ProductController::class)->except(['create', 'edit', 'show']);
+        Route::delete('products/{product}/image', [ProductController::class, 'destroyImage'])->name('products.image.destroy');
         Route::resource('categories', CategoryController::class)->except(['create', 'edit', 'show']);
         Route::resource('brands', BrandController::class)->except(['create', 'edit', 'show']);
+        Route::delete('brands/{brand}/logo', [BrandController::class, 'destroyLogo'])->name('brands.logo.destroy');
 
         Route::middleware('role:admin')->group(function () {
             Route::resource('users', UserController::class)->except(['create', 'edit', 'show']);

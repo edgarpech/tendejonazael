@@ -111,4 +111,18 @@ class ProductController extends Controller
 
         return redirect()->route('admin.products.index')->with('success', 'Producto eliminado exitosamente');
     }
+
+    public function destroyImage(Product $product)
+    {
+        if ($product->main_image_url) {
+            Storage::disk('public')->delete($product->main_image_url);
+            $product->update(['main_image_url' => null]);
+        }
+
+        if (request()->ajax()) {
+            return response()->json(['success' => true, 'message' => 'Imagen eliminada exitosamente']);
+        }
+
+        return redirect()->route('admin.products.index')->with('success', 'Imagen eliminada exitosamente');
+    }
 }

@@ -5,12 +5,6 @@
         this.darkMode = !this.darkMode;
         localStorage.setItem('darkMode', this.darkMode);
         document.documentElement.classList.toggle('dark', this.darkMode);
-        var dxLink = document.getElementById('dx-theme');
-        if (dxLink) {
-            dxLink.href = this.darkMode
-                ? '{{ asset("vendor/devextreme/css/dx.dark.css") }}'
-                : '{{ asset("vendor/devextreme/css/dx.light.css") }}';
-        }
     }
 }" :class="{ 'dark': darkMode }">
 <head>
@@ -25,26 +19,17 @@
 
     <link href="{{ asset('vendor/fonts/inter/inter.css') }}" rel="stylesheet">
 
-    {{-- jQuery + DevExtreme --}}
+    {{-- jQuery --}}
     <script src="{{ asset('vendor/jquery/jquery-3.7.1.min.js') }}"></script>
-    <link id="dx-theme" rel="stylesheet" href="">
-    <script>
-        (function(){
-            var d = localStorage.getItem('darkMode') === 'true';
-            document.getElementById('dx-theme').href = d
-                ? '{{ asset("vendor/devextreme/css/dx.dark.css") }}'
-                : '{{ asset("vendor/devextreme/css/dx.light.css") }}';
-        })();
-    </script>
-    <script src="{{ asset('vendor/devextreme/js/dx.all.js') }}"></script>
-    <script src="{{ asset('vendor/devextreme/js/dx.messages.es.js') }}"></script>
-    <script>DevExpress.localization.locale('es');</script>
 
-    <style>
-        .dark .dx-datagrid-headers .dx-datagrid-text-content { color: #e2e8f0; }
-        .dx-datagrid .dx-data-row button { cursor: pointer; }
-        .dx-popup-wrapper > .dx-overlay-content > .dx-popup-content { overflow-y: auto !important; }
-    </style>
+    {{-- DataTables --}}
+    <link rel="stylesheet" href="{{ asset('vendor/datatables/css/dataTables.dataTables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/datatables/css/responsive.dataTables.min.css') }}">
+    <script src="{{ asset('vendor/datatables/js/dataTables.min.js') }}"></script>
+    <script src="{{ asset('vendor/datatables/js/dataTables.responsive.min.js') }}"></script>
+
+    {{-- SweetAlert2 --}}
+    <script src="{{ asset('vendor/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
     @stack('styles')
 </head>
@@ -63,28 +48,29 @@
         $.ajaxSetup({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
         });
-        // Fix: capture-phase wheel listener so inner scrollable elements inside
-        // DevExtreme popups receive scroll before dxScrollable intercepts them.
-        document.addEventListener('wheel', function(e) {
-            var el = e.target.closest('.dx-popup-content .overflow-y-auto, .dx-popup-content .overflow-auto');
-            if (!el) return;
-            if (el.scrollHeight <= el.clientHeight) return;
-            var atTop = el.scrollTop === 0 && e.deltaY < 0;
-            var atBottom = (el.scrollTop + el.clientHeight >= el.scrollHeight) && e.deltaY > 0;
-            if (atTop || atBottom) return;
-            el.scrollTop += e.deltaY;
-            e.preventDefault();
-            e.stopPropagation();
-        }, { capture: true, passive: false });
-        
+
+        var dtLang = {
+            search: "Buscar:", lengthMenu: "Mostrar _MENU_", info: "_START_-_END_ de _TOTAL_",
+            infoEmpty: "Sin registros", infoFiltered: "(de _MAX_)", zeroRecords: "Sin resultados",
+            emptyTable: "No hay datos", paginate: { first: "«", last: "»", next: "›", previous: "‹" }
+        };
 
         function showToast(message, type) {
-            DevExpress.ui.notify({
-                message: message,
-                type: type || 'info',
-                displayTime: 3500,
-                width: 'auto',
-                position: { my: 'bottom right', at: 'bottom right', of: window, offset: '-20 -20' }
+            var icon = type === 'success' ? 'success' : type === 'error' ? 'error' : 'info';
+            Swal.fire({ toast: true, position: 'bottom-end', icon: icon, title: message, showConfirmButton: false, timer: 3500, timerProgressBar: true, customClass: { popup: 'swal-toast-sm' } });
+        }
+
+        function confirmAction(text) {
+            return Swal.fire({
+                title: 'Confirmar',
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3b82f6',
+                cancelButtonColor: '#6b7280',
+                confirmButtonText: 'Sí, continuar',
+                cancelButtonText: 'Cancelar',
+                width: 360
             });
         }
 
@@ -117,41 +103,19 @@
             } else {
                 showToast(xhr.responseJSON?.message || 'Error al procesar la solicitud', 'error');
             }
-            // Re-enable any locked DevExtreme save button on error
-            var btnSave = $('#btnSave').dxButton('instance');
-            if (btnSave) {
-                btnSave.option({ disabled: false, text: btnSave._originalText || 'Guardar' });
-            }
-            var btnSaveProfile = $('#btnSaveProfile').dxButton('instance');
-            if (btnSaveProfile) {
-                btnSaveProfile.option({ disabled: false, text: btnSaveProfile._originalText || 'Guardar' });
-            }
-            var btnSavePwd = $('#btnSavePwd').dxButton('instance');
-            if (btnSavePwd) {
-                btnSavePwd.option({ disabled: false, text: btnSavePwd._originalText || 'Cambiar Contraseña' });
-            }
+            $('.btn-save').prop('disabled', false).each(function() {
+                $(this).text($(this).data('original-text') || 'Guardar');
+            });
         }
 
-        // Global AJAX button locking: disable DevExtreme save buttons while request is in flight
         $(document).ajaxSend(function() {
-            ['#btnSave', '#btnSaveProfile', '#btnSavePwd'].forEach(function(sel) {
-                try {
-                    var inst = $(sel).dxButton('instance');
-                    if (inst) {
-                        inst._originalText = inst.option('text');
-                        inst.option({ disabled: true, text: 'Procesando...' });
-                    }
-                } catch(e) {}
+            $('.btn-save').each(function() {
+                $(this).data('original-text', $(this).text()).prop('disabled', true).text('Procesando...');
             });
         });
         $(document).ajaxComplete(function() {
-            ['#btnSave', '#btnSaveProfile', '#btnSavePwd'].forEach(function(sel) {
-                try {
-                    var inst = $(sel).dxButton('instance');
-                    if (inst) {
-                        inst.option({ disabled: false, text: inst._originalText || inst.option('text') });
-                    }
-                } catch(e) {}
+            $('.btn-save').prop('disabled', false).each(function() {
+                $(this).text($(this).data('original-text') || 'Guardar');
             });
         });
     </script>

@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos - Tendejón Azael</title>
-    <meta name="description" content="Explora nuestro catálogo completo de productos en Tendejón Azael.">
+    <title>Productos - Tendejón Azael | Abarrotes, Bebidas y más en Chabihau, Yucatán</title>
+    <meta name="description" content="Explora nuestro catálogo completo de productos en Tendejón Azael, Chabihau, Yucatán. Abarrotes, bebidas, snacks, hielo y todo lo que necesitas para tus vacaciones en el puerto.">
+    <meta name="keywords" content="productos abarrotes Chabihau, catálogo tienda Yucatán, bebidas playa, snacks vacaciones, compras Chabihau, precios abarrotes Yucatán, tienda cerca playa Chabihau">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url('/productos') }}">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/productos') }}">
+    <meta property="og:title" content="Productos - Tendejón Azael | Chabihau, Yucatán">
+    <meta property="og:description" content="Explora nuestro catálogo completo de abarrotes, bebidas, snacks y más en Tendejón Azael, Chabihau.">
+    <meta property="og:image" content="{{ asset('images/logos/logo_general.jpg') }}">
+    <meta property="og:locale" content="es_MX">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Productos - Tendejón Azael | Chabihau, Yucatán">
+    <meta name="twitter:description" content="Catálogo completo de productos. Abarrotes, bebidas, snacks y más en Chabihau.">
+    <meta name="twitter:image" content="{{ asset('images/logos/logo_general.jpg') }}">
+
     <link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />

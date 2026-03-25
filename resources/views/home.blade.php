@@ -3,8 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tendejón Azael - Tu tienda de confianza</title>
-    <meta name="description" content="Tendejón Azael, tu tienda de abarrotes con los mejores precios y atención personalizada desde 2007.">
+    <title>Tendejón Azael - Tienda de Abarrotes en Chabihau, Yucatán | Vacaciones y Semana Santa</title>
+    <meta name="description" content="Tendejón Azael, tu tienda de abarrotes y minisuper en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo, abarrotes y más. ¡Visítanos en tus vacaciones y Semana Santa! Desde 2007 al servicio de la comunidad y turistas del puerto.">
+    <meta name="keywords" content="tienda abarrotes Chabihau, minisuper Yucatán, tienda Chabihau, Tendejón Azael, abarrotes puerto Yucatán, vacaciones Chabihau, Semana Santa Chabihau, tienda playa Yucatán, bebidas Chabihau, snacks playa, hielo Chabihau, abarrotes Yobaín, tienda costa Yucatán, minisuper playa, Puerto Chabihau tienda, compras vacaciones Yucatán, abarrotes cerca de la playa, tienda familiar Yucatán, productos abarrotes Mérida">
+    <meta name="author" content="Tendejón Azael">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url('/') }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="Tendejón Azael - Tienda de Abarrotes en Chabihau, Yucatán">
+    <meta property="og:description" content="Tu tienda de abarrotes de confianza en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks y todo lo que necesitas para tus vacaciones y Semana Santa en el puerto.">
+    <meta property="og:image" content="{{ asset('images/logos/logo_general.jpg') }}">
+    <meta property="og:locale" content="es_MX">
+    <meta property="og:site_name" content="Tendejón Azael">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Tendejón Azael - Tienda de Abarrotes en Chabihau, Yucatán">
+    <meta name="twitter:description" content="Tu tienda de abarrotes de confianza en Chabihau. Más de 1000 productos para tus vacaciones y Semana Santa.">
+    <meta name="twitter:image" content="{{ asset('images/logos/logo_general.jpg') }}">
+
+    <!-- Geo tags -->
+    <meta name="geo.region" content="MX-YUC">
+    <meta name="geo.placename" content="Chabihau, Yobaín, Yucatán">
+    <meta name="geo.position" content="21.3566374;-89.115341">
+    <meta name="ICBM" content="21.3566374, -89.115341">
+
     <link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
@@ -68,8 +94,8 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav class="flex justify-between items-center h-16">
                 <a href="/" class="flex items-center">
-                    <img x-show="!darkMode" src="{{ asset('images/logos/logo_text_dark.webp') }}" alt="Tendejón Azael" class="h-10 md:h-12 w-auto">
-                    <img x-show="darkMode" x-cloak src="{{ asset('images/logos/logo_text.webp') }}" alt="Tendejón Azael" class="h-10 md:h-12 w-auto">
+                    <img src="{{ asset('images/logos/logo_text_dark.webp') }}" alt="Tendejón Azael" class="h-10 md:h-12 w-auto dark:hidden">
+                    <img src="{{ asset('images/logos/logo_text.webp') }}" alt="Tendejón Azael" class="h-10 md:h-12 w-auto hidden dark:block">
                 </a>
 
                 <!-- Desktop Menu -->
@@ -561,6 +587,53 @@ function googleTranslateElementInit() {
 }
 </script>
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+<!-- Structured Data / JSON-LD -->
+<script type="application/ld+json">
+{
+    "@@context": "https://schema.org",
+    "@@type": "LocalBusiness",
+    "@@id": "{{ url('/') }}",
+    "name": "Tendejón Azael",
+    "description": "Tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo y abarrotes. Desde 2007 al servicio de la comunidad y turistas.",
+    "url": "{{ url('/') }}",
+    "telephone": ["+529911161668", "+529911078633"],
+    "image": "{{ asset('images/logos/logo_general.jpg') }}",
+    "logo": "{{ asset('images/logos/logo.webp') }}",
+    "priceRange": "$",
+    "currenciesAccepted": "MXN",
+    "paymentAccepted": "Cash, Credit Card",
+    "address": {
+        "@@type": "PostalAddress",
+        "streetAddress": "Calle 21 #88E entre 14 y 16",
+        "addressLocality": "Chabihau, Yobaín",
+        "addressRegion": "Yucatán",
+        "postalCode": "97426",
+        "addressCountry": "MX"
+    },
+    "geo": {
+        "@@type": "GeoCoordinates",
+        "latitude": 21.3566374,
+        "longitude": -89.115341
+    },
+    "openingHoursSpecification": {
+        "@@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "07:00",
+        "closes": "21:00"
+    },
+    "sameAs": [
+        "https://www.facebook.com/TendejonAzael",
+        "https://www.instagram.com/tendejonazael"
+    ],
+    "foundingDate": "2007",
+    "areaServed": [
+        { "@@type": "Place", "name": "Chabihau" },
+        { "@@type": "Place", "name": "Yobaín" },
+        { "@@type": "Place", "name": "Yucatán" }
+    ]
+}
+</script>
 
 </body>
 </html>

@@ -15,10 +15,9 @@ class EleventaSync extends Command
 
     protected $description = 'Sync products, categories and brands from Eleventa POS (Firebird DB)';
 
-    // User drops the pdvdata.fdb file here manually
-    private string $fbDatabase = 'c:\\xampp\\htdocs\\tendejonazael\\eleventa\\pdvdata.fdb';
-    private string $fbUser = 'SYSDBA';
-    private string $fbPassword = 'masterkey';
+    private string $fbDatabase;
+    private string $fbUser;
+    private string $fbPassword;
 
     private array $skipDeptIds = [2]; // "Productos Comunes"
     private array $skipDeptNames = ['Eliminado']; // partial match to skip deleted depts
@@ -29,6 +28,9 @@ class EleventaSync extends Command
     public function handle(): int
     {
         $this->dryRun = $this->option('dry-run');
+        $this->fbDatabase = env('ELEVENTA_DB_PATH', base_path('eleventa/pdvdata.fdb'));
+        $this->fbUser = env('ELEVENTA_DB_USER', 'SYSDBA');
+        $this->fbPassword = env('ELEVENTA_DB_PASSWORD', '');
 
         if ($this->dryRun) {
             $this->warn('--- DRY RUN: no changes will be saved ---');
@@ -56,6 +58,8 @@ class EleventaSync extends Command
         $this->syncBrands();
         $this->syncProducts();
 
+        $this->cleanupOrphans();
+
         $this->newLine();
         $this->info('Sync completed.');
         return self::SUCCESS;
@@ -71,7 +75,18 @@ class EleventaSync extends Command
             ->query("SELECT ID, TRIM(NOMBRE) AS NOMBRE, ACTIVO FROM DEPARTAMENTOS ORDER BY ID")
             ->fetchAll(PDO::FETCH_OBJ);
 
+        // Load existing slugs in one query
+        $existingSlugs = DB::table('categories')
+            ->whereNotNull('eleventa_id')
+            ->pluck('slug', 'eleventa_id')
+            ->toArray();
+
+        $allCategorySlugs = DB::table('categories')->pluck('slug')->flip()->toArray();
+
         $synced = 0;
+        $toInsert = [];
+        $toUpdate = [];
+
         foreach ($rows as $dept) {
             if (in_array((int)$dept->ID, $this->skipDeptIds)) {
                 continue;
@@ -83,31 +98,52 @@ class EleventaSync extends Command
             }
 
             $isActive = trim($dept->ACTIVO ?? '') === '1' ? 1 : 0;
-
-            // Skip inactive or soft-deleted departments
             if (!$isActive) {
                 continue;
             }
 
-            // Skip departments whose name contains a skip-word
             foreach ($this->skipDeptNames as $skip) {
                 if (stripos($name, $skip) !== false) {
                     continue 2;
                 }
             }
 
+            $eleventaId = (int)$dept->ID;
+
             if ($this->dryRun) {
-                $this->line("  [cat] id={$dept->ID} name={$name} active={$isActive}");
+                $this->line("  [cat] id={$eleventaId} name={$name} active={$isActive}");
                 $synced++;
                 continue;
             }
 
-            $this->upsert('categories', 'eleventa_id', (int)$dept->ID, [
+            $slug = $existingSlugs[$eleventaId] ?? $this->generateSlug($name, $allCategorySlugs);
+            $allCategorySlugs[$slug] = true;
+
+            $data = [
                 'name' => $name,
-                'slug' => $this->uniqueSlug('categories', $name, 'eleventa_id', (int)$dept->ID),
+                'slug' => $slug,
                 'is_active' => $isActive,
-            ]);
+                'updated_at' => now(),
+            ];
+
+            if (isset($existingSlugs[$eleventaId])) {
+                $toUpdate[] = ['eleventa_id' => $eleventaId, 'data' => $data];
+            } else {
+                $toInsert[] = array_merge($data, [
+                    'eleventa_id' => $eleventaId,
+                    'created_at' => now(),
+                ]);
+            }
             $synced++;
+        }
+
+        if (!$this->dryRun) {
+            foreach (array_chunk($toInsert, 500) as $chunk) {
+                DB::table('categories')->insert($chunk);
+            }
+            foreach ($toUpdate as $item) {
+                DB::table('categories')->where('eleventa_id', $item['eleventa_id'])->update($item['data']);
+            }
         }
 
         $this->info("  {$synced} categories synced.");
@@ -123,31 +159,65 @@ class EleventaSync extends Command
             ->query("SELECT ID, TRIM(NOMBRE) AS NOMBRE FROM PROVEEDORES WHERE BORRADO_EN IS NULL ORDER BY ID")
             ->fetchAll(PDO::FETCH_OBJ);
 
+        $existingSlugs = DB::table('brands')
+            ->whereNotNull('eleventa_id')
+            ->pluck('slug', 'eleventa_id')
+            ->toArray();
+
+        $allBrandSlugs = DB::table('brands')->pluck('slug')->flip()->toArray();
+
         $synced = 0;
+        $toInsert = [];
+        $toUpdate = [];
+
         foreach ($rows as $prov) {
             $name = $this->utf8($prov->NOMBRE);
             if ($name === '') {
                 continue;
             }
 
+            $eleventaId = (int)$prov->ID;
+
             if ($this->dryRun) {
-                $this->line("  [brand] id={$prov->ID} name={$name}");
+                $this->line("  [brand] id={$eleventaId} name={$name}");
                 $synced++;
                 continue;
             }
 
-            $this->upsert('brands', 'eleventa_id', (int)$prov->ID, [
+            $slug = $existingSlugs[$eleventaId] ?? $this->generateSlug($name, $allBrandSlugs);
+            $allBrandSlugs[$slug] = true;
+
+            $data = [
                 'name' => $name,
-                'slug' => $this->uniqueSlug('brands', $name, 'eleventa_id', (int)$prov->ID),
+                'slug' => $slug,
                 'is_active' => 1,
-            ]);
+                'updated_at' => now(),
+            ];
+
+            if (isset($existingSlugs[$eleventaId])) {
+                $toUpdate[] = ['eleventa_id' => $eleventaId, 'data' => $data];
+            } else {
+                $toInsert[] = array_merge($data, [
+                    'eleventa_id' => $eleventaId,
+                    'created_at' => now(),
+                ]);
+            }
             $synced++;
+        }
+
+        if (!$this->dryRun) {
+            foreach (array_chunk($toInsert, 500) as $chunk) {
+                DB::table('brands')->insert($chunk);
+            }
+            foreach ($toUpdate as $item) {
+                DB::table('brands')->where('eleventa_id', $item['eleventa_id'])->update($item['data']);
+            }
         }
 
         $this->info("  {$synced} brands synced.");
     }
 
-    // ── Products ← PRODUCTOS (upsert only, never deletes) ──────────────────
+    // ── Products ← PRODUCTOS ────────────────────────────────────────────────
 
     private function syncProducts(): void
     {
@@ -168,8 +238,18 @@ class EleventaSync extends Command
             ->whereNotNull('eleventa_id')
             ->pluck('id_brand', 'eleventa_id');
 
+        // Load ALL existing product SKUs in one query
+        $existingProducts = DB::table('products')
+            ->pluck('sku')
+            ->flip()
+            ->toArray();
+
+        $allProductSlugs = DB::table('products')->pluck('slug')->flip()->toArray();
+
         $synced = 0;
         $skipped = 0;
+        $toInsert = [];
+        $toUpdate = [];
 
         foreach ($rows as $prod) {
             $codigo = $this->utf8($prod->CODIGO);
@@ -179,7 +259,6 @@ class EleventaSync extends Command
                 $skipped++;
                 continue;
             }
-            // Skip products that were deleted inside Eleventa
             if (!empty(trim($prod->ELIMINADO_EN ?? ''))) {
                 $skipped++;
                 continue;
@@ -196,9 +275,6 @@ class EleventaSync extends Command
                 continue;
             }
 
-            $existing = DB::table('products')->where('sku', $codigo)->first();
-
-            // Fields updated from Eleventa (preserves images, description, slug, etc.)
             $data = [
                 'name' => $nombre,
                 'category_id' => $categoryId,
@@ -210,19 +286,130 @@ class EleventaSync extends Command
                 'meta' => json_encode(['eleventa_id' => (int)$prod->ID]),
             ];
 
-            if ($existing) {
-                DB::table('products')->where('sku', $codigo)->update($data);
+            if (isset($existingProducts[$codigo])) {
+                $toUpdate[] = ['sku' => $codigo, 'data' => $data];
             } else {
-                DB::table('products')->insert(array_merge($data, [
+                $slug = $this->generateSlug($nombre, $allProductSlugs);
+                $allProductSlugs[$slug] = true;
+
+                $toInsert[] = array_merge($data, [
                     'sku' => $codigo,
-                    'slug' => $this->uniqueSlug('products', $nombre),
+                    'slug' => $slug,
                     'created_at' => now(),
-                ]));
+                ]);
             }
             $synced++;
         }
 
+        if (!$this->dryRun) {
+            // Bulk insert new products
+            foreach (array_chunk($toInsert, 500) as $chunk) {
+                DB::table('products')->insert($chunk);
+            }
+
+            // Batch updates (grouped by identical data to minimize queries)
+            foreach (array_chunk($toUpdate, 100) as $chunk) {
+                foreach ($chunk as $item) {
+                    DB::table('products')->where('sku', $item['sku'])->update($item['data']);
+                }
+            }
+        }
+
         $this->info("  {$synced} products synced, {$skipped} skipped.");
+    }
+
+    // ── Cleanup: remove records no longer in Eleventa ────────────────────────
+
+    private function cleanupOrphans(): void
+    {
+        $this->info('Cleaning up orphaned records...');
+
+        // ── Categories: get all valid eleventa IDs ──
+        $validCatIds = collect(
+            $this->firebird
+                ->query("SELECT ID, TRIM(NOMBRE) AS NOMBRE, ACTIVO FROM DEPARTAMENTOS ORDER BY ID")
+                ->fetchAll(PDO::FETCH_OBJ)
+        )->filter(function ($dept) {
+            if (in_array((int)$dept->ID, $this->skipDeptIds)) return false;
+            $name = $this->utf8($dept->NOMBRE);
+            if ($name === '') return false;
+            if (trim($dept->ACTIVO ?? '') !== '1') return false;
+            foreach ($this->skipDeptNames as $skip) {
+                if (stripos($name, $skip) !== false) return false;
+            }
+            return true;
+        })->pluck('ID')->map(fn ($id) => (int)$id)->toArray();
+
+        $deletedCats = 0;
+        if (!empty($validCatIds)) {
+            $deletedCats = DB::table('categories')
+                ->whereNotNull('eleventa_id')
+                ->whereNotIn('eleventa_id', $validCatIds)
+                ->count();
+
+            if (!$this->dryRun && $deletedCats > 0) {
+                DB::table('categories')
+                    ->whereNotNull('eleventa_id')
+                    ->whereNotIn('eleventa_id', $validCatIds)
+                    ->delete();
+            }
+        }
+        $this->info("  {$deletedCats} categories removed.");
+
+        // ── Brands: get all valid eleventa IDs ──
+        $validBrandIds = collect(
+            $this->firebird
+                ->query("SELECT ID FROM PROVEEDORES WHERE BORRADO_EN IS NULL ORDER BY ID")
+                ->fetchAll(PDO::FETCH_OBJ)
+        )->pluck('ID')->map(fn ($id) => (int)$id)->toArray();
+
+        $deletedBrands = 0;
+        if (!empty($validBrandIds)) {
+            $deletedBrands = DB::table('brands')
+                ->whereNotNull('eleventa_id')
+                ->whereNotIn('eleventa_id', $validBrandIds)
+                ->count();
+
+            if (!$this->dryRun && $deletedBrands > 0) {
+                DB::table('brands')
+                    ->whereNotNull('eleventa_id')
+                    ->whereNotIn('eleventa_id', $validBrandIds)
+                    ->delete();
+            }
+        }
+        $this->info("  {$deletedBrands} brands removed.");
+
+        // ── Products: get all valid SKUs from Eleventa ──
+        $validSkus = collect(
+            $this->firebird
+                ->query("SELECT TRIM(CODIGO) AS CODIGO, TRIM(DESCRIPCION) AS DESCRIPCION, ELIMINADO_EN FROM PRODUCTOS ORDER BY ID")
+                ->fetchAll(PDO::FETCH_OBJ)
+        )->filter(function ($prod) {
+            $codigo = $this->utf8($prod->CODIGO);
+            $nombre = $this->utf8($prod->DESCRIPCION);
+            if ($codigo === '' || $nombre === '') return false;
+            if (!empty(trim($prod->ELIMINADO_EN ?? ''))) return false;
+            return true;
+        })->map(fn ($prod) => $this->utf8($prod->CODIGO))->toArray();
+
+        $deletedProds = 0;
+        if (!empty($validSkus)) {
+            // Only delete products that came from Eleventa (have eleventa_id in meta)
+            $eleventaProducts = DB::table('products')
+                ->where('meta', 'like', '%eleventa_id%')
+                ->whereNotIn('sku', $validSkus)
+                ->get();
+
+            $deletedProds = $eleventaProducts->count();
+
+            if (!$this->dryRun && $deletedProds > 0) {
+                DB::table('products')
+                    ->where('meta', 'like', '%eleventa_id%')
+                    ->whereNotIn('sku', $validSkus)
+                    ->delete();
+            }
+        }
+        $this->info("  {$deletedProds} products removed.");
     }
 
     // ── Helpers ──────────────────────────────────────────────────────────────
@@ -235,35 +422,12 @@ class EleventaSync extends Command
         return mb_convert_encoding(trim($str), 'UTF-8', 'Windows-1252');
     }
 
-    private function upsert(string $table, string $keyCol, int $keyVal, array $values): void
-    {
-        $exists = DB::table($table)->where($keyCol, $keyVal)->exists();
-        $values['updated_at'] = now();
-
-        if ($exists) {
-            DB::table($table)->where($keyCol, $keyVal)->update($values);
-        } else {
-            DB::table($table)->insert(array_merge($values, [
-                $keyCol => $keyVal,
-                'created_at' => now(),
-            ]));
-        }
-    }
-
-    private function uniqueSlug(string $table, string $name, ?string $keyCol = null, ?int $keyVal = null): string
+    private function generateSlug(string $name, array &$usedSlugs): string
     {
         $base = Str::slug($name) ?: 'item';
-
-        if ($keyCol && $keyVal) {
-            $existing = DB::table($table)->where($keyCol, $keyVal)->value('slug');
-            if ($existing) {
-                return $existing;
-            }
-        }
-
         $slug = $base;
         $i = 1;
-        while (DB::table($table)->where('slug', $slug)->exists()) {
+        while (isset($usedSlugs[$slug])) {
             $slug = "{$base}-{$i}";
             $i++;
         }
