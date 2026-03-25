@@ -112,11 +112,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
                 <!-- Desktop Menu -->
                 <ul class="hidden lg:flex items-center gap-8">
-                    <li><a href="javascript:void(0)" @click="scrollToSection('hero')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Inicio</a></li>
-                    <li><a href="javascript:void(0)" @click="scrollToSection('sobre-nosotros')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Sobre Nosotros</a></li>
-                    <li><a href="javascript:void(0)" @click="scrollToSection('catalogo')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Nuestros Productos</a></li>
-                    <li><a href="javascript:void(0)" @click="scrollToSection('marcas')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Marcas</a></li>
-                    <li><a href="javascript:void(0)" @click="scrollToSection('contacto')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Contacto</a></li>
+                    <li><a href="#hero" @click.prevent="scrollToSection('hero')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Inicio</a></li>
+                    <li><a href="#sobre-nosotros" @click.prevent="scrollToSection('sobre-nosotros')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Sobre Nosotros</a></li>
+                    <li><a href="#catalogo" @click.prevent="scrollToSection('catalogo')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Nuestros Productos</a></li>
+                    <li><a href="#marcas" @click.prevent="scrollToSection('marcas')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Marcas</a></li>
+                    <li><a href="#contacto" @click.prevent="scrollToSection('contacto')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Contacto</a></li>
                     
                     <!-- Dark Mode Toggle -->
                     <li>
@@ -189,35 +189,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <nav>
                 <ul class="space-y-1">
                     <li>
-                        <a href="javascript:void(0)" @click="mobileMenu = false; scrollToSection('hero')" 
+                        <a href="#hero" @click.prevent="mobileMenu = false; scrollToSection('hero')" 
                            class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-all font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 cursor-pointer group">
                             <i class="fas fa-home w-5 text-gray-400 group-hover:text-cyan-500"></i>
                             <span>Inicio</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" @click="mobileMenu = false; scrollToSection('sobre-nosotros')" 
+                        <a href="#sobre-nosotros" @click.prevent="mobileMenu = false; scrollToSection('sobre-nosotros')" 
                            class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-all font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 cursor-pointer group">
                             <i class="fas fa-info-circle w-5 text-gray-400 group-hover:text-cyan-500"></i>
                             <span>Sobre Nosotros</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" @click="mobileMenu = false; scrollToSection('catalogo')" 
+                        <a href="#catalogo" @click.prevent="mobileMenu = false; scrollToSection('catalogo')" 
                            class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-all font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 cursor-pointer group">
                             <i class="fas fa-shopping-bag w-5 text-gray-400 group-hover:text-cyan-500"></i>
                             <span>Nuestros Productos</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" @click="mobileMenu = false; scrollToSection('marcas')" 
+                        <a href="#marcas" @click.prevent="mobileMenu = false; scrollToSection('marcas')" 
                            class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-all font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 cursor-pointer group">
                             <i class="fas fa-star w-5 text-gray-400 group-hover:text-cyan-500"></i>
                             <span>Marcas</span>
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:void(0)" @click="mobileMenu = false; scrollToSection('contacto')" 
+                        <a href="#contacto" @click.prevent="mobileMenu = false; scrollToSection('contacto')" 
                            class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-all font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 cursor-pointer group">
                             <i class="fas fa-phone w-5 text-gray-400 group-hover:text-cyan-500"></i>
                             <span>Contacto</span>
@@ -394,9 +394,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             @else
             <div id="brands-splide" class="splide" aria-label="Marcas">
                 <div class="splide__track">
-                    <ul class="splide__list">
+                    <div class="splide__list">
                         @foreach($homeBrands as $brand)
-                        <li class="splide__slide">
+                        <div class="splide__slide">
                             <div class="bg-gray-50 dark:bg-gray-800 rounded-lg md:rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-4 md:p-6 flex items-center justify-center w-[120px] md:w-[180px] h-[80px] md:h-[110px]">
                                 @if($brand->logo_url)
                                 <img src="{{ asset('storage/' . $brand->logo_url) }}" alt="{{ $brand->name }}" class="max-h-10 md:max-h-16 w-auto object-contain" loading="lazy" width="132" height="64">
@@ -404,9 +404,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 <span class="text-xs md:text-base font-bold text-gray-700 dark:text-gray-300 whitespace-nowrap text-center">{{ $brand->name }}</span>
                                 @endif
                             </div>
-                        </li>
+                        </div>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
             </div>
             <script>
@@ -473,7 +473,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                                 <span class="block font-semibold text-gray-800 dark:text-gray-200">Calle 21 #88E entre 14 y 16</span>
                                 <span class="block">Calle principal rumbo a Santa Clara</span>
                                 <span class="block">Chabihau, Yobaín, Yucatán</span>
-                                <span class="block text-cyan-600 dark:text-cyan-400 font-medium">C.P. 97426</span>
+                                <span class="block text-cyan-700 dark:text-cyan-400 font-medium">C.P. 97426</span>
                             </p>
                         </div>
                     </div>

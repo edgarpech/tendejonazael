@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Brand;
+use App\Traits\OptimizesImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {
+    use OptimizesImages;
     public function index(Request $request)
     {
         $brands = Brand::withCount('products')->get();
@@ -32,7 +34,7 @@ class BrandController extends Controller
         ]);
 
         if ($request->hasFile('logo')) {
-            $validated['logo_url'] = $request->file('logo')->store('brands', 'public');
+            $validated['logo_url'] = $this->storeOptimizedImage($request->file('logo'), 'brands', 300, 300, 80);
         }
         unset($validated['logo']);
 
@@ -63,7 +65,7 @@ class BrandController extends Controller
             if ($brand->logo_url) {
                 Storage::disk('public')->delete($brand->logo_url);
             }
-            $validated['logo_url'] = $request->file('logo')->store('brands', 'public');
+            $validated['logo_url'] = $this->storeOptimizedImage($request->file('logo'), 'brands', 300, 300, 80);
         }
         unset($validated['logo']);
 

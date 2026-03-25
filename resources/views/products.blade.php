@@ -87,7 +87,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <ul class="hidden lg:flex items-center gap-8">
                     <li><a href="/" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium">Inicio</a></li>
                     <li><a href="{{ route('products') }}" class="text-cyan-700 dark:text-cyan-400 font-semibold">Productos</a></li>
-                    <li><a href="javascript:void(0)" onclick="goToContact()" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Contacto</a></li>
+                    <li><a href="/#contacto" onclick="goToContact(); return false;" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Contacto</a></li>
                     
                     <!-- Dark Mode Toggle -->
                     <li>
@@ -174,7 +174,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         </a>
                     </li>
                     <li>
-                        <a @click="mobileMenu = false" href="javascript:void(0)" onclick="goToContact()" 
+                        <a @click="mobileMenu = false" href="/#contacto" onclick="goToContact(); return false;" 
                            class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-all font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
                             <i class="fas fa-phone w-5 text-gray-400 group-hover:text-cyan-500"></i>
                             <span>Contacto</span>
@@ -443,7 +443,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <ul class="space-y-1 md:space-y-2 text-sm md:text-base">
                         <li><a href="/" class="text-gray-400 hover:text-cyan-400 transition">Inicio</a></li>
                         <li><a href="{{ route('products') }}" class="text-gray-400 hover:text-cyan-400 transition">Productos</a></li>
-                        <li><a href="javascript:void(0)" onclick="goToContact()" class="text-gray-400 hover:text-cyan-400 transition cursor-pointer">Contacto</a></li>
+                        <li><a href="/#contacto" onclick="goToContact(); return false;" class="text-gray-400 hover:text-cyan-400 transition cursor-pointer">Contacto</a></li>
                     </ul>
                 </div>
                 <div>

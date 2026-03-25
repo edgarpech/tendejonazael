@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Traits\OptimizesImages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    use OptimizesImages;
     public function index(Request $request)
     {
         $products = Product::with(['category', 'brand'])
@@ -43,7 +45,7 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $validated['main_image_url'] = $request->file('image')->store('products', 'public');
+            $validated['main_image_url'] = $this->storeOptimizedImage($request->file('image'), 'products', 800, 800, 80);
         }
         unset($validated['image']);
 
@@ -81,7 +83,7 @@ class ProductController extends Controller
             if ($product->main_image_url) {
                 Storage::disk('public')->delete($product->main_image_url);
             }
-            $validated['main_image_url'] = $request->file('image')->store('products', 'public');
+            $validated['main_image_url'] = $this->storeOptimizedImage($request->file('image'), 'products', 800, 800, 80);
         }
         unset($validated['image']);
 
