@@ -42,8 +42,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <meta name="ICBM" content="21.3566374, -89.115341">
 
     <link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
+    <link rel="preconnect" href="https://maps.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://maps.gstatic.com" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" /></noscript>
     <script>
     if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
@@ -104,8 +107,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav class="flex justify-between items-center h-16">
                 <a href="/" class="flex items-center">
-                    <img src="{{ asset('images/logos/logo_text_dark.webp') }}" alt="Tendejón Azael" class="h-10 md:h-12 w-auto dark:hidden">
-                    <img src="{{ asset('images/logos/logo_text.webp') }}" alt="Tendejón Azael" class="h-10 md:h-12 w-auto hidden dark:block">
+                    <img src="{{ asset('images/logos/logo_text_dark.webp') }}" alt="Tendejón Azael" class="h-10 md:h-12 w-auto dark:hidden" width="99" height="48">
+                    <img src="{{ asset('images/logos/logo_text.webp') }}" alt="Tendejón Azael" class="h-10 md:h-12 w-auto hidden dark:block" width="99" height="48">
                 </a>
 
                 <!-- Desktop Menu -->
@@ -380,7 +383,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             <div class="flex justify-center">
                 <div class="bg-gray-50 dark:bg-gray-800 rounded-xl shadow-md p-6 flex items-center justify-center min-w-[160px] h-[100px]">
                     @if($homeBrands->first()->logo_url)
-                    <img src="{{ asset('storage/' . $homeBrands->first()->logo_url) }}" alt="{{ $homeBrands->first()->name }}" class="max-h-16 w-auto object-contain">
+                    <img src="{{ asset('storage/' . $homeBrands->first()->logo_url) }}" alt="{{ $homeBrands->first()->name }}" class="max-h-16 w-auto object-contain" loading="lazy" width="132" height="64">
                     @else
                     <span class="text-base font-bold text-gray-700 dark:text-gray-300">{{ $homeBrands->first()->name }}</span>
                     @endif
@@ -394,7 +397,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <li class="splide__slide">
                             <div class="bg-gray-50 dark:bg-gray-800 rounded-lg md:rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-4 md:p-6 flex items-center justify-center w-[120px] md:w-[180px] h-[80px] md:h-[110px]">
                                 @if($brand->logo_url)
-                                <img src="{{ asset('storage/' . $brand->logo_url) }}" alt="{{ $brand->name }}" class="max-h-10 md:max-h-16 w-auto object-contain">
+                                <img src="{{ asset('storage/' . $brand->logo_url) }}" alt="{{ $brand->name }}" class="max-h-10 md:max-h-16 w-auto object-contain" loading="lazy" width="132" height="64">
                                 @else
                                 <span class="text-xs md:text-base font-bold text-gray-700 dark:text-gray-300 whitespace-nowrap text-center">{{ $brand->name }}</span>
                                 @endif
@@ -446,7 +449,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     <i class="fab fa-google text-lg md:text-xl"></i> Dejar Reseña en Google
                 </a>
                 <div class="bg-white rounded-xl p-2 shadow-lg">
-                    <img src="{{ asset('images/opinionqr.png') }}" alt="QR Reseña Google" class="w-28 h-28 md:w-36 md:h-36 object-contain">
+                    <img src="{{ asset('images/opinionqr.png') }}" alt="QR Reseña Google" class="w-28 h-28 md:w-36 md:h-36 object-contain" loading="lazy" width="144" height="144">
                 </div>
             </div>
         </div>
@@ -596,7 +599,14 @@ function googleTranslateElementInit() {
     }, 'google_translate_element_desktop');
 }
 </script>
-<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var s = document.createElement('script');
+    s.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    s.async = true;
+    document.body.appendChild(s);
+});
+</script>
 
 <!-- Structured Data / JSON-LD -->
 <script type="application/ld+json">
