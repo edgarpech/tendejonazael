@@ -368,7 +368,7 @@
 									<h3 class="font-bold text-xs md:text-sm text-gray-900 dark:text-white mb-0.5 md:mb-1 line-clamp-2" x-text="product.name"></h3>
 									<p class="hidden md:block text-gray-600 dark:text-gray-400 text-xs mb-1 line-clamp-2" x-text="product.description"></p>
 									<div class="mt-auto pt-1.5 md:pt-2 border-t border-gray-200 dark:border-gray-700">
-										<span class="text-sm md:text-lg font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2) + ' MXN'"></span>
+										<span class="text-sm md:text-lg font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + parseFloat(product.price || 0).toFixed(2) + ' MXN'"></span>
 									</div>
 								</div>
 							</div>

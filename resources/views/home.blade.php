@@ -370,7 +370,7 @@
 								<p class="hidden md:block text-gray-500 dark:text-gray-500 text-xs mb-2" x-text="product.weight"></p>
 							</template>
 							<div class="mt-auto pt-1 md:pt-2 border-t border-gray-200 dark:border-gray-700">
-								<span class="text-sm md:text-lg font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + product.price.toFixed(2) + ' MXN'"></span>
+								<span class="text-sm md:text-lg font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + parseFloat(product.price || 0).toFixed(2) + ' MXN'"></span>
 							</div>
 						</div>
 					</div>

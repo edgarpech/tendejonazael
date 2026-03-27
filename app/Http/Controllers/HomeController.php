@@ -78,7 +78,7 @@ class HomeController extends Controller
                 'category' => $p->category?->name ?? 'Sin categoría',
                 'category_id' => $p->category_id ?? 0,
                 'brand' => $p->brand ? $p->brand->name : '',
-                'price' => $p->price ?? 0,
+                'price' => (float) $p->price,
                 'weight' => $p->weight ?? '',
                 'created_at' => $p->created_at->toISOString(),
             ];
