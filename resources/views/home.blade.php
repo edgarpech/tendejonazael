@@ -122,8 +122,20 @@
 						<button @click="darkMode = toggleDarkMode()" 
 								class="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer"
 								aria-label="Cambiar modo oscuro">
-							<i x-show="!darkMode" class="fas fa-moon"></i>
-							<i x-show="darkMode" x-cloak class="fas fa-sun"></i>
+							<svg x-show="!darkMode" class="icon-theme" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+							</svg>
+							<svg x-show="darkMode" x-cloak class="icon-theme" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="12" cy="12" r="5"/>
+								<line x1="12" y1="1" x2="12" y2="3"/>
+								<line x1="12" y1="21" x2="12" y2="23"/>
+								<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+								<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+								<line x1="1" y1="12" x2="3" y2="12"/>
+								<line x1="21" y1="12" x2="23" y2="12"/>
+								<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+								<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+							</svg>
 						</button>
 					</li>
 
@@ -133,30 +145,54 @@
 						<button @click="translatePage()" 
 								class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition cursor-pointer"
 								:class="lang === 'en' ? 'bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'">
-							<i class="fas fa-globe"></i>
+							<svg class="icon-globe" :class="lang === 'en' && 'active'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="12" cy="12" r="10"/>
+								<path d="M2 12h20"/>
+								<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+							</svg>
 							<span x-text="lang === 'en' ? 'EN' : 'ES'"></span>
 						</button>
 					</li>
 				</ul>
 
 				<!-- Controles móvil -->
-				<div class="flex lg:hidden items-center gap-2">
+				<div class="flex lg:hidden items-center gap-1">
 					<button @click="translatePage()" 
-							class="w-10 h-10 flex items-center justify-center transition cursor-pointer"
+							class="w-9 h-9 flex items-center justify-center transition cursor-pointer"
 							:class="lang === 'en' ? 'text-cyan-500' : 'text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400'"
 							aria-label="Traducir página">
-						<i class="fas fa-globe text-xl"></i>
+						<svg class="icon-globe" :class="lang === 'en' && 'active'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="12" r="10"/>
+							<path d="M2 12h20"/>
+							<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+						</svg>
 					</button>
 					<button @click="darkMode = toggleDarkMode()" 
-							class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer"
+							class="w-9 h-9 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer"
 							aria-label="Cambiar modo oscuro">
-						<i x-show="!darkMode" class="fas fa-moon text-xl"></i>
-						<i x-show="darkMode" x-cloak class="fas fa-sun text-xl"></i>
+						<svg x-show="!darkMode" class="icon-theme" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+						</svg>
+						<svg x-show="darkMode" x-cloak class="icon-theme" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="12" r="5"/>
+							<line x1="12" y1="1" x2="12" y2="3"/>
+							<line x1="12" y1="21" x2="12" y2="23"/>
+							<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+							<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+							<line x1="1" y1="12" x2="3" y2="12"/>
+							<line x1="21" y1="12" x2="23" y2="12"/>
+							<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+							<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+						</svg>
 					</button>
 					<button @click="mobileMenu = !mobileMenu" 
-							class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-300"
+							class="w-9 h-9 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-300"
 							aria-label="Abrir menú de navegación">
-						<i :class="mobileMenu ? 'fas fa-times' : 'fas fa-bars'" class="text-xl"></i>
+						<div class="hamburger" :class="mobileMenu && 'open'">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
 					</button>
 				</div>
 			</nav>

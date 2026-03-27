@@ -48,6 +48,8 @@
 		.goog-te-gadget .goog-te-combo { display: none !important; }
 		.goog-te-gadget { font-size: 0 !important; }
 		.goog-te-gadget span { display: none; }
+		.scrollbar-hide::-webkit-scrollbar { display: none; }
+		.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 	</style>
 </head>
 <body x-data="productCatalog()" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -91,8 +93,20 @@
 						<button @click="darkMode = toggleDarkMode()" 
 								class="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition"
 								aria-label="Cambiar modo oscuro">
-							<i x-show="!darkMode" class="fas fa-moon"></i>
-							<i x-show="darkMode" x-cloak class="fas fa-sun"></i>
+							<svg x-show="!darkMode" class="icon-theme" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+							</svg>
+							<svg x-show="darkMode" x-cloak class="icon-theme" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="12" cy="12" r="5"/>
+								<line x1="12" y1="1" x2="12" y2="3"/>
+								<line x1="12" y1="21" x2="12" y2="23"/>
+								<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+								<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+								<line x1="1" y1="12" x2="3" y2="12"/>
+								<line x1="21" y1="12" x2="23" y2="12"/>
+								<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+								<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+							</svg>
 						</button>
 					</li>
 
@@ -102,30 +116,54 @@
 						<button @click="translatePage()" 
 								class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition cursor-pointer"
 								:class="lang === 'en' ? 'bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300' : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'">
-							<i class="fas fa-globe"></i>
+							<svg class="icon-globe" :class="lang === 'en' && 'active'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<circle cx="12" cy="12" r="10"/>
+								<path d="M2 12h20"/>
+								<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+							</svg>
 							<span x-text="lang === 'en' ? 'EN' : 'ES'"></span>
 						</button>
 					</li>
 				</ul>
 
 				<!-- Controles móvil -->
-				<div class="flex lg:hidden items-center gap-2">
+				<div class="flex lg:hidden items-center gap-1">
 					<button @click="translatePage()" 
-							class="w-10 h-10 flex items-center justify-center transition cursor-pointer"
+							class="w-9 h-9 flex items-center justify-center transition cursor-pointer"
 							:class="lang === 'en' ? 'text-cyan-500' : 'text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400'"
 							aria-label="Traducir página">
-						<i class="fas fa-globe text-xl"></i>
+						<svg class="icon-globe" :class="lang === 'en' && 'active'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="12" r="10"/>
+							<path d="M2 12h20"/>
+							<path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+						</svg>
 					</button>
 					<button @click="darkMode = toggleDarkMode()" 
-							class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer"
+							class="w-9 h-9 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition cursor-pointer"
 							aria-label="Cambiar modo oscuro">
-						<i x-show="!darkMode" class="fas fa-moon text-xl"></i>
-						<i x-show="darkMode" x-cloak class="fas fa-sun text-xl"></i>
+						<svg x-show="!darkMode" class="icon-theme" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+						</svg>
+						<svg x-show="darkMode" x-cloak class="icon-theme" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+							<circle cx="12" cy="12" r="5"/>
+							<line x1="12" y1="1" x2="12" y2="3"/>
+							<line x1="12" y1="21" x2="12" y2="23"/>
+							<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+							<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+							<line x1="1" y1="12" x2="3" y2="12"/>
+							<line x1="21" y1="12" x2="23" y2="12"/>
+							<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+							<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+						</svg>
 					</button>
 					<button @click="mobileMenu = !mobileMenu" 
-							class="w-10 h-10 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-300"
+							class="w-9 h-9 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition-colors duration-300"
 							aria-label="Abrir menú de navegación">
-						<i :class="mobileMenu ? 'fas fa-times' : 'fas fa-bars'" class="text-xl"></i>
+						<div class="hamburger" :class="mobileMenu && 'open'">
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
 					</button>
 				</div>
 			</nav>
@@ -189,18 +227,18 @@
 			x-show="scrolled"
 			x-cloak
 			x-transition
-			class="fixed bottom-6 right-6 w-14 h-14 bg-gradient-to-r from-cyan-600 to-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-[transform,box-shadow] duration-300 z-40"
+			class="fixed bottom-6 right-6 w-10 h-10 md:w-14 md:h-14 bg-gradient-to-r from-cyan-600 to-blue-700 text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-[transform,box-shadow] duration-300 z-40"
 			aria-label="Volver arriba">
-		<i class="fas fa-arrow-up"></i>
+		<i class="fas fa-arrow-up text-sm md:text-base"></i>
 	</button>
 
 	<!-- Contenido principal -->
 	<main class="pt-20 md:pt-24 pb-8 md:pb-12">
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 			<!-- Título de la página -->
-			<div class="mb-4 md:mb-8">
-				<h1 class="text-2xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1 md:mb-2">Catálogo de Productos</h1>
-				<p class="text-sm md:text-base text-gray-600 dark:text-gray-400">Explora todo nuestro catálogo de productos</p>
+			<div class="mb-2 md:mb-8">
+				<h1 class="text-lg md:text-4xl font-bold text-gray-900 dark:text-white mb-0 md:mb-2">Catálogo de Productos</h1>
+				<p class="text-xs md:text-base text-gray-600 dark:text-gray-400">Explora todo nuestro catálogo de productos</p>
 			</div>
 
 			<div class="flex flex-col lg:flex-row gap-8">
@@ -259,7 +297,7 @@
 								<option value="name">Nombre A-Z</option>
 								<option value="price_asc">Menor precio</option>
 								<option value="price_desc">Mayor precio</option>
-								<option value="latest">Más recientes</option>
+
 							</select>
 						</div>
 
@@ -268,78 +306,53 @@
 						</button>
 					</div>
 
-					<!-- Anuncio AdSense lateral -->
-					<div class="mt-4 sticky top-[420px]">
-						<ins class="adsbygoogle"
-							 style="display:block"
-							 data-ad-client="ca-pub-4900355905448266"
-							 data-ad-slot="6167489182"
-							 data-ad-format="auto"
-							 data-full-width-responsive="true"></ins>
-					</div>
 				</aside>
 
-				<!-- Botón y panel de filtros (móvil) -->
-				<div class="lg:hidden mb-3 md:mb-4">
-					<button @click="showFilters = !showFilters" class="w-full bg-white dark:bg-gray-800 rounded-lg md:rounded-xl shadow-lg p-3 md:p-4 flex items-center justify-between text-gray-900 dark:text-white font-semibold text-sm md:text-base">
-						<span><i class="fas fa-filter mr-2 text-cyan-700 dark:text-cyan-400"></i> Filtros</span>
-						<i :class="showFilters ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"></i>
-					</button>
-					
-					<!-- Panel de filtros desplegable -->
-					<div x-show="showFilters" x-cloak x-transition class="mt-3 md:mt-4 bg-white dark:bg-gray-800 rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6">
-						<div class="space-y-3 md:space-y-4">
-							<input type="text" x-model="search" placeholder="Buscar productos..." 
-								   class="w-full px-3 py-2 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 rounded-lg">
-							
-							<!-- Categorías (botones traducibles) -->
-							<div>
-								<p class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2"><i class="fas fa-tags mr-1"></i> Categorías</p>
-								<div class="flex flex-wrap gap-1.5">
-									<button @click="categoryId = 0; page = 1;"
-											:class="categoryId === 0 ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
-											class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">
-										Todas
-									</button>
-									@foreach($categories as $category)
-									<button @click="categoryId = {{ $category->id_category }}; page = 1;"
-											:class="categoryId === {{ $category->id_category }} ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'"
-											class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">
-										{{ $category->name }} <span class="opacity-60">({{ $category->products_count }})</span>
-									</button>
-									@endforeach
-								</div>
-							</div>
-
-							<!-- Ordenar (botones traducibles) -->
-							<div>
-								<p class="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2"><i class="fas fa-sort mr-1"></i> Ordenar por</p>
-								<div class="flex flex-wrap gap-1.5">
-									<button @click="sort = 'name'" :class="sort === 'name' ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">Nombre A-Z</button>
-									<button @click="sort = 'price_asc'" :class="sort === 'price_asc' ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">Menor precio</button>
-									<button @click="sort = 'price_desc'" :class="sort === 'price_desc' ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">Mayor precio</button>
-									<button @click="sort = 'latest'" :class="sort === 'latest' ? 'bg-cyan-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'" class="px-3 py-1.5 rounded-full text-xs font-medium transition cursor-pointer">Más recientes</button>
-								</div>
-							</div>
-							
-							<button @click="search = ''; categoryId = 0; sort = 'name'; page = 1;" class="w-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 font-bold text-sm md:text-base py-2 px-3 md:px-4 rounded-lg cursor-pointer">
-								<i class="fas fa-times mr-1"></i> Limpiar
-							</button>
+				<!-- Filtros móvil (siempre visibles, compactos) -->
+				<div class="lg:hidden space-y-1 mb-1">
+					<!-- Búsqueda + Ordenar -->
+					<div style="display:flex;gap:4px;align-items:center">
+						<div style="position:relative;flex:1">
+							<i class="fas fa-search text-gray-400" style="position:absolute;left:6px;top:50%;transform:translateY(-50%);font-size:9px;pointer-events:none"></i>
+							<input type="text" x-model="search" placeholder="Buscar producto..."
+								   class="w-full border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 focus:ring-1 focus:ring-cyan-500 focus:border-cyan-500"
+								   style="height:26px;padding:0 8px 0 20px;font-size:10px;border-radius:4px;box-sizing:border-box">
 						</div>
+						<select x-model="sort" class="border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 focus:ring-1 focus:ring-cyan-500"
+								style="height:26px;font-size:10px;padding:0 18px 0 6px;border-radius:4px;box-sizing:border-box">
+							<option value="name">A-Z</option>
+							<option value="price_asc">Menor $</option>
+							<option value="price_desc">Mayor $</option>
+						</select>
+					</div>
+					<!-- Categorías scroll horizontal -->
+					<div class="flex gap-1 overflow-x-auto scrollbar-hide -mx-4 px-4 py-0.5">
+						<button @click="categoryId = 0; page = 1;"
+								:class="categoryId === 0 ? 'bg-cyan-600 text-white border-cyan-600' : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400'"
+								class="flex-shrink-0 px-1.5 py-px rounded-full border transition cursor-pointer whitespace-nowrap" style="font-size:9px">
+							Todas
+						</button>
+						@foreach($categories as $category)
+						<button @click="categoryId = {{ $category->id_category }}; page = 1;"
+								:class="categoryId === {{ $category->id_category }} ? 'bg-cyan-600 text-white border-cyan-600' : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400'"
+								class="flex-shrink-0 px-1.5 py-px rounded-full border transition cursor-pointer whitespace-nowrap" style="font-size:9px">
+							{{ $category->name }} <span class="opacity-50">{{ $category->products_count }}</span>
+						</button>
+						@endforeach
 					</div>
 				</div>
 
 				<!-- Grid de productos -->
 				<div class="flex-1">
 					<!-- Contador de resultados -->
-					<div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+					<div class="mb-1 lg:mb-4 text-[9px] lg:text-sm text-gray-500 dark:text-gray-400">
 						<span x-text="filtered().length"></span> producto(s) encontrado(s)
 					</div>
 
-					<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3">
+					<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5 md:gap-3">
 						<template x-for="product in paginated()" :key="product.id">
 							<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group flex flex-col">
-								<div class="aspect-square relative w-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800"
+								<div class="aspect-[4/3] md:aspect-square relative w-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800"
 									 :class="product.image && 'cursor-pointer'"
 									 @click="product.image ? (viewerImage = product.image, viewerName = product.name) : null">
 									<template x-if="product.image">
@@ -357,7 +370,7 @@
 										</div>
 									</template>
 								</div>
-								<div class="p-2 md:p-3 flex flex-col flex-1">
+								<div class="p-1.5 md:p-3 flex flex-col flex-1">
 									<div class="hidden md:flex items-center justify-between mb-1 gap-1">
 										<span class="inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300 text-xs font-semibold rounded-full truncate max-w-[60%]"
 											  x-text="product.category"></span>
@@ -365,10 +378,10 @@
 											<span class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[38%]" x-text="product.brand"></span>
 										</template>
 									</div>
-									<h3 class="font-bold text-xs md:text-sm text-gray-900 dark:text-white mb-0.5 md:mb-1 line-clamp-2" x-text="product.name"></h3>
+									<h3 class="font-semibold text-[11px] md:text-sm text-gray-900 dark:text-white mb-0.5 md:mb-1 line-clamp-2 leading-tight" x-text="product.name"></h3>
 									<p class="hidden md:block text-gray-600 dark:text-gray-400 text-xs mb-1 line-clamp-2" x-text="product.description"></p>
-									<div class="mt-auto pt-1.5 md:pt-2 border-t border-gray-200 dark:border-gray-700">
-										<span class="text-sm md:text-lg font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + parseFloat(product.price || 0).toFixed(2) + ' MXN'"></span>
+									<div class="mt-auto pt-1 md:pt-2 border-t border-gray-200 dark:border-gray-700">
+										<span class="text-xs md:text-lg font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + parseFloat(product.price || 0).toFixed(2) + ' MXN'"></span>
 									</div>
 								</div>
 							</div>
@@ -419,7 +432,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 
 	<!-- Modal para ver imagen del producto en grande -->
 	<div x-show="viewerImage" x-cloak
@@ -434,6 +446,16 @@
 			 class="max-w-full max-h-[85vh] rounded-xl shadow-2xl object-contain cursor-default">
 	</div>
 	</main>
+
+	<!-- Anuncio AdSense horizontal -->
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6 md:my-10">
+		<ins class="adsbygoogle"
+			 style="display:block"
+			 data-ad-client="ca-pub-4900355905448266"
+			 data-ad-slot="6167489182"
+			 data-ad-format="horizontal"
+			 data-full-width-responsive="true"></ins>
+	</div>
 
 	<!-- Pie de página -->
 	<footer class="bg-gray-900 text-white py-6 md:py-12 mt-6 md:mt-12">

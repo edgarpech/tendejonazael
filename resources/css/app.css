@@ -56,4 +56,66 @@
     .card {
         @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6;
     }
+
+    /* Animated hamburger icon */
+    .hamburger {
+        width: 20px;
+        height: 14px;
+        position: relative;
+        cursor: pointer;
+    }
+    .hamburger span {
+        display: block;
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background: currentColor;
+        border-radius: 2px;
+        left: 0;
+        opacity: 1;
+        transform: rotate(0deg);
+        transition: .25s ease-in-out;
+    }
+    .hamburger span:nth-child(1) { top: 0; }
+    .hamburger span:nth-child(2) { top: 6px; }
+    .hamburger span:nth-child(3) { top: 12px; }
+    .hamburger.open span:nth-child(1) {
+        top: 6px;
+        transform: rotate(135deg);
+    }
+    .hamburger.open span:nth-child(2) {
+        opacity: 0;
+        left: -20px;
+    }
+    .hamburger.open span:nth-child(3) {
+        top: 6px;
+        transform: rotate(-135deg);
+    }
+
+    /* Animated globe icon */
+    .icon-globe {
+        transition: transform .3s ease;
+    }
+    .icon-globe:hover,
+    .icon-globe.active {
+        animation: globe-spin .6s ease;
+    }
+
+    /* Animated theme toggle icon */
+    .icon-theme {
+        transition: transform .3s ease;
+    }
+    .icon-theme:hover {
+        animation: theme-pop .4s ease;
+    }
+}
+
+@keyframes globe-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes theme-pop {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.2) rotate(15deg); }
+    100% { transform: scale(1) rotate(0deg); }
 }
