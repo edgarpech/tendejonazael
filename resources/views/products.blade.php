@@ -327,6 +327,11 @@
 					</div>
 					<!-- Categorías scroll horizontal -->
 					<div class="flex gap-1 overflow-x-auto scrollbar-hide -mx-4 px-4 py-0.5">
+						<button x-show="search !== '' || categoryId !== 0 || sort !== 'name'"
+								@click="search = ''; categoryId = 0; sort = 'name'; page = 1;"
+								class="flex-shrink-0 px-1.5 py-px rounded-full border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 cursor-pointer whitespace-nowrap" style="font-size:9px">
+							× Limpiar
+						</button>
 						<button @click="categoryId = 0; page = 1;"
 								:class="categoryId === 0 ? 'bg-cyan-600 text-white border-cyan-600' : 'bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400'"
 								class="flex-shrink-0 px-1.5 py-px rounded-full border transition cursor-pointer whitespace-nowrap" style="font-size:9px">

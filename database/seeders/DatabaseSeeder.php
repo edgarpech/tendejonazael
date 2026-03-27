@@ -12,7 +12,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Ejecuta los seeders: roles/permisos, usuarios y configuraciones.
+     * Ejecuta los seeders principales: roles/permisos y usuarios.
      *
      * @return void
      */
@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesAndPermissionsSeeder::class,
             UsersSeeder::class,
-            ConfigurationsSeeder::class,
         ]);
     }
 }
