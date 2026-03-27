@@ -3,5 +3,9 @@ Disallow: /admin/
 Disallow: /dashboard
 Disallow: /login
 Disallow: /profile
+Allow: /ads.txt
+
+User-agent: Mediapartners-Google
+Allow: /
 
 Sitemap: https://www.tendejonazael.com.mx/sitemap.xml
