@@ -7,8 +7,19 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+/**
+ * Controlador de administración de categorías.
+ *
+ * CRUD completo de categorías de productos.
+ */
 class CategoryController extends Controller
 {
+    /**
+     * Lista todas las categorías con el conteo de productos.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $categories = Category::withCount('products')->get();
@@ -20,6 +31,12 @@ class CategoryController extends Controller
         return view('admin.categories.index', compact('categories'));
     }
 
+    /**
+     * Crea una nueva categoría con slug autogenerado.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -40,6 +57,13 @@ class CategoryController extends Controller
         return redirect()->route('admin.categories.index')->with('success', 'Categoría creada exitosamente');
     }
 
+    /**
+     * Actualiza una categoría existente.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Category $category
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
@@ -60,6 +84,12 @@ class CategoryController extends Controller
         return redirect()->route('admin.categories.index')->with('success', 'Categoría actualizada exitosamente');
     }
 
+    /**
+     * Elimina una categoría si no tiene productos asociados (soft delete).
+     *
+     * @param \App\Models\Category $category
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function destroy(Category $category)
     {
         if ($category->products()->count() > 0) {

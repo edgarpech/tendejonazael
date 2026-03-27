@@ -8,6 +8,25 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
+/**
+ * Modelo de Marca.
+ *
+ * Representa una marca de productos en el catálogo.
+ * Soporta soft deletes y generación automática de slug.
+ *
+ * @property int $id_brand
+ * @property string $name
+ * @property string $slug
+ * @property string|null $description
+ * @property string|null $logo_url
+ * @property string|null $website_url
+ * @property int $is_active
+ * @property int $show_in_home
+ * @property int $sort_order
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ */
 class Brand extends Model
 {
     use HasFactory, SoftDeletes;
@@ -35,7 +54,9 @@ class Brand extends Model
     ];
 
     /**
-     * Get the products for the brand.
+     * Obtiene los productos de esta marca.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Product>
      */
     public function products(): HasMany
     {
@@ -43,7 +64,9 @@ class Brand extends Model
     }
 
     /**
-     * Get active products for the brand.
+     * Obtiene solo los productos activos de esta marca.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Product>
      */
     public function activeProducts(): HasMany
     {
@@ -51,7 +74,10 @@ class Brand extends Model
     }
 
     /**
-     * Set the name and auto-generate slug.
+     * Mutador: al asignar el nombre, genera el slug automáticamente si no existe.
+     *
+     * @param string $value
+     * @return void
      */
     public function setNameAttribute($value): void
     {
@@ -62,7 +88,10 @@ class Brand extends Model
     }
 
     /**
-     * Scope a query to only include active brands.
+     * Scope: filtra solo marcas activas.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeActive($query)
     {
@@ -70,7 +99,10 @@ class Brand extends Model
     }
 
     /**
-     * Scope a query to order by sort order.
+     * Scope: ordena por sort_order y luego por nombre.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOrdered($query)
     {

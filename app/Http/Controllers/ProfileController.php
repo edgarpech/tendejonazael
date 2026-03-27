@@ -8,13 +8,29 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use App\Models\SecurityLog;
 
+/**
+ * Controlador del perfil de usuario.
+ *
+ * Permite al usuario autenticado editar sus datos y cambiar su contraseña.
+ */
 class ProfileController extends Controller
 {
+    /**
+     * Muestra el formulario de edición de perfil.
+     *
+     * @return \Illuminate\View\View
+     */
     public function edit()
     {
         return view('profile.edit', ['user' => Auth::user()]);
     }
 
+    /**
+     * Actualiza el nombre y email del usuario autenticado.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -35,6 +51,13 @@ class ProfileController extends Controller
         return redirect()->route('profile.edit')->with('success', 'Datos actualizados correctamente.');
     }
 
+    /**
+     * Actualiza la contraseña del usuario autenticado.
+     * Valida la contraseña actual antes de aplicar el cambio.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function updatePassword(Request $request)
     {
         $request->validate([

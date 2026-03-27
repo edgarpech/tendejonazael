@@ -28,6 +28,8 @@ npm-debug.log
 /eleventa/*.fdb
 /eleventa/SYNC.md
 yarn-error.log
+phpDocumentor.phar
+/docs/api
 
 # Storage - ignorar todo excepto .gitkeep
 /storage/framework/cache/**

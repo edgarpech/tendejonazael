@@ -6,8 +6,20 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Middleware de cabeceras de seguridad HTTP.
+ *
+ * Agrega cabeceras de protección contra XSS, clickjacking y sniffing de contenido.
+ */
 class SecurityHeaders
 {
+    /**
+     * Agrega cabeceras de seguridad a cada respuesta HTTP.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);

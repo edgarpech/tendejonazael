@@ -8,6 +8,23 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
+/**
+ * Modelo de Categoría.
+ *
+ * Agrupa los productos del catálogo por tipo.
+ * Soporta soft deletes y generación automática de slug.
+ *
+ * @property int $id_category
+ * @property string $name
+ * @property string $slug
+ * @property string|null $description
+ * @property string|null $image_url
+ * @property int $is_active
+ * @property int $sort_order
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ */
 class Category extends Model
 {
     use HasFactory, SoftDeletes;
@@ -32,7 +49,9 @@ class Category extends Model
     ];
 
     /**
-     * Get the products for the category.
+     * Obtiene los productos de esta categoría.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Product>
      */
     public function products(): HasMany
     {
@@ -40,7 +59,9 @@ class Category extends Model
     }
 
     /**
-     * Get active products for the category.
+     * Obtiene solo los productos activos de esta categoría.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Product>
      */
     public function activeProducts(): HasMany
     {
@@ -48,7 +69,10 @@ class Category extends Model
     }
 
     /**
-     * Set the name and auto-generate slug.
+     * Mutador: al asignar el nombre, genera el slug automáticamente si no existe.
+     *
+     * @param string $value
+     * @return void
      */
     public function setNameAttribute($value): void
     {
@@ -59,7 +83,10 @@ class Category extends Model
     }
 
     /**
-     * Scope a query to only include active categories.
+     * Scope: filtra solo categorías activas.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeActive($query)
     {
@@ -67,7 +94,10 @@ class Category extends Model
     }
 
     /**
-     * Scope a query to order by sort order.
+     * Scope: ordena por sort_order y luego por nombre.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOrdered($query)
     {

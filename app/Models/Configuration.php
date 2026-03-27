@@ -5,6 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Modelo de Configuración.
+ *
+ * Almacena pares clave-valor para la configuración dinámica del sistema.
+ * Permite agrupar configuraciones y castear valores automáticamente.
+ *
+ * @property int $id_configuration
+ * @property string $key
+ * @property string|null $value
+ * @property string $group
+ * @property string $type
+ * @property string|null $description
+ * @property int $is_public
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ */
 class Configuration extends Model
 {
     use HasFactory;
@@ -27,7 +43,11 @@ class Configuration extends Model
     ];
 
     /**
-     * Get configuration value by key.
+     * Obtiene el valor de una configuración por su clave.
+     *
+     * @param string $key Clave de la configuración.
+     * @param mixed $default Valor por defecto si no existe.
+     * @return mixed
      */
     public static function get(string $key, $default = null)
     {
@@ -41,7 +61,13 @@ class Configuration extends Model
     }
 
     /**
-     * Set configuration value.
+     * Establece o actualiza el valor de una configuración.
+     *
+     * @param string $key Clave de la configuración.
+     * @param mixed $value Valor a almacenar.
+     * @param string $group Grupo al que pertenece.
+     * @param string $type Tipo de dato (string, boolean, integer, float, json).
+     * @return self
      */
     public static function set(string $key, $value, string $group = 'general', string $type = 'string'): self
     {
@@ -56,7 +82,11 @@ class Configuration extends Model
     }
 
     /**
-     * Cast value based on type.
+     * Castea un valor al tipo indicado.
+     *
+     * @param mixed $value Valor crudo.
+     * @param string $type Tipo destino (boolean, integer, float, decimal, json, array, string).
+     * @return mixed
      */
     protected static function castValue($value, string $type)
     {
@@ -70,7 +100,10 @@ class Configuration extends Model
     }
 
     /**
-     * Scope a query to only include public configurations.
+     * Scope: filtra solo configuraciones públicas.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopePublic($query)
     {
@@ -78,7 +111,11 @@ class Configuration extends Model
     }
 
     /**
-     * Scope a query to filter by group.
+     * Scope: filtra configuraciones por grupo.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $group Nombre del grupo.
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByGroup($query, string $group)
     {

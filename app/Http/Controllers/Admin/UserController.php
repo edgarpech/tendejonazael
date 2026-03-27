@@ -8,8 +8,19 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Controlador de administración de usuarios.
+ *
+ * CRUD completo de usuarios del sistema con asignación de roles.
+ */
 class UserController extends Controller
 {
+    /**
+     * Lista todos los usuarios con su rol.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $users = User::with('role')->get();
@@ -23,6 +34,12 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'roles'));
     }
 
+    /**
+     * Crea un nuevo usuario con contraseña hasheada.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -46,6 +63,13 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Usuario creado exitosamente');
     }
 
+    /**
+     * Actualiza los datos de un usuario. La contraseña es opcional.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
@@ -74,6 +98,12 @@ class UserController extends Controller
         return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado exitosamente');
     }
 
+    /**
+     * Elimina un usuario (soft delete). No permite auto-eliminación.
+     *
+     * @param \App\Models\User $user
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function destroy(User $user)
     {
         if ($user->id_user === auth()->id()) {

@@ -5,9 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use Illuminate\Support\Str;
 
+/**
+ * Controlador de páginas públicas.
+ *
+ * Maneja la página principal, catálogo de productos, privacidad y sitemap.
+ */
 class HomeController extends Controller
 {
+    /**
+     * Muestra la página de inicio con productos, categorías y marcas.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $categories = Category::where('is_active', 1)
@@ -30,9 +41,27 @@ class HomeController extends Controller
             ->orderBy('name')
             ->get();
 
-        return view('home', compact('featuredProducts', 'categories', 'brands', 'homeBrands'));
+        $productsJson = $featuredProducts->map(function ($p) {
+            return [
+                'id' => $p->id_product,
+                'name' => $p->name,
+                'description' => Str::limit($p->description, 80),
+                'image' => $p->main_image_url ? asset('storage/' . $p->main_image_url) : null,
+                'category' => $p->category?->name ?? 'Sin categoría',
+                'category_id' => $p->category_id ?? 0,
+                'price' => (float) $p->price,
+                'weight' => $p->weight,
+            ];
+        })->values();
+
+        return view('home', compact('featuredProducts', 'categories', 'brands', 'homeBrands', 'productsJson'));
     }
 
+    /**
+     * Muestra el catálogo completo de productos con filtros por categoría.
+     *
+     * @return \Illuminate\View\View
+     */
     public function products()
     {
         $products = Product::where('is_active', 1)
@@ -40,16 +69,41 @@ class HomeController extends Controller
             ->orderBy('name')
             ->get();
 
+        $productsJson = $products->map(function ($p) {
+            return [
+                'id' => $p->id_product,
+                'name' => $p->name,
+                'description' => Str::limit($p->description, 100) ?? '',
+                'image' => $p->main_image_url ? asset('storage/' . $p->main_image_url) : '',
+                'category' => $p->category?->name ?? 'Sin categoría',
+                'category_id' => $p->category_id ?? 0,
+                'brand' => $p->brand ? $p->brand->name : '',
+                'price' => $p->price ?? 0,
+                'weight' => $p->weight ?? '',
+                'created_at' => $p->created_at->toISOString(),
+            ];
+        });
+
         $categories = Category::where('is_active', 1)->withCount('products')->orderBy('name')->get();
 
-        return view('products', compact('products', 'categories'));
+        return view('products', compact('products', 'productsJson', 'categories'));
     }
 
+    /**
+     * Muestra la página de aviso de privacidad.
+     *
+     * @return \Illuminate\View\View
+     */
     public function privacy()
     {
         return view('privacy');
     }
 
+    /**
+     * Genera el sitemap XML del sitio.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function sitemap()
     {
         return response()

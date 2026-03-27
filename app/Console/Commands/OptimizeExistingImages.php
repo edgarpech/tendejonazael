@@ -8,11 +8,22 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/**
+ * Comando para optimizar imágenes existentes.
+ *
+ * Convierte imágenes de productos y marcas al formato WebP optimizado,
+ * redimensionándolas si exceden las dimensiones máximas.
+ */
 class OptimizeExistingImages extends Command
 {
     protected $signature = 'images:optimize {--dry-run : Show what would be converted without making changes}';
     protected $description = 'Convert existing product and brand images to optimized WebP format';
 
+    /**
+     * Ejecuta la optimización de logos de marcas y fotos de productos.
+     *
+     * @return int Código de salida (SUCCESS).
+     */
     public function handle(): int
     {
         $dryRun = $this->option('dry-run');
@@ -46,6 +57,18 @@ class OptimizeExistingImages extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * Convierte una imagen individual a WebP optimizado.
+     * Redimensiona si excede las dimensiones máximas y elimina la imagen original.
+     *
+     * @param \Illuminate\Database\Eloquent\Model $model Modelo (Brand o Product).
+     * @param string $field Campo que contiene la ruta de la imagen.
+     * @param string $folder Carpeta destino dentro del disco 'public'.
+     * @param int $maxW Ancho máximo en píxeles.
+     * @param int $maxH Alto máximo en píxeles.
+     * @param bool $dryRun Si es true, solo muestra lo que se haría.
+     * @return string Estado: 'converted', 'skipped' o 'error'.
+     */
     private function convertImage($model, string $field, string $folder, int $maxW, int $maxH, bool $dryRun): string
     {
         $path = $model->{$field};

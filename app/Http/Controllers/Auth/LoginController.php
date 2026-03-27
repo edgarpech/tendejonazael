@@ -9,8 +9,19 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 use App\Models\SecurityLog;
 
+/**
+ * Controlador de inicio de sesión.
+ *
+ * Maneja autenticación con rate limiting, bloqueo por fuerza bruta
+ * y registro de eventos de seguridad.
+ */
 class LoginController extends Controller
 {
+    /**
+     * Muestra el formulario de login o redirige al dashboard si ya está autenticado.
+     *
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function showLoginForm()
     {
         if (auth()->check()) {
@@ -20,6 +31,13 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    /**
+     * Procesa el intento de login con validación, rate limiting y bloqueo temporal.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function login(Request $request)
     {
         $request->validate([
@@ -69,6 +87,13 @@ class LoginController extends Controller
         ]);
     }
 
+    /**
+     * Verifica si se han excedido los intentos permitidos de login.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     * @throws \Illuminate\Validation\ValidationException
+     */
     protected function checkTooManyFailedAttempts(Request $request)
     {
         $key = $this->throttleKey($request);
@@ -82,6 +107,12 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * Genera la clave de throttle combinando email e IP.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return string
+     */
     protected function throttleKey(Request $request): string
     {
         return strtolower($request->input('email')) . '|' . $request->ip();

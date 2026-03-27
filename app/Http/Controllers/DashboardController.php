@@ -8,8 +8,18 @@ use App\Models\Category;
 use App\Models\Brand;
 use App\Models\User;
 
+/**
+ * Controlador del panel de administración.
+ *
+ * Muestra estadísticas generales y productos recientes.
+ */
 class DashboardController extends Controller
 {
+    /**
+     * Muestra el dashboard con estadísticas de productos, categorías, marcas y usuarios.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
         $stats = [

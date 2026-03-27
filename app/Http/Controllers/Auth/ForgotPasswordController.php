@@ -10,13 +10,31 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 
+/**
+ * Controlador de recuperación de contraseña.
+ *
+ * Genera una nueva contraseña aleatoria y la envía por correo.
+ * Incluye rate limiting para prevenir abuso.
+ */
 class ForgotPasswordController extends Controller
 {
+    /**
+     * Muestra el formulario de recuperación de contraseña.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showForm()
     {
         return view('auth.forgot-password');
     }
 
+    /**
+     * Genera y envía una nueva contraseña al correo del usuario.
+     * Responde con mensaje genérico para no revelar si el email existe.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function sendNewPassword(Request $request)
     {
         $request->validate([

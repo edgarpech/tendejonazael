@@ -7,6 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+/**
+ * Modelo de Permiso.
+ *
+ * Define un permiso del sistema que puede asignarse a roles.
+ * Cada permiso tiene un módulo y una acción asociada.
+ *
+ * @property int $id_permission
+ * @property string $name
+ * @property string $display_name
+ * @property string|null $description
+ * @property string $module
+ * @property string $action
+ * @property int $is_active
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ */
 class Permission extends Model
 {
     use HasFactory, SoftDeletes;
@@ -30,7 +47,9 @@ class Permission extends Model
     ];
 
     /**
-     * Get the roles that have this permission.
+     * Obtiene los roles que tienen este permiso.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<Role>
      */
     public function roles(): BelongsToMany
     {

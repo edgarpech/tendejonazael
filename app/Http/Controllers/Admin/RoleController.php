@@ -7,8 +7,19 @@ use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Http\Request;
 
+/**
+ * Controlador de administración de roles.
+ *
+ * CRUD de roles con asignación de permisos.
+ */
 class RoleController extends Controller
 {
+    /**
+     * Lista todos los roles con sus permisos y conteos de usuarios.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $roles = Role::with('permissions')->withCount(['users', 'permissions'])->orderBy('level', 'desc')->get();
@@ -23,6 +34,12 @@ class RoleController extends Controller
         return view('admin.roles.index', compact('roles', 'modules'));
     }
 
+    /**
+     * Crea un nuevo rol y sincroniza los permisos seleccionados.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -53,6 +70,13 @@ class RoleController extends Controller
         return redirect()->route('admin.roles.index')->with('success', 'Rol creado exitosamente');
     }
 
+    /**
+     * Actualiza un rol y sincroniza los permisos seleccionados.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Role $role
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Role $role)
     {
         $validated = $request->validate([
@@ -80,6 +104,12 @@ class RoleController extends Controller
         return redirect()->route('admin.roles.index')->with('success', 'Rol actualizado exitosamente');
     }
 
+    /**
+     * Elimina un rol si no es admin y no tiene usuarios asignados (soft delete).
+     *
+     * @param \App\Models\Role $role
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function destroy(Role $role)
     {
         if ($role->name === 'admin') {

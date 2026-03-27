@@ -6,8 +6,21 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Middleware de verificación de rol.
+ *
+ * Verifica que el usuario autenticado tenga uno de los roles especificados.
+ */
 class CheckRole
 {
+    /**
+     * Verifica que el usuario tenga alguno de los roles indicados.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param string ...$roles Nombres de roles permitidos.
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         if (!auth()->check()) {

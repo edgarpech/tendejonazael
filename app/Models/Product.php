@@ -8,6 +8,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
+/**
+ * Modelo de Producto.
+ *
+ * Representa un artículo del catálogo con precio, categoría, marca e imagen.
+ * Soporta soft deletes, generación automática de slug y contador de vistas.
+ *
+ * @property int $id_product
+ * @property int|null $category_id
+ * @property int|null $brand_id
+ * @property string $name
+ * @property string $slug
+ * @property string|null $sku
+ * @property string|null $description
+ * @property float|null $cost_price
+ * @property float $price
+ * @property string|null $weight
+ * @property string|null $color
+ * @property string|null $main_image_url
+ * @property array|null $images
+ * @property array|null $meta
+ * @property int $is_active
+ * @property int $sort_order
+ * @property int $views_count
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ */
 class Product extends Model
 {
     use HasFactory, SoftDeletes;
@@ -47,7 +74,9 @@ class Product extends Model
     ];
 
     /**
-     * Get the category for the product.
+     * Obtiene la categoría a la que pertenece este producto.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Category, Product>
      */
     public function category(): BelongsTo
     {
@@ -55,7 +84,9 @@ class Product extends Model
     }
 
     /**
-     * Get the brand for the product.
+     * Obtiene la marca a la que pertenece este producto.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<Brand, Product>
      */
     public function brand(): BelongsTo
     {
@@ -63,7 +94,10 @@ class Product extends Model
     }
 
     /**
-     * Set the name and auto-generate slug.
+     * Mutador: al asignar el nombre, genera el slug automáticamente si no existe.
+     *
+     * @param string $value
+     * @return void
      */
     public function setNameAttribute($value): void
     {
@@ -74,7 +108,10 @@ class Product extends Model
     }
 
     /**
-     * Scope a query to only include active products.
+     * Scope: filtra solo productos activos.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeActive($query)
     {
@@ -82,7 +119,9 @@ class Product extends Model
     }
 
     /**
-     * Increment views count.
+     * Incrementa el contador de vistas del producto en 1.
+     *
+     * @return void
      */
     public function incrementViews(): void
     {

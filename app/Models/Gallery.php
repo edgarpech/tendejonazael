@@ -6,6 +6,26 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * Modelo de Galería.
+ *
+ * Representa una imagen en la galería del sitio.
+ * Soporta soft deletes, imágenes destacadas y ordenamiento personalizado.
+ *
+ * @property int $id_gallery
+ * @property string $title
+ * @property string|null $description
+ * @property string $image_url
+ * @property string|null $thumbnail_url
+ * @property string|null $alt_text
+ * @property string|null $category
+ * @property int $is_active
+ * @property int $is_featured
+ * @property int $sort_order
+ * @property \Illuminate\Support\Carbon $created_at
+ * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ */
 class Gallery extends Model
 {
     use HasFactory, SoftDeletes;
@@ -35,7 +55,10 @@ class Gallery extends Model
     ];
 
     /**
-     * Scope a query to only include active gallery items.
+     * Scope: filtra solo elementos activos de la galería.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeActive($query)
     {
@@ -43,7 +66,10 @@ class Gallery extends Model
     }
 
     /**
-     * Scope a query to only include featured gallery items.
+     * Scope: filtra solo elementos destacados de la galería.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeFeatured($query)
     {
@@ -51,7 +77,10 @@ class Gallery extends Model
     }
 
     /**
-     * Scope a query to order by sort order.
+     * Scope: ordena por sort_order y luego por fecha de creación descendente.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeOrdered($query)
     {

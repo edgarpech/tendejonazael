@@ -6,6 +6,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * Modelo de Registro de Seguridad.
+ *
+ * Almacena eventos de seguridad del sistema como inicios de sesión,
+ * intentos fallidos, cambios de contraseña, etc.
+ *
+ * @property int $id_security_log
+ * @property int|null $user_id
+ * @property string $event_type
+ * @property string|null $ip_address
+ * @property string|null $user_agent
+ * @property string|null $description
+ * @property array|null $metadata
+ * @property \Illuminate\Support\Carbon $created_at
+ */
 class SecurityLog extends Model
 {
     use HasFactory;
@@ -29,7 +44,9 @@ class SecurityLog extends Model
     ];
 
     /**
-     * Get the user for the log.
+     * Obtiene el usuario asociado al registro de seguridad.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User, SecurityLog>
      */
     public function user(): BelongsTo
     {
@@ -37,7 +54,13 @@ class SecurityLog extends Model
     }
 
     /**
-     * Log a security event.
+     * Registra un evento de seguridad con la IP y user-agent del request actual.
+     *
+     * @param string $eventType Tipo de evento (login_success, login_failed, etc.).
+     * @param int|null $userId ID del usuario involucrado.
+     * @param string|null $description Descripción legible del evento.
+     * @param array $metadata Datos adicionales del evento.
+     * @return self
      */
     public static function log(string $eventType, ?int $userId = null, ?string $description = null, array $metadata = []): self
     {
@@ -52,7 +75,11 @@ class SecurityLog extends Model
     }
 
     /**
-     * Scope a query to filter by event type.
+     * Scope: filtra registros por tipo de evento.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $type Tipo de evento.
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByType($query, string $type)
     {
@@ -60,7 +87,11 @@ class SecurityLog extends Model
     }
 
     /**
-     * Scope a query to filter by user.
+     * Scope: filtra registros por usuario.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int $userId ID del usuario.
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByUser($query, int $userId)
     {

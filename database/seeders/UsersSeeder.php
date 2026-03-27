@@ -7,8 +7,18 @@ use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Seeder de usuarios iniciales.
+ *
+ * Crea un usuario administrador y un trabajador de prueba.
+ */
 class UsersSeeder extends Seeder
 {
+    /**
+     * Crea los usuarios iniciales del sistema.
+     *
+     * @return void
+     */
     public function run(): void
     {
         $adminRole = Role::where('name', 'admin')->first();

@@ -5,8 +5,19 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Configuration;
 
+/**
+ * Seeder de configuraciones del sistema.
+ *
+ * Crea las configuraciones iniciales: datos de la empresa, contacto,
+ * dirección, horarios, redes sociales, SEO y ajustes del sitio.
+ */
 class ConfigurationsSeeder extends Seeder
 {
+    /**
+     * Inserta todas las configuraciones predeterminadas del sistema.
+     *
+     * @return void
+     */
     public function run(): void
     {
         $configurations = [

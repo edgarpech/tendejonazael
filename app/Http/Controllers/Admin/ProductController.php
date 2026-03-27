@@ -11,9 +11,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/**
+ * Controlador de administración de productos.
+ *
+ * CRUD completo de productos con soporte para carga y optimización de imágenes.
+ */
 class ProductController extends Controller
 {
     use OptimizesImages;
+
+    /**
+     * Lista todos los productos con su categoría y marca.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\View\View|\Illuminate\Http\JsonResponse
+     */
     public function index(Request $request)
     {
         $products = Product::with(['category', 'brand'])
@@ -30,6 +42,12 @@ class ProductController extends Controller
         return view('admin.products.index', compact('products', 'categories', 'brands'));
     }
 
+    /**
+     * Crea un nuevo producto. Genera SKU aleatorio si no se proporciona.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -65,6 +83,13 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Producto creado exitosamente');
     }
 
+    /**
+     * Actualiza un producto existente. Reemplaza la imagen si se sube una nueva.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Product $product
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
@@ -99,6 +124,12 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Producto actualizado exitosamente');
     }
 
+    /**
+     * Elimina un producto y su imagen asociada (soft delete).
+     *
+     * @param \App\Models\Product $product
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function destroy(Product $product)
     {
         if ($product->main_image_url) {
@@ -114,6 +145,12 @@ class ProductController extends Controller
         return redirect()->route('admin.products.index')->with('success', 'Producto eliminado exitosamente');
     }
 
+    /**
+     * Elimina solo la imagen principal de un producto.
+     *
+     * @param \App\Models\Product $product
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function destroyImage(Product $product)
     {
         if ($product->main_image_url) {

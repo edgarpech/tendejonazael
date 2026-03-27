@@ -6,10 +6,18 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Permission;
 
+/**
+ * Proveedor de servicios de la aplicación.
+ *
+ * Registra los Gates de autorización dinámicamente
+ * basados en los permisos activos de la base de datos.
+ */
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Registra servicios en el contenedor.
+     *
+     * @return void
      */
     public function register(): void
     {
@@ -17,7 +25,9 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Inicializa la aplicación: registra Gates de permisos dinámicos.
+     *
+     * @return void
      */
     public function boot(): void
     {

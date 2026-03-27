@@ -6,8 +6,25 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+/**
+ * Trait de optimización de imágenes.
+ *
+ * Proporciona funcionalidad para redimensionar y convertir
+ * imágenes a formato WebP al almacenarlas.
+ */
 trait OptimizesImages
 {
+    /**
+     * Almacena una imagen optimizada: la redimensiona si excede las dimensiones
+     * máximas y la convierte a formato WebP.
+     *
+     * @param \Illuminate\Http\UploadedFile $file Archivo de imagen subido.
+     * @param string $folder Carpeta destino dentro del disco 'public'.
+     * @param int $maxWidth Ancho máximo en píxeles.
+     * @param int $maxHeight Alto máximo en píxeles.
+     * @param int $quality Calidad WebP (0-100).
+     * @return string Ruta relativa del archivo almacenado.
+     */
     protected function storeOptimizedImage(UploadedFile $file, string $folder, int $maxWidth = 800, int $maxHeight = 800, int $quality = 80): string
     {
         $imageInfo = @getimagesize($file->getPathname());

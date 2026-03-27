@@ -6,8 +6,19 @@ use Illuminate\Database\Seeder;
 use App\Models\Role;
 use App\Models\Permission;
 
+/**
+ * Seeder de roles y permisos.
+ *
+ * Crea los roles (admin, worker, apprentice) y todos los permisos
+ * del sistema agrupados por módulo, asignando todos al rol admin.
+ */
 class RolesAndPermissionsSeeder extends Seeder
 {
+    /**
+     * Crea roles, permisos y asigna todos los permisos al rol administrador.
+     *
+     * @return void
+     */
     public function run(): void
     {
         // Create Roles

@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Storage;
 use PDO;
 use Throwable;
 
+/**
+ * Comando de sincronización con Eleventa POS.
+ *
+ * Sincroniza categorías, marcas y productos desde la base de datos Firebird
+ * del sistema punto de venta Eleventa hacia la base de datos de Laravel.
+ * Soporta modo dry-run para previsualizar cambios.
+ */
 class EleventaSync extends Command
 {
     protected $signature = 'eleventa:sync
@@ -26,6 +33,12 @@ class EleventaSync extends Command
     private PDO $firebird;
     private bool $dryRun = false;
 
+    /**
+     * Ejecuta la sincronización completa: conecta a Firebird y sincroniza
+     * categorías, marcas, productos y limpia huérfanos.
+     *
+     * @return int Código de salida (SUCCESS o FAILURE).
+     */
     public function handle(): int
     {
         $this->dryRun = $this->option('dry-run');
@@ -78,8 +91,12 @@ class EleventaSync extends Command
         return self::SUCCESS;
     }
 
-    // ── Categories ← DEPARTAMENTOS ──────────────────────────────────────────
-
+    /**
+     * Sincroniza categorías desde la tabla DEPARTAMENTOS de Firebird.
+     * Filtra departamentos inactivos y los definidos en skipDeptIds/skipDeptNames.
+     *
+     * @return void
+     */
     private function syncCategories(): void
     {
         $this->info('Syncing categories...');
@@ -88,7 +105,7 @@ class EleventaSync extends Command
             ->query("SELECT ID, TRIM(NOMBRE) AS NOMBRE, ACTIVO FROM DEPARTAMENTOS ORDER BY ID")
             ->fetchAll(PDO::FETCH_OBJ);
 
-        // Load existing slugs in one query
+        // Mapeo de eleventa_id a slug para evitar regenerar slugs de categorías existentes
         $existingSlugs = DB::table('categories')
             ->whereNotNull('eleventa_id')
             ->pluck('slug', 'eleventa_id')
@@ -162,8 +179,12 @@ class EleventaSync extends Command
         $this->info("  {$synced} categories synced.");
     }
 
-    // ── Brands ← PROVEEDORES ────────────────────────────────────────────────
-
+    /**
+     * Sincroniza marcas desde la tabla PROVEEDORES de Firebird.
+     * Solo importa proveedores no borrados.
+     *
+     * @return void
+     */
     private function syncBrands(): void
     {
         $this->info('Syncing brands...');
@@ -230,8 +251,12 @@ class EleventaSync extends Command
         $this->info("  {$synced} brands synced.");
     }
 
-    // ── Products ← PRODUCTOS ────────────────────────────────────────────────
-
+    /**
+     * Sincroniza productos desde la tabla PRODUCTOS de Firebird.
+     * Mapea departamentos a categorías y proveedores a marcas.
+     *
+     * @return void
+     */
     private function syncProducts(): void
     {
         $this->info('Syncing products...');
@@ -353,7 +378,11 @@ class EleventaSync extends Command
     }
 
     /**
-     * Bulk update products by SKU using a single query with CASE statements.
+     * Actualiza productos en lote por SKU usando CASE statements.
+     *
+     * @param array $rows Filas con datos a actualizar (deben incluir 'sku').
+     * @param array $fields Campos a actualizar.
+     * @return void
      */
     private function bulkUpdateBySku(array $rows, array $fields): void
     {
@@ -375,7 +404,13 @@ class EleventaSync extends Command
     ];
 
     /**
-     * Bulk update a table by a key column using CASE statements (single query per chunk).
+     * Actualiza registros en lote por columna clave usando un solo query con CASE.
+     *
+     * @param string $table Nombre de la tabla.
+     * @param string $keyCol Columna clave para el WHERE/CASE.
+     * @param array $rows Filas con datos (deben incluir $keyCol).
+     * @param array $fields Campos a actualizar.
+     * @return void
      */
     private function bulkUpdateBy(string $table, string $keyCol, array $rows, array $fields): void
     {
@@ -407,8 +442,12 @@ class EleventaSync extends Command
         }
     }
 
-    // ── Cleanup: remove records no longer in Eleventa ────────────────────────
-
+    /**
+     * Elimina registros huérfanos que ya no existen en Eleventa.
+     * Categorías y marcas se eliminan físicamente; productos se hacen soft delete.
+     *
+     * @return void
+     */
     private function cleanupOrphans(): void
     {
         $this->info('Cleaning up orphaned records...');
@@ -516,8 +555,12 @@ class EleventaSync extends Command
         $this->info("  {$deletedProds} products removed.");
     }
 
-    // ── Helpers ──────────────────────────────────────────────────────────────
-
+    /**
+     * Convierte una cadena de Windows-1252 a UTF-8.
+     *
+     * @param string|null $str Cadena en codificación Windows-1252.
+     * @return string Cadena convertida a UTF-8.
+     */
     private function utf8(?string $str): string
     {
         if ($str === null) {
@@ -526,6 +569,13 @@ class EleventaSync extends Command
         return mb_convert_encoding(trim($str), 'UTF-8', 'Windows-1252');
     }
 
+    /**
+     * Genera un slug único a partir de un nombre, evitando duplicados.
+     *
+     * @param string $name Nombre base para el slug.
+     * @param array &$usedSlugs Mapa de slugs ya utilizados (se modifica por referencia).
+     * @return string Slug único generado.
+     */
     private function generateSlug(string $name, array &$usedSlugs): string
     {
         $base = Str::slug($name) ?: 'item';
