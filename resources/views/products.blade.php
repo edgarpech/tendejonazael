@@ -38,6 +38,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <link rel="preconnect" href="https://translate.googleapis.com" crossorigin>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4900355905448266" crossorigin="anonymous"></script>
     <script>
         if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
@@ -448,6 +449,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                         <li><a href="/" class="text-gray-400 hover:text-cyan-400 transition">Inicio</a></li>
                         <li><a href="{{ route('products') }}" class="text-gray-400 hover:text-cyan-400 transition">Productos</a></li>
                         <li><a href="/#contacto" onclick="goToContact(); return false;" class="text-gray-400 hover:text-cyan-400 transition cursor-pointer">Contacto</a></li>
+                        <li><a href="{{ route('privacy') }}" class="text-gray-400 hover:text-cyan-400 transition">Aviso de Privacidad</a></li>
                     </ul>
                 </div>
                 <div>
@@ -599,6 +601,32 @@ document.addEventListener('DOMContentLoaded', function() {
     document.body.appendChild(s);
 });
 </script>
+
+<!-- Cookie Consent Banner -->
+<div x-data="{ show: !localStorage.getItem('cookieConsent') }" x-show="show" x-cloak
+     x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-y-full opacity-0" x-transition:enter-end="translate-y-0 opacity-100"
+     x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-y-0 opacity-100" x-transition:leave-end="translate-y-full opacity-0"
+     class="fixed bottom-0 left-0 right-0 z-[100] bg-white dark:bg-gray-800 shadow-[0_-4px_20px_rgba(0,0,0,0.15)] border-t border-gray-200 dark:border-gray-700 p-4 md:p-6">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex-1">
+            <p class="text-sm text-gray-700 dark:text-gray-300">
+                <i class="fas fa-cookie-bite text-cyan-600 dark:text-cyan-400 mr-1"></i>
+                Usamos cookies para mejorar tu experiencia y mostrar anuncios relevantes. Al continuar navegando, aceptas nuestro
+                <a href="{{ route('privacy') }}" class="text-cyan-600 dark:text-cyan-400 hover:underline font-medium">Aviso de Privacidad</a>.
+            </p>
+        </div>
+        <div class="flex gap-3 flex-shrink-0">
+            <button @click="localStorage.setItem('cookieConsent', 'rejected'); show = false"
+                    class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition cursor-pointer">
+                Rechazar
+            </button>
+            <button @click="localStorage.setItem('cookieConsent', 'accepted'); show = false"
+                    class="px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-cyan-600 to-blue-700 rounded-lg hover:shadow-lg transition cursor-pointer">
+                Aceptar
+            </button>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

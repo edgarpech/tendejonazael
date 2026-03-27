@@ -45,6 +45,11 @@ class HomeController extends Controller
         return view('products', compact('products', 'categories'));
     }
 
+    public function privacy()
+    {
+        return view('privacy');
+    }
+
     public function sitemap()
     {
         return response()

@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\RoleController;
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/productos', [HomeController::class, 'products'])->name('products');
+Route::get('/aviso-de-privacidad', [HomeController::class, 'privacy'])->name('privacy');
 Route::get('/sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
 
 // Authentication routes
