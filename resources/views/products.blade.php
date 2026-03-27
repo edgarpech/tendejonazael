@@ -268,15 +268,6 @@
 						</button>
 					</div>
 
-					<!-- Anuncio AdSense lateral -->
-					<div class="mt-4 sticky top-[420px]">
-						<ins class="adsbygoogle"
-							 style="display:block"
-							 data-ad-client="ca-pub-4900355905448266"
-							 data-ad-slot="6167489182"
-							 data-ad-format="auto"
-							 data-full-width-responsive="true"></ins>
-					</div>
 				</aside>
 
 				<!-- Botón y panel de filtros (móvil) -->
@@ -419,7 +410,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 
 	<!-- Modal para ver imagen del producto en grande -->
 	<div x-show="viewerImage" x-cloak
@@ -434,6 +424,16 @@
 			 class="max-w-full max-h-[85vh] rounded-xl shadow-2xl object-contain cursor-default">
 	</div>
 	</main>
+
+	<!-- Anuncio AdSense horizontal -->
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6 md:my-10">
+		<ins class="adsbygoogle"
+			 style="display:block"
+			 data-ad-client="ca-pub-4900355905448266"
+			 data-ad-slot="6167489182"
+			 data-ad-format="horizontal"
+			 data-full-width-responsive="true"></ins>
+	</div>
 
 	<!-- Pie de página -->
 	<footer class="bg-gray-900 text-white py-6 md:py-12 mt-6 md:mt-12">

@@ -239,14 +239,6 @@
 		<i class="fas fa-arrow-up text-sm md:text-base"></i>
 	</button>
 
-	<!-- Anuncio lateral AdSense (solo pantallas grandes 2xl+) -->
-	<aside class="hidden 2xl:block fixed right-4 top-1/2 -translate-y-1/2 z-30 w-[160px]">
-		<ins class="adsbygoogle"
-			 style="display:inline-block;width:160px;height:600px"
-			 data-ad-client="ca-pub-4900355905448266"
-			 data-ad-slot="2419815867"></ins>
-	</aside>
-
 	<!-- Sección principal / Hero -->
 	<main>
 	<section id="hero" class="pt-16 bg-gradient-to-br from-cyan-600 to-blue-700 text-white min-h-[400px] md:min-h-[600px] flex items-center">
@@ -447,6 +439,16 @@
 		</div>
 	</section>
 	@endif
+
+	<!-- Anuncio AdSense horizontal -->
+	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6 md:my-10">
+		<ins class="adsbygoogle"
+			 style="display:block"
+			 data-ad-client="ca-pub-4900355905448266"
+			 data-ad-slot="2419815867"
+			 data-ad-format="horizontal"
+			 data-full-width-responsive="true"></ins>
+	</div>
 
 	<!-- Sección para incentivar reseñas en Google -->
 	<section class="py-10 md:py-16 bg-gradient-to-r from-cyan-600 to-blue-700 text-white">
