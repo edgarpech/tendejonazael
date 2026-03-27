@@ -274,6 +274,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                             <i class="fas fa-times mr-2"></i> Limpiar Filtros
                         </button>
                     </div>
+
+                    <!-- Sidebar Ad -->
+                    <div class="mt-4 sticky top-[420px]">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-4900355905448266"
+                             data-ad-slot="6167489182"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                    </div>
                 </aside>
 
                 <!-- Mobile Filters Button -->
@@ -627,6 +637,12 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 </div>
+
+<script>
+document.querySelectorAll('.adsbygoogle').forEach(function() {
+    try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+});
+</script>
 
 </body>
 </html>

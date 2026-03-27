@@ -242,6 +242,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <i class="fas fa-arrow-up text-sm md:text-base"></i>
     </button>
 
+    <!-- Sidebar Ad - Right (only on wide screens) -->
+    <aside class="hidden 2xl:block fixed right-4 top-1/2 -translate-y-1/2 z-30 w-[160px]">
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:160px;height:600px"
+             data-ad-client="ca-pub-4900355905448266"
+             data-ad-slot="2419815867"></ins>
+    </aside>
+
     <!-- Hero Section -->
     <main>
     <section id="hero" class="pt-16 bg-gradient-to-br from-cyan-600 to-blue-700 text-white min-h-[400px] md:min-h-[600px] flex items-center">
@@ -690,6 +698,12 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 </div>
+
+<script>
+document.querySelectorAll('.adsbygoogle').forEach(function() {
+    try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
+});
+</script>
 
 </body>
 </html>
