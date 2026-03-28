@@ -32,6 +32,7 @@ class EleventaSync extends Command
 
     private PDO $firebird;
     private bool $dryRun = false;
+    private array $syncedSkus = [];
 
     /**
      * Ejecuta la sincronización completa: conecta a Firebird y sincroniza
@@ -337,6 +338,7 @@ class EleventaSync extends Command
                     'cost_price' => $costPrice ?: null,
                     'price' => $price ?: null,
                     'is_active' => 1,
+                    'deleted_at' => null,
                     'updated_at' => $now,
                     'meta' => $meta,
                 ];
@@ -358,6 +360,7 @@ class EleventaSync extends Command
                     'updated_at' => $now,
                 ];
             }
+            $this->syncedSkus[] = $codigo;
             $synced++;
         }
 
@@ -368,7 +371,7 @@ class EleventaSync extends Command
             }
 
             // Bulk update existing products using PostgreSQL upsert
-            $updateFields = ['name', 'category_id', 'brand_id', 'cost_price', 'price', 'is_active', 'updated_at', 'meta'];
+            $updateFields = ['name', 'category_id', 'brand_id', 'cost_price', 'price', 'is_active', 'deleted_at', 'updated_at', 'meta'];
             foreach (array_chunk($toUpdate, 500) as $chunk) {
                 $this->bulkUpdateBySku($chunk, $updateFields);
             }
@@ -507,25 +510,13 @@ class EleventaSync extends Command
         }
         $this->info("  {$deletedBrands} brands removed.");
 
-        // ── Products: get all valid SKUs from Eleventa ──
-        $validSkus = collect(
-            $this->firebird
-                ->query("SELECT TRIM(CODIGO) AS CODIGO, TRIM(DESCRIPCION) AS DESCRIPCION, ELIMINADO_EN FROM PRODUCTOS ORDER BY ID")
-                ->fetchAll(PDO::FETCH_OBJ)
-        )->filter(function ($prod) {
-            $codigo = $this->utf8($prod->CODIGO);
-            $nombre = $this->utf8($prod->DESCRIPCION);
-            if ($codigo === '' || $nombre === '') return false;
-            if (!empty(trim($prod->ELIMINADO_EN ?? ''))) return false;
-            return true;
-        })->map(fn ($prod) => $this->utf8($prod->CODIGO))->toArray();
-
+        // ── Products: use SKUs collected during syncProducts ──
         $deletedProds = 0;
-        if (!empty($validSkus)) {
+        if (!empty($this->syncedSkus)) {
             // Only delete products that came from Eleventa (have eleventa_id in meta)
             $eleventaProducts = DB::table('products')
                 ->where('meta', 'like', '%eleventa_id%')
-                ->whereNotIn('sku', $validSkus)
+                ->whereNotIn('sku', $this->syncedSkus)
                 ->whereNull('deleted_at')
                 ->get();
 
@@ -547,7 +538,7 @@ class EleventaSync extends Command
                 // Soft-delete instead of hard delete
                 DB::table('products')
                     ->where('meta', 'like', '%eleventa_id%')
-                    ->whereNotIn('sku', $validSkus)
+                    ->whereNotIn('sku', $this->syncedSkus)
                     ->whereNull('deleted_at')
                     ->update(['deleted_at' => now(), 'is_active' => 0]);
             }
