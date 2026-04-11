@@ -15,6 +15,7 @@
 	<meta name="description" content="Tendejón Azael, tu tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo, abarrotes y más. ¡Visítanos en tus vacaciones y Semana Santa! Desde 2007 al servicio de la comunidad y turistas del puerto.">
 	<meta name="keywords" content="tienda abarrotes Chabihau, Tendejón Azael, tienda Chabihau Yucatán, abarrotes puerto Yucatán, vacaciones Chabihau, Semana Santa Chabihau, tienda playa Yucatán, bebidas Chabihau, snacks playa, hielo Chabihau, abarrotes Yobaín, tienda costa Yucatán, Puerto Chabihau tienda, compras vacaciones Yucatán, abarrotes cerca de la playa, tienda familiar Yucatán, abarrotes Telchac Puerto, tienda playa progreso Yucatán, refrescos playa Yucatán, agua purificada Chabihau, tienda turistas Yucatán, abarrotes económicos Yucatán, donde comprar Chabihau, despensa Chabihau Yucatán">
 	<meta name="author" content="Tendejón Azael">
+	<meta name="application-name" content="Tendejón Azael">
 	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="{{ url('/') }}">
 
