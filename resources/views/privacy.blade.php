@@ -113,7 +113,7 @@
     <main class="pt-24 pb-12">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6">Aviso de Privacidad</h1>
-            <p class="text-xs text-gray-500 dark:text-gray-400 mb-6">Última actualización: {{ date('d/m/Y') }}</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-6">Última actualización: 21 de marzo de 2026</p>
 
             <div class="prose prose-sm md:prose-base dark:prose-invert max-w-none space-y-6">
 

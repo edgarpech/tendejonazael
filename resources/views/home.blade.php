@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Tendejón Azael - Tienda de Abarrotes en Chabihau, Yucatán</title>
 	<meta name="description" content="Tendejón Azael, tu tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo, abarrotes y más. ¡Visítanos en tus vacaciones y Semana Santa! Desde 2007 al servicio de la comunidad y turistas del puerto.">
-	<meta name="keywords" content="tienda abarrotes Chabihau, Yucatán, tienda Chabihau, Tendejón Azael, abarrotes puerto Yucatán, vacaciones Chabihau, Semana Santa Chabihau, tienda playa Yucatán, bebidas Chabihau, snacks playa, hielo Chabihau, abarrotes Yobaín, tienda costa Yucatán, playa, Puerto Chabihau tienda, compras vacaciones Yucatán, abarrotes cerca de la playa, tienda familiar Yucatán, productos abarrotes Mérida">
+	<meta name="keywords" content="tienda abarrotes Chabihau, Tendejón Azael, tienda Chabihau Yucatán, abarrotes puerto Yucatán, vacaciones Chabihau, Semana Santa Chabihau, tienda playa Yucatán, bebidas Chabihau, snacks playa, hielo Chabihau, abarrotes Yobaín, tienda costa Yucatán, Puerto Chabihau tienda, compras vacaciones Yucatán, abarrotes cerca de la playa, tienda familiar Yucatán, abarrotes Telchac Puerto, tienda playa progreso Yucatán, refrescos playa Yucatán, agua purificada Chabihau, tienda turistas Yucatán, abarrotes económicos Yucatán, donde comprar Chabihau, despensa Chabihau Yucatán">
 	<meta name="author" content="Tendejón Azael">
 	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="{{ url('/') }}">
@@ -619,6 +619,27 @@
 	</script>
 
 	<!-- Datos estructurados para SEO (JSON-LD) -->
+	<!-- Schema WebSite: le indica a Google el nombre del sitio para el breadcrumb -->
+	<script type="application/ld+json">
+	{
+		"@@context": "https://schema.org",
+		"@@type": "WebSite",
+		"@@id": "{{ url('/') }}/#website",
+		"url": "{{ url('/') }}/",
+		"name": "Tendejón Azael",
+		"alternateName": "Tendejon Azael Chabihau",
+		"description": "Tienda de abarrotes en Chabihau, Yucatán",
+		"inLanguage": "es-MX",
+		"publisher": {
+			"@@type": "Organization",
+			"name": "Tendejón Azael",
+			"logo": {
+				"@@type": "ImageObject",
+				"url": "{{ asset('images/logos/logo.webp') }}"
+			}
+		}
+	}
+	</script>
 	<script type="application/ld+json">
 	{
 		"@@context": "https://schema.org",

@@ -13,7 +13,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Productos - Tendejón Azael | Chabihau, Yucatán</title>
 	<meta name="description" content="Explora nuestro catálogo completo de productos en Tendejón Azael, Chabihau, Yucatán. Abarrotes, bebidas, snacks, hielo y todo lo que necesitas para tus vacaciones en el puerto.">
-	<meta name="keywords" content="productos abarrotes Chabihau, catálogo tienda Yucatán, bebidas playa, snacks vacaciones, compras Chabihau, precios abarrotes Yucatán, tienda cerca playa Chabihau">
+	<meta name="keywords" content="productos abarrotes Chabihau, catálogo tienda Yucatán, bebidas playa Yucatán, snacks vacaciones Chabihau, compras Chabihau, precios abarrotes Yucatán, tienda cerca playa Chabihau, refrescos Chabihau, hielo playa Yucatán, agua purificada Yucatán, despensa vacaciones Yucatán, dulces snacks Chabihau, lácteos Yucatán, limpieza hogar playa, todo para vacaciones Chabihau">
 	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="{{ url('/productos') }}">
 
@@ -615,6 +615,49 @@
 	document.querySelectorAll('.adsbygoogle').forEach(function() {
 		try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
 	});
+	</script>
+
+	<!-- Datos estructurados para SEO (JSON-LD) -->
+	<script type="application/ld+json">
+	{
+		"@@context": "https://schema.org",
+		"@@type": "BreadcrumbList",
+		"itemListElement": [
+			{
+				"@@type": "ListItem",
+				"position": 1,
+				"name": "Inicio",
+				"item": "{{ url('/') }}"
+			},
+			{
+				"@@type": "ListItem",
+				"position": 2,
+				"name": "Catálogo de Productos",
+				"item": "{{ url('/productos') }}"
+			}
+		]
+	}
+	</script>
+	<script type="application/ld+json">
+	{
+		"@@context": "https://schema.org",
+		"@@type": "CollectionPage",
+		"@@id": "{{ url('/productos') }}",
+		"url": "{{ url('/productos') }}",
+		"name": "Catálogo de Productos - Tendejón Azael",
+		"description": "Catálogo completo de abarrotes, bebidas, snacks, hielo y más en Tendejón Azael, Chabihau, Yucatán.",
+		"inLanguage": "es-MX",
+		"isPartOf": {
+			"@@id": "{{ url('/') }}/#website"
+		},
+		"breadcrumb": {
+			"@@type": "BreadcrumbList",
+			"itemListElement": [
+				{ "@@type": "ListItem", "position": 1, "name": "Inicio", "item": "{{ url('/') }}" },
+				{ "@@type": "ListItem", "position": 2, "name": "Productos", "item": "{{ url('/productos') }}" }
+			]
+		}
+	}
 	</script>
 
 </body>
