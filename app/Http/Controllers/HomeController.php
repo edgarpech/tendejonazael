@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
+use App\Models\Article;
+use App\Models\Review;
 use Illuminate\Support\Str;
 
 /**
@@ -54,7 +56,12 @@ class HomeController extends Controller
             ];
         })->values();
 
-        return view('home', compact('featuredProducts', 'categories', 'brands', 'homeBrands', 'productsJson'));
+        $reviews = Review::visible()
+            ->orderByDesc('reviewed_at')
+            ->take(6)
+            ->get();
+
+        return view('home', compact('featuredProducts', 'categories', 'brands', 'homeBrands', 'productsJson', 'reviews'));
     }
 
     /**
@@ -100,14 +107,66 @@ class HomeController extends Controller
     }
 
     /**
+     * Muestra la página "Sobre Nosotros".
+     *
+     * @return \Illuminate\View\View
+     */
+    public function about()
+    {
+        return view('about');
+    }
+
+    /**
+     * Muestra la página de preguntas frecuentes.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function faq()
+    {
+        return view('faq');
+    }
+
+    /**
+     * Muestra el listado de artículos del blog.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function blog()
+    {
+        $articles = Article::published()->orderByDesc('published_at')->get();
+
+        return view('blog.index', compact('articles'));
+    }
+
+    /**
+     * Muestra un artículo individual del blog.
+     *
+     * @param string $slug
+     * @return \Illuminate\View\View
+     */
+    public function blogShow(string $slug)
+    {
+        $article = Article::published()->where('slug', $slug)->firstOrFail();
+        $related = Article::published()
+            ->where('id_article', '!=', $article->id_article)
+            ->where('category', $article->category)
+            ->limit(3)
+            ->get();
+
+        return view('blog.show', compact('article', 'related'));
+    }
+
+    /**
      * Genera el sitemap XML del sitio.
      *
      * @return \Illuminate\Http\Response
      */
     public function sitemap()
     {
+        $articles = Article::published()->get();
+
         return response()
-            ->view('sitemap')
+            ->view('sitemap', compact('articles'))
             ->header('Content-Type', 'application/xml');
     }
 }

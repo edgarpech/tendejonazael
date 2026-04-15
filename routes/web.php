@@ -12,11 +12,17 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\ReviewController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/productos', [HomeController::class, 'products'])->name('products');
 Route::get('/aviso-de-privacidad', [HomeController::class, 'privacy'])->name('privacy');
+Route::get('/sobre-nosotros', [HomeController::class, 'about'])->name('about');
+Route::get('/preguntas-frecuentes', [HomeController::class, 'faq'])->name('faq');
+Route::get('/blog', [HomeController::class, 'blog'])->name('blog');
+Route::get('/blog/{slug}', [HomeController::class, 'blogShow'])->name('blog.show');
 Route::get('/sitemap.xml', [HomeController::class, 'sitemap'])->name('sitemap');
 
 // Authentication routes
@@ -44,6 +50,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('categories', CategoryController::class)->except(['create', 'edit', 'show']);
         Route::resource('brands', BrandController::class)->except(['create', 'edit', 'show']);
         Route::delete('brands/{brand}/logo', [BrandController::class, 'destroyLogo'])->name('brands.logo.destroy');
+
+        Route::resource('articles', ArticleController::class)->except(['show']);
+        Route::delete('articles/{article}/image', [ArticleController::class, 'destroyImage'])->name('articles.image.destroy');
+
+        Route::resource('reviews', ReviewController::class)->except(['create', 'edit', 'show']);
 
         Route::middleware('role:admin')->group(function () {
             Route::resource('users', UserController::class)->except(['create', 'edit', 'show']);

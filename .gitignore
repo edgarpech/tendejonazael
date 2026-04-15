@@ -20,6 +20,7 @@
 /public/storage
 /storage/*.key
 /storage/pail
+/storage/app/purifier
 /vendor
 Homestead.json
 Homestead.yaml

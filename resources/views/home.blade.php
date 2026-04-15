@@ -117,6 +117,7 @@
 					<li><a href="#catalogo" @click.prevent="scrollToSection('catalogo')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Nuestros Productos</a></li>
 					<li><a href="#marcas" @click.prevent="scrollToSection('marcas')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Marcas</a></li>
 					<li><a href="#contacto" @click.prevent="scrollToSection('contacto')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Contacto</a></li>
+					<li><a href="{{ route('blog') }}" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium">Blog</a></li>
 					
 					<!-- Modo oscuro -->
 					<li>
@@ -259,6 +260,13 @@
 						   class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 cursor-pointer group">
 							<i class="fas fa-phone w-5 text-gray-400 group-hover:text-cyan-500"></i>
 							<span>Contacto</span>
+						</a>
+					</li>
+					<li>
+						<a href="{{ route('blog') }}" @click="mobileMenu = false" 
+						   class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
+							<i class="fas fa-blog w-5 text-gray-400 group-hover:text-cyan-500"></i>
+							<span>Blog</span>
 						</a>
 					</li>
 				</ul>
@@ -489,11 +497,34 @@
 
 	<!-- Sección para incentivar reseñas en Google -->
 	<section class="py-10 md:py-16 bg-gradient-to-r from-cyan-600 to-blue-700 text-white">
-		<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-			<h2 class="text-xl md:text-3xl font-bold mb-3 md:mb-4">¿Nos visitaste?</h2>
-			<p class="text-base md:text-lg mb-6 md:mb-8 text-white/90">
+		<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+			<h2 class="text-xl md:text-3xl font-bold mb-3 md:mb-4 text-center">Lo que dicen nuestros clientes</h2>
+			<p class="text-base md:text-lg mb-8 md:mb-10 text-white/90 text-center">
 				Tu opinión nos ayuda a mejorar. ¡Déjanos una reseña en Google!
 			</p>
+
+			@if($reviews->isNotEmpty())
+				<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+					@foreach($reviews as $review)
+						<div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+							<div class="flex items-center gap-1 mb-3">
+								@for($i = 1; $i <= 5; $i++)
+									<i class="fas fa-star text-sm {{ $i <= $review->rating ? 'text-yellow-400' : 'text-white/30' }}"></i>
+								@endfor
+							</div>
+							<p class="text-white/90 text-sm leading-relaxed mb-4">{{ \Illuminate\Support\Str::limit($review->comment, 180) }}</p>
+							<div class="flex items-center justify-between">
+								<span class="font-semibold text-sm">{{ $review->author_name }}</span>
+								<div class="flex items-center gap-1 text-white/60 text-xs">
+									<i class="fab fa-google"></i>
+									<span>{{ $review->reviewed_at->diffForHumans() }}</span>
+								</div>
+							</div>
+						</div>
+					@endforeach
+				</div>
+			@endif
+
 			<div class="flex flex-col sm:flex-row items-center justify-center gap-6 md:gap-8">
 				<a href="https://g.page/r/CbNf1vMGf5DcEBM/review" target="_blank" rel="noopener noreferrer"
 				   class="inline-flex items-center gap-2 bg-white text-gray-900 font-bold text-sm md:text-base py-3 px-6 md:py-4 md:px-8 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-[transform,box-shadow]">

@@ -17,6 +17,9 @@
 						<li><a href="{{ route('products') }}" class="text-gray-400 hover:text-cyan-400 transition">Productos</a></li>
 						<li><a href="/#contacto" class="text-gray-400 hover:text-cyan-400 transition">Contacto</a></li>
 					@endif
+					<li><a href="{{ route('blog') }}" class="text-gray-400 hover:text-cyan-400 transition">Blog</a></li>
+					<li><a href="{{ route('about') }}" class="text-gray-400 hover:text-cyan-400 transition">Sobre Nosotros</a></li>
+					<li><a href="{{ route('faq') }}" class="text-gray-400 hover:text-cyan-400 transition">Preguntas Frecuentes</a></li>
 					<li><a href="{{ route('privacy') }}" class="text-gray-400 hover:text-cyan-400 transition">Aviso de Privacidad</a></li>
 				</ul>
 			</div>

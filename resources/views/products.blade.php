@@ -87,6 +87,7 @@
 					<li><a href="/" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium">Inicio</a></li>
 					<li><a href="{{ route('products') }}" class="text-cyan-700 dark:text-cyan-400 font-semibold">Productos</a></li>
 					<li><a href="/#contacto" onclick="goToContact(); return false;" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Contacto</a></li>
+					<li><a href="{{ route('blog') }}" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium">Blog</a></li>
 					
 					<!-- Modo oscuro -->
 					<li>
@@ -217,6 +218,13 @@
 							<span>Contacto</span>
 						</a>
 					</li>
+					<li>
+						<a @click="mobileMenu = false" href="{{ route('blog') }}" 
+						   class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
+							<i class="fas fa-blog w-5 text-gray-400 group-hover:text-cyan-500"></i>
+							<span>Blog</span>
+						</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -239,6 +247,13 @@
 			<div class="mb-2 md:mb-8">
 				<h1 class="text-lg md:text-4xl font-bold text-gray-900 dark:text-white mb-0 md:mb-2">Catálogo de Productos</h1>
 				<p class="text-xs md:text-base text-gray-600 dark:text-gray-400">Explora todo nuestro catálogo de productos</p>
+			</div>
+
+			<!-- Texto editorial introductorio -->
+			<div class="hidden md:block bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 mb-8">
+				<p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+					En <strong>Tendejón Azael</strong> encontrarás todo lo que necesitas para tus vacaciones en Chabihau y la costa norte de Yucatán. Nuestro catálogo incluye más de 500 productos: desde los <strong>abarrotes básicos</strong> para armar tu despensa, hasta <strong>bebidas frías, snacks, hielo y agua purificada</strong> — esenciales para disfrutar un día de playa. También contamos con productos de <strong>limpieza, higiene personal, lácteos y dulces</strong> de las marcas que más te gustan. Usa los filtros para encontrar exactamente lo que buscas, o simplemente explora las categorías para descubrir nuestra variedad. Todos los precios que ves aquí son los mismos que manejamos en la tienda física, actualizados regularmente para tu comodidad.
+				</p>
 			</div>
 
 			<div class="flex flex-col lg:flex-row gap-8">

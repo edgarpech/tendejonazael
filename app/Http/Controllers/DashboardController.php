@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\User;
+use App\Models\Article;
 
 /**
  * Controlador del panel de administración.
@@ -28,6 +29,8 @@ class DashboardController extends Controller
             'categories' => Category::count(),
             'brands' => Brand::count(),
             'users' => User::count(),
+            'articles' => Article::count(),
+            'published_articles' => Article::where('is_published', true)->count(),
         ];
 
         $recent_products = Product::with(['category', 'brand'])

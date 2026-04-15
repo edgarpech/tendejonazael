@@ -1,3 +1,7 @@
+/* Hide scrollbar but keep scrollable */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
 /* Mobile admin adjustments */
 @media (max-width: 767px) {
     .admin-title { font-size: 1.25rem; }
