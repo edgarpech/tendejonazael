@@ -38,11 +38,12 @@ class ArticleController extends Controller
             'image' => 'nullable|image|max:4096',
             'category' => 'required|string|max:50',
             'is_published' => 'boolean',
+            'published_at' => 'nullable|date',
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
         $validated['is_published'] = $request->boolean('is_published');
-        $validated['published_at'] = $validated['is_published'] ? now() : null;
+        $validated['published_at'] = $validated['is_published'] ? ($request->input('published_at') ?? now()) : null;
         $validated['content'] = clean($validated['content']);
 
         if ($request->hasFile('image')) {
@@ -68,15 +69,16 @@ class ArticleController extends Controller
             'image' => 'nullable|image|max:4096',
             'category' => 'required|string|max:50',
             'is_published' => 'boolean',
+            'published_at' => 'nullable|date',
         ]);
 
         $validated['slug'] = Str::slug($validated['title']);
         $validated['is_published'] = $request->boolean('is_published');
         $validated['content'] = clean($validated['content']);
 
-        if ($validated['is_published'] && !$article->published_at) {
-            $validated['published_at'] = now();
-        } elseif (!$validated['is_published']) {
+        if ($validated['is_published']) {
+            $validated['published_at'] = $request->input('published_at') ?? $article->published_at ?? now();
+        } else {
             $validated['published_at'] = null;
         }
 

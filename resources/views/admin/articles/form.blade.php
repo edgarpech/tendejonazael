@@ -90,13 +90,19 @@
 
             {{-- Publicación y acciones --}}
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <label class="toggle-switch">
-                            <input type="checkbox" name="is_published" value="1" {{ old('is_published', $article->is_published ?? true) ? 'checked' : '' }}>
-                            <span class="slider"></span>
-                        </label>
-                        <span class="text-sm text-gray-700 dark:text-gray-300">Publicar artículo</span>
+                <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <div class="flex items-center gap-6">
+                        <div class="flex items-center gap-3">
+                            <label class="toggle-switch">
+                                <input type="checkbox" name="is_published" value="1" {{ old('is_published', $article->is_published ?? true) ? 'checked' : '' }}>
+                                <span class="slider"></span>
+                            </label>
+                            <span class="text-sm text-gray-700 dark:text-gray-300">Publicar artículo</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label class="text-sm font-medium text-gray-700 dark:text-gray-300">Fecha</label>
+                            <input type="date" name="published_at" class="fi !w-auto" value="{{ old('published_at', isset($article) && $article->published_at ? $article->published_at->format('Y-m-d') : now()->format('Y-m-d')) }}">
+                        </div>
                     </div>
                     <div class="flex gap-3">
                         <a href="{{ route('admin.articles.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition">Cancelar</a>

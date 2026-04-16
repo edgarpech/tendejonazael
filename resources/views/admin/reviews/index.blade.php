@@ -123,7 +123,7 @@ $(function() {
                 render: function(v) {
                     if (!v) return '<span class="text-gray-400">—</span>';
                     var d = new Date(v);
-                    return d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
+                    return d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric', timeZone: 'UTC' });
                 }
             },
             {
