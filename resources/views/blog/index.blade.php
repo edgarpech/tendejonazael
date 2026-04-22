@@ -11,14 +11,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TF6JZMCQ');</script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Blog - Tendejón Azael | Chabihau, Yucatán</title>
+	<title>Blog | Tendejón Azael - Chabihau, Yucatán</title>
 	<meta name="description" content="Lee nuestros artículos sobre Chabihau, Yucatán: guías de viaje, recomendaciones de productos, recetas y todo lo que necesitas saber para disfrutar la costa norte de Yucatán.">
 	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="{{ url('/blog') }}">
 	<link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="{{ url('/blog') }}">
-	<meta property="og:title" content="Blog - Tendejón Azael | Chabihau, Yucatán">
+	<meta property="og:title" content="Blog | Tendejón Azael - Chabihau, Yucatán">
+	<meta property="og:site_name" content="Tendejón Azael">
 	<meta property="og:description" content="Artículos sobre Chabihau, guías de viaje, recomendaciones y más.">
 	<meta property="og:image" content="{{ asset('images/logos/logo_general.jpg') }}">
 	<meta property="og:locale" content="es_MX">

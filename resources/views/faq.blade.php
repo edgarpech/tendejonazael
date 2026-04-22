@@ -11,14 +11,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TF6JZMCQ');</script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Preguntas Frecuentes - Tendejón Azael | Chabihau, Yucatán</title>
+	<title>Preguntas Frecuentes | Tendejón Azael - Chabihau, Yucatán</title>
 	<meta name="description" content="Encuentra respuestas a las preguntas más frecuentes sobre Tendejón Azael: horarios, ubicación, productos disponibles, formas de pago y más.">
 	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="{{ url('/preguntas-frecuentes') }}">
 	<link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="{{ url('/preguntas-frecuentes') }}">
-	<meta property="og:title" content="Preguntas Frecuentes - Tendejón Azael">
+	<meta property="og:title" content="Preguntas Frecuentes | Tendejón Azael - Chabihau, Yucatán">
+	<meta property="og:site_name" content="Tendejón Azael">
 	<meta property="og:description" content="Respuestas a tus dudas sobre horarios, productos, ubicación y más.">
 	<meta property="og:image" content="{{ asset('images/logos/logo_general.jpg') }}">
 	<meta property="og:locale" content="es_MX">
@@ -57,7 +58,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				"name": "¿Dónde se encuentra la tienda?",
 				"acceptedAnswer": {
 					"@@type": "Answer",
-					"text": "Nos ubicamos en la Calle 21 entre 14 y 16 en Chabihau, municipio de Yobaín, Yucatán. Estamos en el centro del pueblo, a pocos minutos caminando de la playa."
+					"text": "Nos ubicamos en la Calle 21 entre 14 y 16 en Chabihau, municipio de Yobaín, Yucatán. Estamos a 2 cuadras del centro del pueblo, a pocos minutos caminando de la playa."
 				}
 			},
 			{
@@ -65,7 +66,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				"name": "¿Qué productos venden?",
 				"acceptedAnswer": {
 					"@@type": "Answer",
-					"text": "Ofrecemos un catálogo amplio que incluye abarrotes, bebidas frías y calientes, snacks, frituras, dulces, hielo, agua purificada, lácteos, productos de limpieza, artículos de higiene personal, pan, tortillas y productos frescos según disponibilidad."
+					"text": "Ofrecemos un catálogo amplio que incluye abarrotes, bebidas frías y calientes, snacks, frituras, dulces, hielo, agua purificada, lácteos, productos de limpieza, artículos de higiene personal y productos frescos según disponibilidad."
 				}
 			},
 			{
@@ -132,7 +133,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 							<i class="fas fa-chevron-down text-cyan-600 dark:text-cyan-400 transition-transform duration-200" :class="openFaq === 2 && 'rotate-180'"></i>
 						</button>
 						<div x-show="openFaq === 2" x-collapse x-cloak class="px-6 pb-4">
-							<p class="text-gray-700 dark:text-gray-300">Nos ubicamos en la <strong>Calle 21 entre 14 y 16</strong> en Chabihau, municipio de Yobaín, Yucatán. Estamos en el centro del pueblo, a pocos minutos caminando de la playa. Si vienes por la carretera desde Yobaín, la tienda es fácil de encontrar — cualquier vecino te puede indicar dónde estamos.</p>
+							<p class="text-gray-700 dark:text-gray-300">Nos ubicamos en la <strong>Calle 21 entre 14 y 16</strong> en Chabihau, municipio de Yobaín, Yucatán. Estamos a 2 cuadras del centro del pueblo, a pocos minutos caminando de la playa. Si vienes por la carretera desde Yobaín, la tienda es fácil de encontrar, a mano derecha a dos cuadras — cualquier vecino te puede indicar dónde estamos.</p>
 						</div>
 					</div>
 					<!-- FAQ 3 -->
@@ -142,7 +143,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 							<i class="fas fa-chevron-down text-cyan-600 dark:text-cyan-400 transition-transform duration-200" :class="openFaq === 3 && 'rotate-180'"></i>
 						</button>
 						<div x-show="openFaq === 3" x-collapse x-cloak class="px-6 pb-4">
-							<p class="text-gray-700 dark:text-gray-300">Todo comenzó en <strong>2005</strong> como un pequeño puesto de Coca-Cola, y en <strong>2007</strong> nos formalizamos con el alta ante Hacienda. Llevamos dos décadas sirviendo a la comunidad de Chabihau y a todos los visitantes que llegan a disfrutar de este hermoso puerto yucateco. Lo que empezó como un modesto puesto de refrescos se ha convertido en un referente del pueblo.</p>
+							<p class="text-gray-700 dark:text-gray-300">Todo comenzó en <strong>2005</strong> como un pequeño puesto de Coca-Cola, y en <strong>2007</strong> nos formalizamos con el alta formal. Llevamos dos décadas sirviendo a la comunidad de Chabihau y a todos los visitantes que llegan a disfrutar de este hermoso puerto yucateco. Lo que empezó como un modesto puesto se ha convertido en un referente del pueblo.</p>
 						</div>
 					</div>
 				</div>
@@ -161,7 +162,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 							<i class="fas fa-chevron-down text-cyan-600 dark:text-cyan-400 transition-transform duration-200" :class="openFaq === 4 && 'rotate-180'"></i>
 						</button>
 						<div x-show="openFaq === 4" x-collapse x-cloak class="px-6 pb-4">
-							<p class="text-gray-700 dark:text-gray-300">Ofrecemos un catálogo amplio que incluye: <strong>abarrotes</strong> (aceite, arroz, frijol, enlatados, pasta, café, galletas), <strong>bebidas</strong> frías y calientes (refrescos, agua, jugos), <strong>snacks y frituras</strong>, <strong>dulces</strong>, <strong>bolsitas de hielo de 1 kg</strong>, <strong>agua purificada</strong>, <strong>lácteos</strong>, <strong>productos de limpieza</strong>, <strong>artículos de higiene personal</strong>, pan, tortillas y productos frescos según disponibilidad. Puedes consultar nuestro <a href="{{ route('products') }}" class="text-cyan-600 dark:text-cyan-400 hover:underline">catálogo completo en línea</a>.</p>
+							<p class="text-gray-700 dark:text-gray-300">Ofrecemos un catálogo amplio que incluye: <strong>abarrotes</strong> (aceite, arroz, frijol, enlatados, pasta, café, galletas), <strong>bebidas</strong> frías y calientes (refrescos, agua, jugos), <strong>snacks y frituras</strong>, <strong>dulces</strong>, <strong>bolsitas de hielo de 1 kg</strong>, <strong>agua purificada</strong>, <strong>lácteos</strong>, <strong>productos de limpieza</strong>, <strong>artículos de higiene personal</strong> y productos frescos según disponibilidad. Puedes consultar nuestro <a href="{{ route('products') }}" class="text-cyan-600 dark:text-cyan-400 hover:underline">catálogo completo en línea</a>.</p>
 						</div>
 					</div>
 					<!-- FAQ 5 -->
@@ -239,7 +240,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 							<i class="fas fa-chevron-down text-cyan-600 dark:text-cyan-400 transition-transform duration-200" :class="openFaq === 10 && 'rotate-180'"></i>
 						</button>
 						<div x-show="openFaq === 10" x-collapse x-cloak class="px-6 pb-4">
-							<p class="text-gray-700 dark:text-gray-300">Chabihau se encuentra a aproximadamente <strong>1 hora y 20 minutos</strong> de Mérida. La ruta más común es tomar la carretera Mérida-Motul y luego seguir las señalizaciones hacia Yobaín y Chabihau. El camino está bien pavimentado. Si usas GPS, busca "Chabihau, Yucatán" y te llevará directamente. Una vez en el pueblo, nuestra tienda está en el centro, en la <strong>Calle 21 entre 14 y 16</strong>.</p>
+							<p class="text-gray-700 dark:text-gray-300">Chabihau se encuentra a aproximadamente <strong>1 hora y 20 minutos</strong> de Mérida. La ruta más común es tomar la carretera Mérida-Motul y luego seguir las señalizaciones hacia Yobaín y Chabihau. El camino está bien pavimentado. Si usas GPS, busca "Chabihau, Yucatán" y te llevará directamente. Una vez en el pueblo, nuestra tienda está en la calle principal a dos calles del centro rumbo a Santa Clara, en la <strong>Calle 21 entre 14 y 16</strong>.</p>
 						</div>
 					</div>
 					<!-- FAQ 11 -->
@@ -259,7 +260,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 							<i class="fas fa-chevron-down text-cyan-600 dark:text-cyan-400 transition-transform duration-200" :class="openFaq === 12 && 'rotate-180'"></i>
 						</button>
 						<div x-show="openFaq === 12" x-collapse x-cloak class="px-6 pb-4">
-							<p class="text-gray-700 dark:text-gray-300">En Chabihau <strong>no hay cajeros automáticos ni sucursales bancarias</strong>. El cajero más cercano se encuentra en Yobaín (a 15 minutos) o en Motul (a 30 minutos). Por eso, te recomendamos traer efectivo suficiente o utilizar nuestros métodos de pago electrónico (tarjeta o transferencia). En Tendejón Azael aceptamos tarjeta (con 5% de comisión) para tu comodidad.</p>
+							<p class="text-gray-700 dark:text-gray-300">En Chabihau <strong>no hay cajeros automáticos ni sucursales bancarias</strong>. El cajero más cercano se encuentra en Yobaín (Bienestar, a 15 minutos) o en Motul (BBVA, Banamex, a 30 minutos). Por eso, te recomendamos traer efectivo suficiente o utilizar nuestros métodos de pago electrónico. En Tendejón Azael aceptamos tarjeta (con 5% de comisión) para tu comodidad.</p>
 						</div>
 					</div>
 				</div>

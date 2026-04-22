@@ -11,14 +11,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TF6JZMCQ');</script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{{ $article->title }} - Blog | Tendejón Azael</title>
+	<title>{{ $article->title }} | Tendejón Azael - Chabihau, Yucatán</title>
 	<meta name="description" content="{{ $article->excerpt }}">
 	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="{{ url('/blog/' . $article->slug) }}">
 	<link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
 	<meta property="og:type" content="article">
 	<meta property="og:url" content="{{ url('/blog/' . $article->slug) }}">
-	<meta property="og:title" content="{{ $article->title }}">
+	<meta property="og:title" content="{{ $article->title }} | Tendejón Azael">
+	<meta property="og:site_name" content="Tendejón Azael">
 	<meta property="og:description" content="{{ $article->excerpt }}">
 	@if($article->image)
 		<meta property="og:image" content="{{ asset($article->image) }}">

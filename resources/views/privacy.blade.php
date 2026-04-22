@@ -6,10 +6,15 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-6130FGQMRE');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviso de Privacidad - Tendejón Azael</title>
+    <title>Aviso de Privacidad | Tendejón Azael - Chabihau, Yucatán</title>
     <meta name="description" content="Aviso de privacidad y política de cookies de Tendejón Azael, tienda de abarrotes en Chabihau, Yucatán.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="{{ url('/aviso-de-privacidad') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/aviso-de-privacidad') }}">
+    <meta property="og:title" content="Aviso de Privacidad | Tendejón Azael - Chabihau, Yucatán">
+    <meta property="og:site_name" content="Tendejón Azael">
+    <meta property="og:locale" content="es_MX">
     <link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />

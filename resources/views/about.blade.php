@@ -11,14 +11,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TF6JZMCQ');</script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Sobre Nosotros - Tendejón Azael | Chabihau, Yucatán</title>
+	<title>Sobre Nosotros | Tendejón Azael - Chabihau, Yucatán</title>
 	<meta name="description" content="Conoce la historia de Tendejón Azael, tu tienda de abarrotes de confianza en Chabihau, Yucatán. Desde 2005 sirviendo a la comunidad y a los visitantes de la costa norte.">
 	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="{{ url('/sobre-nosotros') }}">
 	<link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="{{ url('/sobre-nosotros') }}">
-	<meta property="og:title" content="Sobre Nosotros - Tendejón Azael | Chabihau, Yucatán">
+	<meta property="og:title" content="Sobre Nosotros | Tendejón Azael - Chabihau, Yucatán">
+	<meta property="og:site_name" content="Tendejón Azael">
 	<meta property="og:description" content="Conoce la historia de Tendejón Azael, tienda de abarrotes en Chabihau desde 2005.">
 	<meta property="og:image" content="{{ asset('images/logos/logo_general.jpg') }}">
 	<meta property="og:locale" content="es_MX">

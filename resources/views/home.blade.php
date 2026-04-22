@@ -11,7 +11,7 @@
 	})(window,document,'script','dataLayer','GTM-TF6JZMCQ');</script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Tendejón Azael - Tienda de Abarrotes en Chabihau, Yucatán</title>
+	<title>Tendejón Azael | Tienda de Abarrotes en Chabihau, Yucatán</title>
 	<meta name="description" content="Tendejón Azael, tu tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo, abarrotes y más. ¡Visítanos en tus vacaciones y Semana Santa! Desde 2007 al servicio de la comunidad y turistas del puerto.">
 	<meta name="keywords" content="tienda abarrotes Chabihau, Tendejón Azael, tienda Chabihau Yucatán, abarrotes puerto Yucatán, vacaciones Chabihau, Semana Santa Chabihau, tienda playa Yucatán, bebidas Chabihau, snacks playa, hielo Chabihau, abarrotes Yobaín, tienda costa Yucatán, Puerto Chabihau tienda, compras vacaciones Yucatán, abarrotes cerca de la playa, tienda familiar Yucatán, abarrotes Telchac Puerto, tienda playa progreso Yucatán, refrescos playa Yucatán, agua purificada Chabihau, tienda turistas Yucatán, abarrotes económicos Yucatán, donde comprar Chabihau, despensa Chabihau Yucatán">
 	<meta name="author" content="Tendejón Azael">
@@ -22,7 +22,7 @@
 	<!-- Meta para redes sociales (Open Graph) -->
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="{{ url('/') }}">
-	<meta property="og:title" content="Tendejón Azael - Tienda de Abarrotes en Chabihau, Yucatán">
+	<meta property="og:title" content="Tendejón Azael | Tienda de Abarrotes en Chabihau, Yucatán">
 	<meta property="og:description" content="Tu tienda de abarrotes de confianza en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks y todo lo que necesitas para tus vacaciones y Semana Santa en el puerto.">
 	<meta property="og:image" content="{{ asset('images/logos/logo_general.jpg') }}">
 	<meta property="og:locale" content="es_MX">
@@ -30,7 +30,7 @@
 
 	<!-- Meta Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="Tendejón Azael - Tienda de Abarrotes en Chabihau, Yucatán">
+	<meta name="twitter:title" content="Tendejón Azael | Tienda de Abarrotes en Chabihau, Yucatán">
 	<meta name="twitter:description" content="Tu tienda de abarrotes de confianza en Chabihau. Más de 1000 productos para tus vacaciones y Semana Santa.">
 	<meta name="twitter:image" content="{{ asset('images/logos/logo_general.jpg') }}">
 
