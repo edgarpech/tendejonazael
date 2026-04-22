@@ -298,7 +298,7 @@
 				<div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 md:p-4 text-center hover:bg-white/20 transition">
 					<i class="fas fa-calendar-check text-2xl md:text-3xl mb-2"></i>
 					<p class="text-xs md:text-sm font-semibold">Desde 2005</p>
-					<p class="text-xs text-white/80 hidden md:block">18 años de experiencia</p>
+					<p class="text-xs text-white/80 hidden md:block">21 años de experiencia</p>
 				</div>
 				<div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 md:p-4 text-center hover:bg-white/20 transition">
 					<i class="fas fa-box-open text-2xl md:text-3xl mb-2"></i>
