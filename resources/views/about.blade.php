@@ -174,27 +174,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					</div>
 				</div>
 			</section>
-
-			<!-- Ubicación -->
-			<section>
-				<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 md:p-10">
-					<h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3">
-						<i class="fas fa-location-dot text-cyan-600 dark:text-cyan-400"></i> Encuéntranos
-					</h2>
-					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-						<div class="text-gray-700 dark:text-gray-300 space-y-3">
-							<p><i class="fas fa-map-marker-alt text-cyan-600 dark:text-cyan-400 mr-2"></i> Calle 21 entre 14 y 16, Chabihau, Yobaín, Yucatán</p>
-							<p><i class="fas fa-clock text-cyan-600 dark:text-cyan-400 mr-2"></i> Lunes a Domingo: 7:00 AM - 9:00 PM (extendido en vacaciones)</p>
-							<p><i class="fab fa-whatsapp text-cyan-600 dark:text-cyan-400 mr-2"></i> <a href="https://wa.me/+5219911161668" target="_blank" class="text-cyan-600 dark:text-cyan-400 hover:underline">+52 1 991 116 1668</a></p>
-							<p><i class="fab fa-facebook text-cyan-600 dark:text-cyan-400 mr-2"></i> <a href="https://www.facebook.com/TendejonAzael" target="_blank" class="text-cyan-600 dark:text-cyan-400 hover:underline">TendejonAzael</a></p>
-							<p><i class="fab fa-instagram text-cyan-600 dark:text-cyan-400 mr-2"></i> <a href="https://www.instagram.com/tendejonazael" target="_blank" class="text-cyan-600 dark:text-cyan-400 hover:underline">@tendejonazael</a></p>
-						</div>
-						<div class="rounded-xl overflow-hidden shadow-md">
-							<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3716.8!2d-89.637!3d21.3!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjHCsDE4JzAwLjAiTiA4OcKwMzgnMTMuMiJX!5e0!3m2!1ses!2smx!4v1" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación de Tendejón Azael en Google Maps"></iframe>
-						</div>
-					</div>
-				</div>
-			</section>
 		</div>
 	</main>
 

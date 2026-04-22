@@ -12,7 +12,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Tendejón Azael | Tienda de Abarrotes en Chabihau, Yucatán</title>
-	<meta name="description" content="Tendejón Azael, tu tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo, abarrotes y más. ¡Visítanos en tus vacaciones y Semana Santa! Desde 2007 al servicio de la comunidad y turistas del puerto.">
+	<meta name="description" content="Tendejón Azael, tu tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo, abarrotes y más. ¡Visítanos en tus vacaciones y Semana Santa! Desde 2005 al servicio de la comunidad y turistas del puerto.">
 	<meta name="keywords" content="tienda abarrotes Chabihau, Tendejón Azael, tienda Chabihau Yucatán, abarrotes puerto Yucatán, vacaciones Chabihau, Semana Santa Chabihau, tienda playa Yucatán, bebidas Chabihau, snacks playa, hielo Chabihau, abarrotes Yobaín, tienda costa Yucatán, Puerto Chabihau tienda, compras vacaciones Yucatán, abarrotes cerca de la playa, tienda familiar Yucatán, abarrotes Telchac Puerto, tienda playa progreso Yucatán, refrescos playa Yucatán, agua purificada Chabihau, tienda turistas Yucatán, abarrotes económicos Yucatán, donde comprar Chabihau, despensa Chabihau Yucatán">
 	<meta name="author" content="Tendejón Azael">
 	<meta name="application-name" content="Tendejón Azael">
@@ -292,12 +292,12 @@
 				Calidad y confianza en cada compra
 			</h1>
 			<p class="text-base md:text-xl lg:text-2xl mb-6 md:mb-8 text-white/90">
-				Tu tendejón familiar desde 2007. Los mejores productos al alcance de tu mano.
+				Tu tendejón familiar desde 2005. Los mejores productos al alcance de tu mano.
 			</p>
 			<div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 max-w-4xl mx-auto">
 				<div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 md:p-4 text-center hover:bg-white/20 transition">
 					<i class="fas fa-calendar-check text-2xl md:text-3xl mb-2"></i>
-					<p class="text-xs md:text-sm font-semibold">Desde 2007</p>
+					<p class="text-xs md:text-sm font-semibold">Desde 2005</p>
 					<p class="text-xs text-white/80 hidden md:block">18 años de experiencia</p>
 				</div>
 				<div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 md:p-4 text-center hover:bg-white/20 transition">
@@ -330,7 +330,7 @@
 						En el corazón de Chabihau, <strong>Tendejón Azael</strong> nació como un emprendimiento familiar con un propósito claro: ofrecer a nuestra comunidad una tienda donde la calidad, la variedad y el trato amable fueran lo primordial.
 					</p>
 					<p class="text-sm md:text-base text-gray-700 dark:text-gray-300">
-						Desde 2007, nos hemos esforzado en transformar cada visita de nuestros clientes en una experiencia satisfactoria, adaptándonos constantemente a sus necesidades.
+						Desde 2005, nos hemos esforzado en transformar cada visita de nuestros clientes en una experiencia satisfactoria, adaptándonos constantemente a sus necesidades.
 					</p>
 				</div>
 				<div class="bg-gradient-to-br from-cyan-600 to-blue-700 rounded-xl md:rounded-2xl shadow-lg p-4 md:p-8 text-white hover:shadow-xl transition">
@@ -678,7 +678,7 @@
 		"@@type": "LocalBusiness",
 		"@@id": "{{ url('/') }}",
 		"name": "Tendejón Azael",
-		"description": "Tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo y abarrotes. Desde 2007 al servicio de la comunidad y turistas.",
+		"description": "Tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo y abarrotes. Desde 2005 al servicio de la comunidad y turistas.",
 		"url": "{{ url('/') }}",
 		"telephone": ["+529911161668", "+529911078633"],
 		"image": "{{ asset('images/logos/logo_general.jpg') }}",
@@ -709,7 +709,7 @@
 			"https://www.facebook.com/TendejonAzael",
 			"https://www.instagram.com/tendejonazael"
 		],
-		"foundingDate": "2007",
+		"foundingDate": "2005",
 		"areaServed": [
 			{ "@@type": "Place", "name": "Chabihau" },
 			{ "@@type": "Place", "name": "Yobaín" },

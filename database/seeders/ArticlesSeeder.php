@@ -38,20 +38,22 @@ class ArticlesSeeder extends Seeder
 <p>Si tu alojamiento tiene cocina, aprovecha para preparar tus propios alimentos. Los básicos que necesitarás son:</p>
 <ul>
 <li>Aceite, sal, azúcar y especias</li>
-<li>Tortillas de maíz</li>
+<li>Pan de caja para sandwiches y tortas rápidas</li>
 <li>Huevos, frijoles y arroz</li>
 <li>Carnes frías y quesos para desayunos rápidos</li>
 <li>Pasta de achiote y recado para cocinar al estilo yucateco</li>
 </ul>
+<p><em>Nota: las tortillas frescas solo están disponibles en temporada vacacional alta. Si visitas fuera de temporada, conviene traer tortillas de Motul o Dzidzantún.</em></p>
 
 <h2>No olvides los básicos de limpieza</h2>
 <p>Jabón para trastes, papel higiénico, bolsas de basura y servilletas son indispensables. Muchas casas de renta no incluyen estos artículos, así que es mejor llegar preparado.</p>
 
-<h2>Prepárate para los cortes de luz</h2>
-<p>En Chabihau los <strong>cortes de electricidad son frecuentes</strong>, especialmente en temporada de calor y lluvias. Te recomendamos tener a la mano <strong>velas, linternas o focos recargables</strong> para no quedarte a oscuras. En la tienda puedes encontrar velas y cerillos.</p>
-
-<h2>Palapas y servicios en la playa</h2>
-<p>Si buscas disfrutar la playa con comodidades, te recomendamos <strong>Sol, Mar y Arena</strong>, donde ofrecen renta de palapas por hora, pasadías, cuartos, renta de kayaks, servicio de comida, baños y regaderas. Es una excelente opción para pasar el día sin preocupaciones.</p>
+<h2>Algunos consejos extra para llegar preparado</h2>
+<ul>
+<li><strong>Lleva efectivo:</strong> En Chabihau no hay cajeros automáticos. Aunque aceptamos tarjeta en la tienda, otros negocios solo manejan efectivo.</li>
+<li><strong>Carga gasolina antes:</strong> No hay estaciones de servicio en el puerto.</li>
+<li><strong>Trae señal:</strong> Verifica con tu compañía telefónica la cobertura en la zona antes de viajar.</li>
+</ul>
 
 <p>En <strong>Tendejón Azael</strong> encontrarás todo esto y más. Estamos en la <strong>Calle 21 entre 14 y 16</strong> en el centro de Chabihau, abiertos de 7:00 AM a 9:00 PM (en temporada vacacional extendemos hasta las 10:00 u 11:00 PM). ¡Te esperamos!</p>',
 			],
@@ -84,7 +86,7 @@ class ArticlesSeeder extends Seeder
 <ul>
 <li><strong>Pepitas de calabaza:</strong> Un snack yucateco por excelencia.</li>
 <li><strong>Barras de granola:</strong> Prácticas y nutritivas.</li>
-<li><strong>Frutas secas:</strong> Mango, piña y arándanos deshidratados.</li>
+<li><strong>Frutas frescas:</strong> Mango, manzana, pera y plátano son fáciles de llevar y refrescantes.</li>
 </ul>
 
 <h2>Bebidas para acompañar</h2>
@@ -120,7 +122,7 @@ class ArticlesSeeder extends Seeder
 <ul>
 <li>Caminar por la playa al amanecer o atardecer</li>
 <li>Observar aves en la ría y los manglares cercanos</li>
-<li>Pescar desde el muelle</li>
+<li>Pescar desde el puente</li>
 <li>Disfrutar de mariscos frescos en los restaurantes locales</li>
 <li>Rentar kayaks y palapas en <strong>Sol, Mar y Arena</strong>, que también ofrece cuartos, pasadías, servicio de comida, baños y regaderas</li>
 </ul>
@@ -146,26 +148,22 @@ class ArticlesSeeder extends Seeder
 <h2>Qué llevar a tu casa de playa</h2>
 <p>Además de tu ropa y artículos personales, no olvides:</p>
 <ul>
-<li><strong>Despensa completa:</strong> Aunque en Tendejón Azael encuentras de todo, durante los días pico la demanda es alta. Te recomendamos hacer tus compras al llegar.</li>
-<li><strong>Hielo:</strong> El calor en abril puede superar los 38°C. Tenemos <strong>bolsitas de hielo de 1 kg</strong> disponibles.</li>
-<li><strong>Protector solar:</strong> Factor 50+ es lo recomendable para la costa yucateca.</li>
-<li><strong>Repelente de mosquitos:</strong> Los moscos son más activos al atardecer.</li>
-<li><strong>Velas y linternas:</strong> Los <strong>cortes de luz son frecuentes</strong> en Chabihau, así que es mejor estar preparado con focos recargables o velas.</li>
+<li><strong>Despensa completa:</strong> Durante los días pico la demanda en la tienda es muy alta. Te recomendamos hacer tus compras grandes al llegar, antes del Jueves Santo.</li>
+<li><strong>Hielo extra:</strong> El calor en abril puede superar los 38°C y la demanda de hielo se dispara. Compra más del que crees que necesitarás.</li>
+<li><strong>Protector solar factor 50+ y repelente de mosquitos:</strong> Indispensables para la costa yucateca.</li>
 <li><strong>Hamacas:</strong> Si tu casa no tiene, son esenciales para descansar al estilo yucateco.</li>
+<li><strong>Reservación confirmada:</strong> Los alojamientos se llenan con meses de anticipación. Confirma tu reserva antes de salir.</li>
 </ul>
 
-<h2>Seguridad en la playa</h2>
-<p>Chabihau tiene una playa generalmente tranquila, pero es importante tomar precauciones:</p>
+<h2>Seguridad en la playa durante la temporada alta</h2>
+<p>Con tantos visitantes, las precauciones son aún más importantes:</p>
 <ul>
-<li>Supervisa siempre a los niños cerca del agua</li>
+<li>Supervisa siempre a los niños cerca del agua — las playas se llenan y es fácil perderlos de vista</li>
 <li>Evita nadar si hay bandera roja</li>
 <li>No dejes objetos de valor en la playa sin supervisión</li>
-<li>Hidratarse constantemente para evitar golpes de calor</li>
-<li>Ten cuidado en zonas de manglar y ría — se han avistado <strong>cocodrilos</strong> en su hábitat natural</li>
+<li>Hidrátate constantemente para evitar golpes de calor</li>
+<li>Ten cuidado al manejar en las calles del puerto: aumentan los peatones, ciclistas y motos</li>
 </ul>
-
-<h2>Servicios en la playa</h2>
-<p>Si buscas pasar el día con comodidades, <strong>Sol, Mar y Arena</strong> ofrece renta de palapas por hora, pasadías, cuartos, renta de kayaks, servicio de comida, baños y regaderas. Es una excelente opción para familias.</p>
 
 <h2>Eventos y tradiciones</h2>
 <p>Durante Semana Santa, es común ver procesiones religiosas en los pueblos cercanos, ferias con juegos mecánicos y puestos de comida. En Chabihau mismo, la comunidad organiza actividades recreativas y torneos de pesca.</p>
@@ -186,11 +184,11 @@ class ArticlesSeeder extends Seeder
 <p>El desayuno es la comida más importante, especialmente si planeas pasar el día en la playa. Los básicos son:</p>
 <ul>
 <li>Huevos (al menos una docena para una familia de 4)</li>
-<li>Pan de caja o teleras para hacer tortas</li>
+<li>Pan bimbo para hacer tortas</li>
 <li>Jamón, queso y mantequilla</li>
 <li>Cereal y leche</li>
-<li>Café, azúcar y crema</li>
-<li>Jugo de naranja</li>
+<li>Café y azúcar</li>
+<li>Jugos</li>
 </ul>
 
 <h2>Comidas y cenas</h2>
@@ -198,9 +196,8 @@ class ArticlesSeeder extends Seeder
 <ul>
 <li>Arroz y frijoles (enlatados o para cocinar)</li>
 <li>Pasta y salsa para espagueti</li>
-<li>Atún y sardinas</li>
-<li>Tortillas de maíz</li>
-<li>Salchichas para asar</li>
+<li>Atún</li>
+<li>Salchichas</li>
 <li>Verduras básicas: tomate, cebolla, chile, cilantro, limones</li>
 <li>Aceite, sal, pimienta y condimentos</li>
 </ul>
@@ -256,13 +253,10 @@ class ArticlesSeeder extends Seeder
 <h2>Formas de pago</h2>
 <p>Aceptamos <strong>efectivo</strong> y <strong>tarjeta de débito y crédito</strong> (con un 5% de comisión). Sabemos que no siempre es fácil encontrar un cajero en Chabihau, así que ofrecemos opciones para tu comodidad.</p>
 
-<h2>Contribuimos a la economía local</h2>
-<p>Cuando compras en Tendejón Azael, estás apoyando directamente a una familia de Chabihau. Los ingresos de la tienda se quedan en la comunidad: generamos empleo local, compramos a proveedores de la región y participamos en las actividades del pueblo.</p>
-
 <h2>Estamos aquí cuando nos necesitas</h2>
 <p>Abrimos los 7 días de la semana, de 7:00 AM a 9:00 PM (en temporada vacacional extendemos hasta las 10:00 u 11:00 PM). Si se te acaba el hielo a las 8 de la noche o necesitas algo temprano en la mañana, estamos aquí. Es la ventaja de tener una tienda comprometida con su comunidad.</p>
 
-<p>Desde 2005, cuando comenzamos como un pequeño puesto de Coca-Cola, y formalmente desde <strong>2007</strong> con el alta en Hacienda, <strong>Tendejón Azael</strong> ha sido parte de la vida de Chabihau. Gracias por confiar en nosotros.</p>',
+<p>Desde 2005, cuando comenzamos como un pequeño puesto de Coca-Cola, y formalmente desde <strong>2007</strong> con el registro oficial del negocio, <strong>Tendejón Azael</strong> ha sido parte de la vida de Chabihau. Gracias por confiar en nosotros.</p>',
 			],
 			[
 				'title' => 'Recetas fáciles para cocinar en tu casa de playa',
@@ -271,26 +265,25 @@ class ArticlesSeeder extends Seeder
 				'category' => 'recomendaciones',
 				'content' => '<p>Cocinar en la casa de playa no tiene que ser complicado. Con ingredientes básicos que puedes encontrar en Tendejón Azael, puedes preparar comidas deliciosas para toda la familia. Aquí te compartimos algunas recetas favoritas.</p>
 
-<h2>Huevos motuleños (Desayuno yucateco)</h2>
-<p>Un clásico yucateco que es fácil de hacer:</p>
+<h2>Sandwiches de jamón y queso al sartén (Desayuno rápido)</h2>
+<p>Una alternativa rápida y deliciosa para empezar el día:</p>
 <ul>
-<li>Fríe tortillas de maíz en aceite hasta que estén ligeramente doradas</li>
-<li>Colócalas en un plato y unta frijoles negros refritos encima</li>
-<li>Pon un huevo estrellado sobre cada tortilla</li>
-<li>Baña con salsa de tomate y agrega chícharos, jamón picado y queso rallado</li>
-<li>Sirve con rodajas de plátano frito</li>
+<li>Unta mantequilla en un lado de cada rebanada de pan de caja</li>
+<li>Arma el sandwich con jamón y queso amarillo o manchego</li>
+<li>Dora en sartén caliente por ambos lados hasta que el queso se derrita</li>
+<li>Acompaña con jugo o café</li>
 </ul>
-<p><em>Ingredientes que encuentras en la tienda: huevos, tortillas, frijoles, jamón, queso, salsa, aceite.</em></p>
+<p><em>Ingredientes que encuentras en la tienda: pan de caja, jamón, queso, mantequilla.</em></p>
 
-<h2>Tacos de atún a la mexicana (Comida rápida)</h2>
-<p>Perfectos cuando no quieres complicarte:</p>
+<h2>Ensalada de atún (Comida rápida y fresca)</h2>
+<p>Perfecta para los días de mucho calor:</p>
 <ul>
-<li>Abre una lata de atún y escúrrela</li>
-<li>Mezcla con tomate, cebolla y cilantro picados</li>
+<li>Abre una lata de atún y escúrrela bien</li>
+<li>Mezcla con mayonesa, tomate y cebolla picados</li>
 <li>Agrega limón, sal y chile al gusto</li>
-<li>Sirve en tortillas de maíz calientes</li>
+<li>Sirve sobre galletas saladas o con pan de caja</li>
 </ul>
-<p><em>Ingredientes disponibles: atún en lata, tortillas, tomate, cebolla, limones, sal.</em></p>
+<p><em>Ingredientes disponibles: atún en lata, mayonesa, galletas saladas, pan de caja, tomate, cebolla, limones.</em></p>
 
 <h2>Espagueti con salchichas (Favorito de los niños)</h2>
 <p>Simple, rápido y les encanta a los pequeños:</p>
@@ -303,22 +296,23 @@ class ArticlesSeeder extends Seeder
 <p><em>Todo disponible en la tienda: pasta, salchichas, salsa, queso.</em></p>
 
 <h2>Ceviche de emergencia (Cena ligera)</h2>
-<p>Si encuentras pescado fresco en el muelle:</p>
+<p>Si encuentras pescado fresco en el puente:</p>
 <ul>
 <li>Corta el pescado en cubitos pequeños y cúbrelo con jugo de limón</li>
 <li>Refrigera por al menos 2 horas</li>
 <li>Agrega tomate, cebolla morada, cilantro y chile habanero picados</li>
-<li>Sazona con sal y sirve con tostadas o galletas saladas</li>
+<li>Sazona con sal y sirve con galletas saladas</li>
 </ul>
-<p><em>De la tienda necesitas: limones, tomate, cebolla, cilantro, tostadas, sal.</em></p>
+<p><em>De la tienda necesitas: limones, tomate, cebolla, cilantro, galletas saladas, sal.</em></p>
 
-<h2>Agua de jamaica (Bebida para todo el día)</h2>
+<h2>Agua de horchata (Bebida refrescante para todo el día)</h2>
 <ul>
-<li>Hierve 2 litros de agua con un puño de flor de jamaica por 10 minutos</li>
-<li>Cuela, agrega azúcar al gusto y deja enfriar</li>
-<li>Sirve con mucho hielo</li>
+<li>Vierte el contenido del bote de horchata en una jarra grande</li>
+<li>Agrega agua fría según las indicaciones del envase</li>
+<li>Mezcla bien hasta que se disuelva por completo</li>
+<li>Sirve con mucho hielo y disfruta</li>
 </ul>
-<p><em>Flor de jamaica y azúcar disponibles en la tienda.</em></p>
+<p><em>Horchata en bote disponible en la tienda, lista para preparar.</em></p>
 
 <p>Lo mejor de cocinar en la playa es que todo sabe mejor con la brisa del mar. ¡Visita <strong>Tendejón Azael</strong> en la <strong>Calle 21 entre 14 y 16</strong> para conseguir todos tus ingredientes!</p>',
 			],
@@ -350,8 +344,8 @@ class ArticlesSeeder extends Seeder
 <h2>Consume local</h2>
 <p>Comprar en tiendas locales como Tendejón Azael en lugar de traer todo desde la ciudad apoya directamente a las familias de la comunidad. Además, encontrarás productos frescos y todo lo necesario para tu estancia.</p>
 
-<h2>Disfruta los servicios de la playa</h2>
-<p>En lugar de llevar montones de equipo, aprovecha los servicios que ofrece <strong>Sol, Mar y Arena</strong>: renta de palapas por hora, pasadías, kayaks, servicio de comida, baños y regaderas. Así reduces la cantidad de desechables que generas.</p>
+<h2>Reduce los desechables</h2>
+<p>Lleva tu propia botella de agua reutilizable, vasos, platos y cubiertos lavables en lugar de desechables. Si vas a usar productos de un solo uso, prefiere los biodegradables y asegúrate de llevarlos contigo al volver. Cada vacacionista que reduce un poco sus desechos hace una gran diferencia para nuestra playa.</p>
 
 <p>Chabihau nos recibe con los brazos abiertos cada temporada. Cuidar este hermoso lugar es tarea de todos: residentes y visitantes. ¡Juntos podemos mantener nuestra playa limpia para las generaciones futuras!</p>',
 			],
@@ -363,10 +357,10 @@ class ArticlesSeeder extends Seeder
 				'content' => '<p>Tendejón Azael es parte de la historia de Chabihau. Lo que hoy es una tienda de abarrotes completa comenzó hace más de dos décadas como un sueño familiar en este tranquilo puerto de la costa norte de Yucatán.</p>
 
 <h2>Los inicios: un puesto de Coca-Cola (2005)</h2>
-<p>Todo comenzó en <strong>2005</strong>, cuando la familia decidió montar un <strong>pequeño puesto de Coca-Cola</strong> en Chabihau. Era algo sencillo: un espacio modesto donde se vendían refrescos a los vecinos y a los primeros visitantes que llegaban al puerto. Pero la necesidad de la comunidad era clara — hacía falta un lugar donde comprar los productos básicos sin tener que viajar hasta Motul.</p>
+<p>Todo comenzó en <strong>2005</strong>, cuando la familia decidió montar un <strong>pequeño puesto de Coca-Cola</strong> en Chabihau. Era algo sencillo: un espacio modesto donde se vendían refrescos a los vecinos y a los primeros visitantes que llegaban al puerto. Pero la necesidad de la comunidad era clara — hacía falta un lugar donde comprar los productos básicos sin tener que viajar.</p>
 
 <h2>Formalización y crecimiento (2007)</h2>
-<p>En <strong>2007</strong> se dio un paso importante: el <strong>alta ante Hacienda</strong>, formalizando el negocio como Tendejón Azael. El nombre "Tendejón" refleja nuestras raíces yucatecas — así es como en la península llamamos a las tiendas de la esquina. <strong>Azael</strong>, el nombre de uno de los hijos de la familia, le da ese toque personal que nos caracteriza.</p>
+<p>En <strong>2007</strong> se dio un paso importante: el <strong>registro oficial del negocio</strong>, formalizándolo como Tendejón Azael. El nombre "Tendejón" refleja nuestras raíces yucatecas — así es como en la península llamamos a las tiendas de la esquina. <strong>Azael</strong>, el nombre de uno de los hijos de la familia, le da ese toque personal que nos caracteriza.</p>
 
 <p>A partir de ese momento, la tienda comenzó a crecer. De vender solo refrescos, se fue ampliando el inventario para incluir abarrotes, snacks, productos de limpieza, higiene personal, hielo y todo lo que la comunidad y los visitantes necesitaban.</p>
 
@@ -416,7 +410,7 @@ class ArticlesSeeder extends Seeder
 </ul>
 
 <h2>Dzilam de Bravo — 40 minutos al oriente</h2>
-<p>Un pueblo pesquero auténtico donde puedes comprar pescado y mariscos directos del muelle. Es conocido por:</p>
+<p>Un pueblo pesquero auténtico donde puedes comprar pescado y mariscos directos del puente. Es conocido por:</p>
 <ul>
 <li>La Reserva Estatal de Dzilam</li>
 <li>Mariscos frescos y económicos</li>
@@ -435,10 +429,10 @@ class ArticlesSeeder extends Seeder
 <h2>Consejos para tus excursiones</h2>
 <ul>
 <li>Lleva suficiente agua y protector solar</li>
-<li>Carga combustible antes — las <strong>gasolineras</strong> están en <strong>Motul, Telchac Puerto, Dzilam de Bravo y Dzidzantún</strong></li>
+<li>Carga combustible antes — las <strong>gasolineras</strong> más cercanas están en <strong>Motul, Telchac Puerto, Dzilam de Bravo y Dzidzantún</strong></li>
 <li>Los caminos costeros son de dos carriles, maneja con precaución</li>
 <li>Lleva efectivo — no todos los lugares aceptan tarjeta</li>
-<li>Ten cuidado con los <strong>cocodrilos</strong> en zonas de manglar y ría</li>
+<li>Sal temprano para aprovechar el día y regresar antes del atardecer</li>
 </ul>
 
 <p>Antes de salir a explorar, pasa por <strong>Tendejón Azael</strong> en la <strong>Calle 21 entre 14 y 16</strong> a surtirte de agua, snacks y hielo para tu hielera. ¡Buen viaje!</p>',
@@ -470,15 +464,6 @@ class ArticlesSeeder extends Seeder
 <li><strong>Velas, linternas y focos recargables:</strong> Los <strong>cortes de luz son muy frecuentes</strong> en Chabihau, especialmente con vientos fuertes. Tener iluminación de respaldo es prácticamente obligatorio.</li>
 <li><strong>Ropa abrigadora:</strong> Suéteres, cobijas y ropa cerrada</li>
 <li><strong>Café y chocolate caliente:</strong> Para disfrutar el frío inusual del trópico</li>
-</ul>
-
-<h2>Actividades para un día de norte</h2>
-<p>Cuando el mar no permite actividades de playa, puedes:</p>
-<ul>
-<li>Leer un buen libro en la hamaca (dentro de casa)</li>
-<li>Cocinar en familia — es perfecto para preparar recetas más elaboradas</li>
-<li>Juegos de mesa con la familia</li>
-<li>Pasear por el pueblo cuando el viento aminore</li>
 </ul>
 
 <p>Los nortes son parte del encanto de la vida costera yucateca. En <strong>Tendejón Azael</strong> siempre estamos abiertos, llueva o truene, de 7:00 AM a 9:00 PM en la <strong>Calle 21 entre 14 y 16</strong>. ¡No dejes que un norte arruine tus vacaciones!</p>',

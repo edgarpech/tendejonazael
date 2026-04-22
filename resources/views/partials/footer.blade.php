@@ -3,7 +3,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-4 md:mb-8">
 			<div>
 				<h3 class="text-lg md:text-2xl font-bold mb-2 md:mb-4 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Tendejón Azael</h3>
-				<p class="text-sm md:text-base text-gray-400">Tu tienda de abarrotes de confianza desde 2007.</p>
+				<p class="text-sm md:text-base text-gray-400">Tu tienda de abarrotes de confianza desde 2005.</p>
 			</div>
 			<div>
 				<h3 class="text-base md:text-xl font-bold mb-2 md:mb-4">Enlaces Rápidos</h3>
@@ -33,7 +33,7 @@
 			</div>
 		</div>
 		<div class="border-t border-gray-800 pt-4 md:pt-8 text-center text-xs md:text-base text-gray-400">
-			<p>&copy; 2007-{{ date('Y') }} Tendejón Azael. Todos los derechos reservados.</p>
+			<p>&copy; 2005-{{ date('Y') }} Tendejón Azael. Todos los derechos reservados.</p>
 		</div>
 	</div>
 </footer>

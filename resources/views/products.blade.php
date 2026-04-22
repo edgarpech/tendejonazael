@@ -253,7 +253,7 @@
 			<!-- Texto editorial introductorio -->
 			<div class="hidden md:block bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 mb-8">
 				<p class="text-gray-700 dark:text-gray-300 leading-relaxed">
-					En <strong>Tendejón Azael</strong> encontrarás todo lo que necesitas para tus vacaciones en Chabihau y la costa norte de Yucatán. Nuestro catálogo incluye más de 500 productos: desde los <strong>abarrotes básicos</strong> para armar tu despensa, hasta <strong>bebidas frías, snacks, hielo y agua purificada</strong> — esenciales para disfrutar un día de playa. También contamos con productos de <strong>limpieza, higiene personal, lácteos y dulces</strong> de las marcas que más te gustan. Usa los filtros para encontrar exactamente lo que buscas, o simplemente explora las categorías para descubrir nuestra variedad. Todos los precios que ves aquí son los mismos que manejamos en la tienda física, actualizados regularmente para tu comodidad.
+					En <strong>Tendejón Azael</strong> encontrarás todo lo que necesitas para tus vacaciones en Chabihau y la costa norte de Yucatán. Nuestro catálogo incluye más de 1500 productos: desde los <strong>abarrotes básicos</strong> para armar tu despensa, hasta <strong>bebidas frías, snacks, hielo y agua purificada</strong> — esenciales para disfrutar un día de playa. También contamos con productos de <strong>limpieza, higiene personal, lácteos y dulces</strong> de las marcas que más te gustan. Usa los filtros para encontrar exactamente lo que buscas, o simplemente explora las categorías para descubrir nuestra variedad. Todos los precios que ves aquí son los mismos que manejamos en la tienda física, actualizados regularmente para tu comodidad.
 				</p>
 			</div>
 
