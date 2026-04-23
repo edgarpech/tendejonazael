@@ -33,6 +33,7 @@ class ArticleController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|alpha_dash|unique:articles,slug',
             'excerpt' => 'required|string|max:300',
             'content' => 'required|string',
             'image' => 'nullable|image|max:4096',
@@ -41,7 +42,9 @@ class ArticleController extends Controller
             'published_at' => 'nullable|date',
         ]);
 
-        $validated['slug'] = Str::slug($validated['title']);
+        $validated['slug'] = ! empty($validated['slug'])
+            ? Str::slug($validated['slug'])
+            : Str::slug($validated['title']);
         $validated['is_published'] = $request->boolean('is_published');
         $validated['published_at'] = $validated['is_published'] ? ($request->input('published_at') ?? now()) : null;
         $validated['content'] = clean($validated['content']);
@@ -64,6 +67,7 @@ class ArticleController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|alpha_dash|unique:articles,slug,' . $article->id_article . ',id_article',
             'excerpt' => 'required|string|max:300',
             'content' => 'required|string',
             'image' => 'nullable|image|max:4096',
@@ -72,7 +76,13 @@ class ArticleController extends Controller
             'published_at' => 'nullable|date',
         ]);
 
-        $validated['slug'] = Str::slug($validated['title']);
+        // El slug NO se regenera desde el título automáticamente: eso rompería URLs
+        // ya indexadas en Google. Solo se cambia si el admin lo modifica explícitamente.
+        if (! empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['slug']);
+        } else {
+            unset($validated['slug']);
+        }
         $validated['is_published'] = $request->boolean('is_published');
         $validated['content'] = clean($validated['content']);
 

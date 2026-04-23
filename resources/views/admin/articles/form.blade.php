@@ -49,6 +49,19 @@
                         @enderror
                     </div>
                 </div>
+                <div class="mt-4">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Slug (URL)
+                        <span class="font-normal text-gray-400">— déjalo vacío al crear para generarlo del título. <strong class="text-amber-600 dark:text-amber-400">Si lo cambias después, la URL anterior se redirigirá automáticamente.</strong></span>
+                    </label>
+                    <div class="flex items-center gap-2">
+                        <span class="text-gray-500 text-sm">/blog/</span>
+                        <input type="text" name="slug" id="fSlug" class="fi" value="{{ old('slug', $article->slug ?? '') }}" placeholder="mi-articulo-de-ejemplo">
+                    </div>
+                    @error('slug')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
             {{-- Extracto --}}

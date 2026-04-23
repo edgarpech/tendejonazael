@@ -146,7 +146,18 @@ class HomeController extends Controller
      */
     public function blogShow(string $slug)
     {
-        $article = Article::published()->where('slug', $slug)->firstOrFail();
+        $article = Article::published()->where('slug', $slug)->first();
+
+        // Si el slug no existe, buscar en la tabla de redirecciones (slugs antiguos)
+        // y devolver 301 al slug actual para conservar el SEO ya indexado.
+        if (! $article) {
+            $redirect = \App\Models\ArticleRedirect::where('old_slug', $slug)->first();
+            if ($redirect && $redirect->article && $redirect->article->is_published) {
+                return redirect()->route('blog.show', ['slug' => $redirect->article->slug], 301);
+            }
+            abort(404);
+        }
+
         $related = Article::published()
             ->where('id_article', '!=', $article->id_article)
             ->where('category', $article->category)
