@@ -132,7 +132,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 							<i class="fas fa-clock text-2xl text-cyan-600 dark:text-cyan-400"></i>
 						</div>
 						<h3 class="font-bold text-gray-900 dark:text-white mb-2">Horario Amplio</h3>
-						<p class="text-sm text-gray-600 dark:text-gray-400">Abiertos todos los días de 7:00 a 21:00. Horario extendido en temporada vacacional.</p>
+						<p class="text-sm text-gray-600 dark:text-gray-400">Abiertos todos los días de 7:00 AM a 9:00 PM. Horario extendido en temporada vacacional.</p>
 					</div>
 					<div class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 text-center">
 						<div class="w-14 h-14 bg-cyan-100 dark:bg-cyan-900 rounded-full flex items-center justify-center mx-auto mb-4">

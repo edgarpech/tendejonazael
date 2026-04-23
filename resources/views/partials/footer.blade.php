@@ -10,8 +10,6 @@
 				<ul class="space-y-1 md:space-y-2 text-sm md:text-base">
 					@if(request()->routeIs('home'))
 						<li><a href="#hero" class="text-gray-400 hover:text-cyan-400 transition">Inicio</a></li>
-						<li><a href="#catalogo" class="text-gray-400 hover:text-cyan-400 transition">Productos</a></li>
-						<li><a href="#contacto" class="text-gray-400 hover:text-cyan-400 transition">Contacto</a></li>
 					@else
 						<li><a href="/" class="text-gray-400 hover:text-cyan-400 transition">Inicio</a></li>
 						<li><a href="{{ route('products') }}" class="text-gray-400 hover:text-cyan-400 transition">Productos</a></li>

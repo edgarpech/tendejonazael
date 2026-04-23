@@ -113,11 +113,11 @@
 				<!-- Menú escritorio -->
 				<ul class="hidden lg:flex items-center gap-8">
 					<li><a href="#hero" @click.prevent="scrollToSection('hero')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Inicio</a></li>
-					<li><a href="#sobre-nosotros" @click.prevent="scrollToSection('sobre-nosotros')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Sobre Nosotros</a></li>
 					<li><a href="#catalogo" @click.prevent="scrollToSection('catalogo')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Nuestros Productos</a></li>
 					<li><a href="#marcas" @click.prevent="scrollToSection('marcas')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Marcas</a></li>
 					<li><a href="#contacto" @click.prevent="scrollToSection('contacto')" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium cursor-pointer">Contacto</a></li>
 					<li><a href="{{ route('blog') }}" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium">Blog</a></li>
+					<li><a href="{{ route('about') }}" class="text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition font-medium">Sobre Nosotros</a></li>
 					
 					<!-- Modo oscuro -->
 					<li>
@@ -235,8 +235,8 @@
 						</a>
 					</li>
 					<li>
-						<a href="#sobre-nosotros" @click.prevent="mobileMenu = false; scrollToSection('sobre-nosotros')" 
-						   class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 cursor-pointer group">
+						<a href="{{ route('about') }}" 
+						   class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
 							<i class="fas fa-info-circle w-5 text-gray-400 group-hover:text-cyan-500"></i>
 							<span>Sobre Nosotros</span>
 						</a>
@@ -302,7 +302,7 @@
 				</div>
 				<div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 md:p-4 text-center hover:bg-white/20 transition">
 					<i class="fas fa-box-open text-2xl md:text-3xl mb-2"></i>
-					<p class="text-xs md:text-sm font-semibold">+1000 Productos</p>
+					<p class="text-xs md:text-sm font-semibold">+1500 Productos</p>
 					<p class="text-xs text-white/80 hidden md:block">Gran variedad</p>
 				</div>
 				<div class="bg-white/10 backdrop-blur-sm rounded-lg p-3 md:p-4 text-center hover:bg-white/20 transition">
@@ -314,41 +314,6 @@
 					<i class="fas fa-heart text-2xl md:text-3xl mb-2"></i>
 					<p class="text-xs md:text-sm font-semibold">Atención Familiar</p>
 					<p class="text-xs text-white/80 hidden md:block">Servicio personalizado</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<!-- Sobre Nosotros -->
-	<section id="sobre-nosotros" class="py-10 md:py-20 bg-white dark:bg-gray-900 transition-colors duration-300">
-		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-			<h2 class="text-2xl md:text-4xl font-bold text-center mb-6 md:mb-12 text-gray-900 dark:text-white">Sobre Nosotros</h2>
-			<div class="grid md:grid-cols-2 gap-4 md:gap-8">
-				<div class="bg-gray-50 dark:bg-gray-800 rounded-xl md:rounded-2xl shadow-lg p-4 md:p-8 hover:shadow-xl transition">
-					<h3 class="text-lg md:text-2xl font-bold text-cyan-700 dark:text-cyan-400 mb-2 md:mb-4">Nuestra Historia</h3>
-					<p class="text-sm md:text-base text-gray-700 dark:text-gray-300 mb-2 md:mb-4">
-						En el corazón de Chabihau, <strong>Tendejón Azael</strong> nació como un emprendimiento familiar con un propósito claro: ofrecer a nuestra comunidad una tienda donde la calidad, la variedad y el trato amable fueran lo primordial.
-					</p>
-					<p class="text-sm md:text-base text-gray-700 dark:text-gray-300">
-						Desde 2005, nos hemos esforzado en transformar cada visita de nuestros clientes en una experiencia satisfactoria, adaptándonos constantemente a sus necesidades.
-					</p>
-				</div>
-				<div class="bg-gradient-to-br from-cyan-600 to-blue-700 rounded-xl md:rounded-2xl shadow-lg p-4 md:p-8 text-white hover:shadow-xl transition">
-					<h3 class="text-lg md:text-2xl font-bold mb-3 md:mb-4">¿Por qué elegirnos?</h3>
-					<ul class="space-y-2 md:space-y-3 text-sm md:text-base">
-						<li class="flex items-center gap-2">
-							<i class="fas fa-check-circle text-sm md:text-base"></i> Productos frescos y seleccionados
-						</li>
-						<li class="flex items-center gap-2">
-							<i class="fas fa-check-circle text-sm md:text-base"></i> Precios justos y competitivos
-						</li>
-						<li class="flex items-center gap-2">
-							<i class="fas fa-check-circle text-sm md:text-base"></i> Atención personalizada
-						</li>
-						<li class="flex items-center gap-2">
-							<i class="fas fa-check-circle text-sm md:text-base"></i> Amplio catálogo de marcas
-						</li>
-					</ul>
 				</div>
 			</div>
 		</div>
@@ -678,7 +643,7 @@
 		"@@type": "LocalBusiness",
 		"@@id": "{{ url('/') }}",
 		"name": "Tendejón Azael",
-		"description": "Tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo y abarrotes. Desde 2005 al servicio de la comunidad y turistas.",
+		"description": "Tienda de abarrotes en Chabihau, Yucatán. Más de 1500 productos, bebidas, snacks, hielo y abarrotes. Desde 2005 al servicio de la comunidad y turistas.",
 		"url": "{{ url('/') }}",
 		"telephone": ["+529911161668", "+529911078633"],
 		"image": "{{ asset('images/logos/logo_general.jpg') }}",
