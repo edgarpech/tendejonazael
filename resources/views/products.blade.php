@@ -51,6 +51,16 @@
 		.goog-te-gadget span { display: none; }
 		.scrollbar-hide::-webkit-scrollbar { display: none; }
 		.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+		.clamp-2 {
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			word-break: break-word;
+		}
+		@media (max-width: 767px) {
+			.desc-md { display: none !important; }
+		}
 	</style>
 </head>
 <body x-data="productCatalog()" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
@@ -252,7 +262,7 @@
 
 			<!-- Texto editorial introductorio -->
 			<div class="hidden md:block bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 mb-8">
-				<p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+				<p class="text-gray-700 dark:text-gray-300 leading-relaxed text-xs md:text-sm">
 					En <strong>Tendejón Azael</strong> encontrarás todo lo que necesitas para tus vacaciones en Chabihau y la costa norte de Yucatán. Nuestro catálogo incluye más de 1500 productos: desde los <strong>abarrotes básicos</strong> para armar tu despensa, hasta <strong>bebidas frías, snacks, hielo y agua purificada</strong> — esenciales para disfrutar un día de playa. También contamos con productos de <strong>limpieza, higiene personal, lácteos y dulces</strong> de las marcas que más te gustan. Usa los filtros para encontrar exactamente lo que buscas, o simplemente explora las categorías para descubrir nuestra variedad. Todos los precios que ves aquí son los mismos que manejamos en la tienda física, actualizados regularmente para tu comodidad.
 				</p>
 			</div>
@@ -370,7 +380,7 @@
 						<span x-text="filtered().length"></span> producto(s) encontrado(s)
 					</div>
 
-					<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5 md:gap-3">
+					<div class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-4 gap-1.5 md:gap-3">
 						<template x-for="product in paginated()" :key="product.id">
 							<div class="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group flex flex-col">
 								<div class="aspect-[4/3] md:aspect-square relative w-full overflow-hidden flex-shrink-0 bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800"
@@ -391,18 +401,24 @@
 										</div>
 									</template>
 								</div>
-								<div class="p-1.5 md:p-3 flex flex-col flex-1">
+								<div class="p-1.5 md:p-3 flex flex-col flex-1 cursor-pointer"
+									 @click="detailProduct = product"
+									 title="Ver detalles del producto">
 									<div class="hidden md:flex items-center justify-between mb-1 gap-1">
 										<span class="inline-block px-2 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300 text-xs font-semibold rounded-full truncate max-w-[60%]"
+											  :title="product.category"
 											  x-text="product.category"></span>
 										<template x-if="product.brand">
-											<span class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[38%]" x-text="product.brand"></span>
+											<span class="text-xs text-gray-500 dark:text-gray-400 truncate max-w-[38%]" :title="product.brand" x-text="product.brand"></span>
 										</template>
 									</div>
-									<h3 class="font-semibold text-[11px] md:text-sm text-gray-900 dark:text-white mb-0.5 md:mb-1 line-clamp-2 leading-tight" x-text="product.name"></h3>
-									<p class="hidden md:block text-gray-600 dark:text-gray-400 text-xs mb-1 line-clamp-2" x-text="product.description"></p>
-									<div class="mt-auto pt-1 md:pt-2 border-t border-gray-200 dark:border-gray-700">
+									<h3 class="clamp-2 font-semibold text-[11px] md:text-sm text-gray-900 dark:text-white mb-0.5 md:mb-1 leading-tight"
+										:title="product.name" x-text="product.name"></h3>
+									<p class="clamp-2 desc-md text-gray-600 dark:text-gray-400 text-xs mb-1"
+									   :title="product.description" x-text="product.description"></p>
+									<div class="mt-auto pt-1 md:pt-2 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between gap-1">
 										<span class="text-xs md:text-lg font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + parseFloat(product.price || 0).toFixed(2) + ' MXN'"></span>
+										<i class="fas fa-info-circle text-[10px] md:text-xs text-gray-400 dark:text-gray-500" aria-hidden="true"></i>
 									</div>
 								</div>
 							</div>
@@ -466,6 +482,52 @@
 		<img :src="viewerImage" :alt="viewerName" @click.stop
 			 class="max-w-full max-h-[85vh] rounded-xl shadow-2xl object-contain cursor-default">
 	</div>
+
+	<!-- Modal de detalles del producto -->
+	<div x-show="detailProduct" x-cloak
+		 x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+		 x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+		 @click="detailProduct = null" @keydown.escape.window="detailProduct = null"
+		 class="fixed inset-0 z-[70] flex items-center justify-center bg-black/70 p-4">
+		<div @click.stop x-show="detailProduct"
+			 x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+			 class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto relative">
+			<button @click="detailProduct = null"
+					class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition cursor-pointer z-10"
+					aria-label="Cerrar">
+				<i class="fas fa-times"></i>
+			</button>
+			<template x-if="detailProduct">
+				<div>
+					<div class="aspect-[4/3] w-full bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 rounded-t-2xl overflow-hidden flex items-center justify-center"
+						 :class="detailProduct.image && 'cursor-zoom-in'"
+						 @click="detailProduct.image && (viewerImage = detailProduct.image, viewerName = detailProduct.name)">
+						<template x-if="detailProduct.image">
+							<img :src="detailProduct.image" :alt="detailProduct.name" class="w-full h-full object-cover">
+						</template>
+						<template x-if="!detailProduct.image">
+							<i class="fas fa-image text-5xl text-gray-300 dark:text-gray-600"></i>
+						</template>
+					</div>
+					<div class="p-5">
+						<div class="flex flex-wrap items-center gap-2 mb-3">
+							<span class="inline-block px-2.5 py-0.5 bg-cyan-100 dark:bg-cyan-900 text-cyan-700 dark:text-cyan-300 text-xs font-semibold rounded-full" x-text="detailProduct.category"></span>
+							<template x-if="detailProduct.brand">
+								<span class="text-xs text-gray-500 dark:text-gray-400" x-text="'Marca: ' + detailProduct.brand"></span>
+							</template>
+						</div>
+						<h2 class="text-lg md:text-xl font-bold text-gray-900 dark:text-white mb-2 leading-snug" x-text="detailProduct.name"></h2>
+						<template x-if="detailProduct.description">
+							<p class="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed whitespace-pre-line" x-text="detailProduct.description"></p>
+						</template>
+						<div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+							<span class="text-2xl font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + parseFloat(detailProduct.price || 0).toFixed(2) + ' MXN'"></span>
+						</div>
+					</div>
+				</div>
+			</template>
+		</div>
+	</div>
 	</main>
 
 	<!-- Anuncio AdSense horizontal -->
@@ -528,9 +590,10 @@
 			categoryId: 0,
 			sort: 'name',
 			page: 1,
-			perPage: 24,
+			perPage: 20,
 			viewerImage: '',
 			viewerName: '',
+			detailProduct: null,
 			products: allProducts,
 
 			filtered() {

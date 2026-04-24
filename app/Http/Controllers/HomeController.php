@@ -80,7 +80,7 @@ class HomeController extends Controller
             return [
                 'id' => $p->id_product,
                 'name' => $p->name,
-                'description' => Str::limit($p->description, 100) ?? '',
+                'description' => $p->description ?? '',
                 'image' => $p->main_image_url ? asset('storage/' . $p->main_image_url) : '',
                 'category' => $p->category?->name ?? 'Sin categoría',
                 'category_id' => $p->category_id ?? 0,
