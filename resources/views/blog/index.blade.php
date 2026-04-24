@@ -93,6 +93,46 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 	@include('partials.footer')
 
+	{{-- JSON-LD: Blog + ItemList con artículos para SEO/AdSense --}}
+	<script type="application/ld+json">
+	{!! json_encode([
+		'@context' => 'https://schema.org',
+		'@type' => 'Blog',
+		'@id' => url('/blog'),
+		'url' => url('/blog'),
+		'name' => 'Blog de Tendejón Azael',
+		'description' => 'Guías de viaje, recomendaciones, recetas y artículos sobre Chabihau y la costa norte de Yucatán.',
+		'inLanguage' => 'es-MX',
+		'publisher' => [
+			'@type' => 'Organization',
+			'name' => 'Tendejón Azael',
+			'logo' => ['@type' => 'ImageObject', 'url' => asset('images/logos/logo_general.jpg')],
+		],
+		'blogPost' => $articles->map(function ($a) {
+			return array_filter([
+				'@type' => 'BlogPosting',
+				'headline' => $a->title,
+				'description' => $a->excerpt,
+				'url' => url('/blog/' . $a->slug),
+				'datePublished' => optional($a->published_at)->toIso8601String(),
+				'dateModified' => optional($a->updated_at)->toIso8601String(),
+				'image' => $a->image ? asset($a->image) : null,
+				'author' => ['@type' => 'Organization', 'name' => 'Tendejón Azael'],
+			]);
+		})->all(),
+	], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+	</script>
+	<script type="application/ld+json">
+	{
+		"@@context": "https://schema.org",
+		"@@type": "BreadcrumbList",
+		"itemListElement": [
+			{ "@@type": "ListItem", "position": 1, "name": "Inicio", "item": "{{ url('/') }}" },
+			{ "@@type": "ListItem", "position": 2, "name": "Blog", "item": "{{ url('/blog') }}" }
+		]
+	}
+	</script>
+
 	<script>
 	function googleTranslateElementInit() {
 		new google.translate.TranslateElement({

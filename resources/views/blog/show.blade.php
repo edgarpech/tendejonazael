@@ -154,6 +154,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 	@include('partials.footer')
 
+	{{-- JSON-LD: BreadcrumbList del artículo --}}
+	<script type="application/ld+json">
+	{
+		"@@context": "https://schema.org",
+		"@@type": "BreadcrumbList",
+		"itemListElement": [
+			{ "@@type": "ListItem", "position": 1, "name": "Inicio", "item": "{{ url('/') }}" },
+			{ "@@type": "ListItem", "position": 2, "name": "Blog", "item": "{{ url('/blog') }}" },
+			{ "@@type": "ListItem", "position": 3, "name": @json($article->title), "item": "{{ url('/blog/' . $article->slug) }}" }
+		]
+	}
+	</script>
+
 	<script>
 	function googleTranslateElementInit() {
 		new google.translate.TranslateElement({

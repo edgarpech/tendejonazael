@@ -235,13 +235,6 @@
 						</a>
 					</li>
 					<li>
-						<a href="{{ route('about') }}" 
-						   class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
-							<i class="fas fa-info-circle w-5 text-gray-400 group-hover:text-cyan-500"></i>
-							<span>Sobre Nosotros</span>
-						</a>
-					</li>
-					<li>
 						<a href="#catalogo" @click.prevent="mobileMenu = false; scrollToSection('catalogo')" 
 						   class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 cursor-pointer group">
 							<i class="fas fa-shopping-bag w-5 text-gray-400 group-hover:text-cyan-500"></i>
@@ -267,6 +260,13 @@
 						   class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
 							<i class="fas fa-blog w-5 text-gray-400 group-hover:text-cyan-500"></i>
 							<span>Blog</span>
+						</a>
+					</li>
+					<li>
+						<a href="{{ route('about') }}" 
+						   class="flex items-center gap-3 py-3 px-4 hover:bg-cyan-50 dark:hover:bg-gray-700 rounded-lg transition-colors font-medium text-gray-700 dark:text-gray-300 hover:text-cyan-600 dark:hover:text-cyan-400 group">
+							<i class="fas fa-info-circle w-5 text-gray-400 group-hover:text-cyan-500"></i>
+							<span>Sobre Nosotros</span>
 						</a>
 					</li>
 				</ul>

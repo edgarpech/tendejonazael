@@ -481,6 +481,38 @@
 	<!-- Pie de página -->
 	@include('partials.footer')
 
+	{{--
+		Versión server-side del catálogo para rastreadores y usuarios sin JavaScript.
+		Renderiza hasta 60 productos reales en HTML plano para que Googlebot, AdSense y
+		cualquier bot que no ejecute JS pueda leer el contenido del catálogo.
+	--}}
+	<noscript>
+		<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
+			<h2 class="text-2xl font-bold text-gray-900 mb-4">Listado de productos</h2>
+			<p class="text-gray-700 mb-6">Catálogo completo de Tendejón Azael en Chabihau, Yucatán. Para usar los filtros, búsqueda y paginación necesitas activar JavaScript.</p>
+			<ul class="grid grid-cols-2 md:grid-cols-4 gap-4">
+				@foreach($products->take(60) as $p)
+					<li class="border rounded-lg p-3 bg-white">
+						<h3 class="font-semibold text-gray-900 text-sm">{{ $p->name }}</h3>
+						@if($p->category)
+							<p class="text-xs text-gray-500 mt-1">Categoría: {{ $p->category->name }}</p>
+						@endif
+						@if($p->brand)
+							<p class="text-xs text-gray-500">Marca: {{ $p->brand->name }}</p>
+						@endif
+						@if($p->weight)
+							<p class="text-xs text-gray-500">Presentación: {{ $p->weight }}</p>
+						@endif
+						<p class="text-sm font-bold text-cyan-700 mt-2">${{ number_format((float) $p->price, 2) }} MXN</p>
+					</li>
+				@endforeach
+			</ul>
+			@if($products->count() > 60)
+				<p class="text-sm text-gray-600 mt-4">Y {{ $products->count() - 60 }} productos más disponibles en tienda.</p>
+			@endif
+		</section>
+	</noscript>
+
 	<script>
 	var __productsData = @json($productsJson);
 	function productCatalog() {
@@ -674,6 +706,35 @@
 			]
 		}
 	}
+	</script>
+
+	{{-- ItemList con productos reales para que los rastreadores entiendan el catálogo. --}}
+	<script type="application/ld+json">
+	{!! json_encode([
+		'@context' => 'https://schema.org',
+		'@type' => 'ItemList',
+		'name' => 'Catálogo Tendejón Azael',
+		'numberOfItems' => $products->count(),
+		'itemListElement' => $products->take(50)->values()->map(function ($p, $i) {
+			return [
+				'@type' => 'ListItem',
+				'position' => $i + 1,
+				'item' => array_filter([
+					'@type' => 'Product',
+					'name' => $p->name,
+					'category' => $p->category?->name,
+					'brand' => $p->brand ? ['@type' => 'Brand', 'name' => $p->brand->name] : null,
+					'image' => $p->main_image_url ? asset('storage/' . $p->main_image_url) : null,
+					'offers' => [
+						'@type' => 'Offer',
+						'price' => number_format((float) $p->price, 2, '.', ''),
+						'priceCurrency' => 'MXN',
+						'availability' => 'https://schema.org/InStock',
+					],
+				]),
+			];
+		})->all(),
+	], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
 	</script>
 
 </body>
