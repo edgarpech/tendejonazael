@@ -22,7 +22,7 @@ function walk(dir, files = []) {
 
 // Extract every "fa-xxx" token used in views (after a fas/far/fab/fa class)
 const iconRegex = /\bfa-([a-z0-9-]+)\b/g;
-const skipTokens = new Set(['fw', 'lg', 'xs', 'sm', 'spin', 'pulse', 'border', 'pull-left', 'pull-right', 'rotate-90', 'rotate-180', 'rotate-270', 'flip-horizontal', 'flip-vertical', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x']);
+const skipTokens = new Set(['fw', 'lg', 'xs', 'sm', 'spin', 'pulse', 'border', 'pull-left', 'pull-right', 'rotate-90', 'rotate-180', 'rotate-270', 'flip-horizontal', 'flip-vertical', '2x', '3x', '4x', '5x', '6x', '7x', '8x', '9x', '10x', 'solid-900', 'regular-400', 'brands-400', 'v4compatibility']);
 const used = new Set();
 for (const file of walk(viewsDir)) {
     const content = fs.readFileSync(file, 'utf8');
