@@ -24,7 +24,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<meta property="og:image" content="{{ asset('images/logos/logo_general.jpg') }}">
 	<meta property="og:locale" content="es_MX">
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
-	<link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
+	<link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/subset.min.css') }}" />
 	<script>
 		if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 			document.documentElement.classList.add('dark');

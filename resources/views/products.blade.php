@@ -36,7 +36,7 @@
 	<link rel="preload" href="{{ asset('vendor/font-awesome/webfonts/fa-solid-900.woff2') }}" as="font" type="font/woff2" crossorigin>
 	<link rel="preconnect" href="https://translate.googleapis.com" crossorigin>
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
-	<link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
+	<link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/subset.min.css') }}" />
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4900355905448266" crossorigin="anonymous"></script>
 	<script>
 		if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {

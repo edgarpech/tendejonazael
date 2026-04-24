@@ -13,11 +13,22 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url('/aviso-de-privacidad') }}">
     <meta property="og:title" content="Aviso de Privacidad | Tendejón Azael - Chabihau, Yucatán">
+    <meta property="og:description" content="Aviso de privacidad y política de cookies de Tendejón Azael, tienda de abarrotes en Chabihau, Yucatán.">
+    <meta property="og:image" content="{{ asset('images/logos/logo_general.jpg') }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Tendejón Azael - Chabihau, Yucatán">
     <meta property="og:site_name" content="Tendejón Azael">
     <meta property="og:locale" content="es_MX">
+
+    <!-- Meta Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aviso de Privacidad | Tendejón Azael - Chabihau, Yucatán">
+    <meta name="twitter:description" content="Aviso de privacidad y política de cookies de Tendejón Azael, Chabihau.">
+    <meta name="twitter:image" content="{{ asset('images/logos/logo_general.jpg') }}">
     <link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/subset.min.css') }}" />
     <script>
         if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');

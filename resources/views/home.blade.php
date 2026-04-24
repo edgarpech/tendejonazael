@@ -12,7 +12,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Tendejón Azael | Tienda de Abarrotes en Chabihau, Yucatán</title>
-	<meta name="description" content="Tendejón Azael, tu tienda de abarrotes en Chabihau, Yucatán. Más de 1000 productos, bebidas, snacks, hielo, abarrotes y más. ¡Visítanos en tus vacaciones y Semana Santa! Desde 2005 al servicio de la comunidad y turistas del puerto.">
+	<meta name="description" content="Tendejón Azael, tu tienda de abarrotes en Chabihau, Yucatán desde 2005. Más de 1000 productos: bebidas, snacks, hielo y más. ¡Visítanos en el puerto!">
 	<meta name="keywords" content="tienda abarrotes Chabihau, Tendejón Azael, tienda Chabihau Yucatán, abarrotes puerto Yucatán, vacaciones Chabihau, Semana Santa Chabihau, tienda playa Yucatán, bebidas Chabihau, snacks playa, hielo Chabihau, abarrotes Yobaín, tienda costa Yucatán, Puerto Chabihau tienda, compras vacaciones Yucatán, abarrotes cerca de la playa, tienda familiar Yucatán, abarrotes Telchac Puerto, tienda playa progreso Yucatán, refrescos playa Yucatán, agua purificada Chabihau, tienda turistas Yucatán, abarrotes económicos Yucatán, donde comprar Chabihau, despensa Chabihau Yucatán">
 	<meta name="author" content="Tendejón Azael">
 	<meta name="application-name" content="Tendejón Azael">
@@ -45,7 +45,7 @@
 	<link rel="preconnect" href="https://maps.googleapis.com" crossorigin>
 	<link rel="preconnect" href="https://maps.gstatic.com" crossorigin>
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
-	<link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/all.min.css') }}" />
+	<link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/subset.min.css') }}" />
 	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4900355905448266" crossorigin="anonymous"></script>
 	<script>
 	if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
