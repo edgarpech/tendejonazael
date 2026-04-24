@@ -87,6 +87,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 						</article>
 					@endforeach
 				</div>
+
+				{{-- Anuncio AdSense Multiplex (autorelaxed) al pie del listado del blog --}}
+				<div class="my-10">
+					<ins class="adsbygoogle"
+						 style="display:block"
+						 data-ad-format="autorelaxed"
+						 data-ad-client="ca-pub-4900355905448266"
+						 data-ad-slot="4645155341"></ins>
+					<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+				</div>
 			@endif
 		</div>
 	</main>
