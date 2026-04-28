@@ -11,8 +11,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TF6JZMCQ');</script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{{ $article->title }} | Tendejón Azael - Chabihau, Yucatán</title>
-	<meta name="description" content="{{ $article->excerpt }}">
+	<title>{{ $article->title }}</title>
+	<meta name="description" content="{{ \Illuminate\Support\Str::limit($article->excerpt, 155) }}">
 	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="{{ url('/blog/' . $article->slug) }}">
 	<link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
@@ -20,7 +20,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	<meta property="og:url" content="{{ url('/blog/' . $article->slug) }}">
 	<meta property="og:title" content="{{ $article->title }} | Tendejón Azael">
 	<meta property="og:site_name" content="Tendejón Azael">
-	<meta property="og:description" content="{{ $article->excerpt }}">
+	<meta property="og:description" content="{{ \Illuminate\Support\Str::limit($article->excerpt, 200) }}">
 	@if($article->image)
 		<meta property="og:image" content="{{ asset($article->image) }}">
 	@else
@@ -28,6 +28,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 	@endif
 	<meta property="og:locale" content="es_MX">
 	<meta property="article:published_time" content="{{ $article->published_at->toIso8601String() }}">
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="{{ $article->title }}">
+	<meta name="twitter:description" content="{{ \Illuminate\Support\Str::limit($article->excerpt, 155) }}">
+	@if($article->image)
+		<meta name="twitter:image" content="{{ asset($article->image) }}">
+	@else
+		<meta name="twitter:image" content="{{ asset('images/logos/logo_general.jpg') }}">
+	@endif
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
 	<link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/subset.min.css') }}" />
 	<script>

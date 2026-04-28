@@ -11,18 +11,24 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-TF6JZMCQ');</script>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Preguntas Frecuentes | Tendejón Azael - Chabihau, Yucatán</title>
+	<title>Preguntas Frecuentes | Tendejón Azael</title>
 	<meta name="description" content="Encuentra respuestas a las preguntas más frecuentes sobre Tendejón Azael: horarios, ubicación, productos disponibles, formas de pago y más.">
 	<meta name="robots" content="index, follow">
 	<link rel="canonical" href="{{ url('/preguntas-frecuentes') }}">
 	<link rel="icon" type="image/webp" href="{{ asset('images/logos/logo.webp') }}">
 	<meta property="og:type" content="website">
 	<meta property="og:url" content="{{ url('/preguntas-frecuentes') }}">
-	<meta property="og:title" content="Preguntas Frecuentes | Tendejón Azael - Chabihau, Yucatán">
+	<meta property="og:title" content="Preguntas Frecuentes | Tendejón Azael">
 	<meta property="og:site_name" content="Tendejón Azael">
 	<meta property="og:description" content="Respuestas a tus dudas sobre horarios, productos, ubicación y más.">
 	<meta property="og:image" content="{{ asset('images/logos/logo_general.jpg') }}">
 	<meta property="og:locale" content="es_MX">
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Preguntas Frecuentes | Tendejón Azael">
+	<meta name="twitter:description" content="Respuestas a tus dudas sobre horarios, productos, ubicación y más.">
+	<meta name="twitter:image" content="{{ asset('images/logos/logo_general.jpg') }}">
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
 	<link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/subset.min.css') }}" />
 	<script>
