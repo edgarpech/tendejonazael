@@ -16,7 +16,7 @@
     <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 mb-4">
         <div class="flex flex-col sm:flex-row gap-2">
             <div class="relative flex-1">
-                <input type="text" id="skuInput" inputmode="numeric" autocomplete="off"
+                <input type="text" id="skuInput" inputmode="text" autocapitalize="characters" autocomplete="off"
                        placeholder="Escanea o escribe el código (SKU)"
                        class="fi pr-10 text-base">
                 <button id="btnClear" type="button"
