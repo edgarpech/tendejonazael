@@ -47,6 +47,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('products', ProductController::class)->except(['create', 'edit', 'show']);
         Route::delete('products/{product}/image', [ProductController::class, 'destroyImage'])->name('products.image.destroy');
+        Route::get('products-quick-photo', [ProductController::class, 'quickPhoto'])->name('products.quick-photo');
+        Route::get('products-find-by-sku', [ProductController::class, 'findBySku'])->name('products.find-by-sku');
+        Route::post('products/{product}/image', [ProductController::class, 'updateImage'])->name('products.image.update');
         Route::resource('categories', CategoryController::class)->except(['create', 'edit', 'show']);
         Route::resource('brands', BrandController::class)->except(['create', 'edit', 'show']);
         Route::delete('brands/{brand}/logo', [BrandController::class, 'destroyLogo'])->name('brands.logo.destroy');

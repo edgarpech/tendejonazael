@@ -475,7 +475,8 @@
 		 x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
 		 x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
 		 @click="viewerImage = ''" @keydown.escape.window="viewerImage = ''"
-		 class="fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-4 cursor-pointer">
+		 style="z-index: 90;"
+		 class="fixed inset-0 flex items-center justify-center bg-black/90 p-4 cursor-pointer">
 		<button @click="viewerImage = ''" class="absolute top-4 right-4 text-white text-3xl hover:text-gray-300 transition cursor-pointer">
 			<i class="fas fa-times"></i>
 		</button>

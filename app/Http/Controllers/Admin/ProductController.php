@@ -146,6 +146,81 @@ class ProductController extends Controller
     }
 
     /**
+     * Vista rápida para escanear un código de barras o ingresar SKU
+     * y subir/actualizar la imagen del producto en pocos pasos.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function quickPhoto()
+    {
+        return view('admin.products.quick-photo');
+    }
+
+    /**
+     * Busca un producto por SKU exacto. Devuelve datos básicos en JSON.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function findBySku(Request $request)
+    {
+        $request->validate(['sku' => 'required|string|max:100']);
+
+        $sku = trim($request->input('sku'));
+
+        $product = Product::with(['category', 'brand'])
+            ->where('sku', $sku)
+            ->first();
+
+        if (!$product) {
+            return response()->json(['success' => false, 'message' => 'Producto no encontrado'], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id_product' => $product->id_product,
+                'name' => $product->name,
+                'sku' => $product->sku,
+                'price' => $product->price,
+                'category' => optional($product->category)->name,
+                'brand' => optional($product->brand)->name,
+                'main_image_url' => $product->main_image_url ? '/storage/' . $product->main_image_url : null,
+            ],
+        ]);
+    }
+
+    /**
+     * Actualiza únicamente la imagen principal de un producto. Optimiza a WebP.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Product $product
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateImage(Request $request, Product $product)
+    {
+        $request->validate([
+            'image' => 'required|image|max:8192',
+        ]);
+
+        if ($product->main_image_url) {
+            Storage::disk('public')->delete($product->main_image_url);
+        }
+
+        $path = $this->storeOptimizedImage($request->file('image'), 'products', 800, 800, 80);
+        $product->update(['main_image_url' => $path]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Imagen actualizada',
+            'data' => [
+                'id_product' => $product->id_product,
+                'main_image_url' => '/storage/' . $path,
+            ],
+        ]);
+    }
+
+    /**
      * Elimina solo la imagen principal de un producto.
      *
      * @param \App\Models\Product $product
