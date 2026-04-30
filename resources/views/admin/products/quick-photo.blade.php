@@ -145,6 +145,7 @@
     var codeReader = null;
     var availableDevices = [];
     var currentDeviceIdx = 0;
+    var scanning = false;
     var lastScannedCode = '';
     var lastScannedAt = 0;
 
@@ -342,6 +343,7 @@
 
     function startDecoding() {
         stopDecoding();
+        scanning = true;
         codeReader = new ZXingBrowser.BrowserMultiFormatReader(undefined, {
             delayBetweenScanAttempts: 120,
         });
@@ -368,12 +370,14 @@
     }
 
     function onDecodeCallback(result) {
-        if (!result) return;
+        if (!scanning || !result) return;
         var text = result.getText();
         var now = Date.now();
         if (text === lastScannedCode && (now - lastScannedAt) < 1500) return;
         lastScannedCode = text;
         lastScannedAt = now;
+        // Bloquear inmediatamente más callbacks para evitar bucle
+        scanning = false;
         $('#scannerStatus').text('Código: ' + text);
         if (navigator.vibrate) navigator.vibrate(80);
         $skuInput.val(text);
@@ -383,6 +387,7 @@
     }
 
     function stopDecoding() {
+        scanning = false;
         if (codeReader) {
             try { codeReader.reset && codeReader.reset(); } catch(e) {}
             try {
@@ -405,6 +410,9 @@
     function closeScanner() {
         stopDecoding();
         $('#scannerModal').addClass('hidden');
+        // Permitir volver a escanear el mismo código en una próxima sesión
+        lastScannedCode = '';
+        lastScannedAt = 0;
     }
 
     // Cleanup
