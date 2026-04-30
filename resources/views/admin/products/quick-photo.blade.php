@@ -295,22 +295,49 @@
             showToast('Tu navegador no soporta cámara', 'error');
             return;
         }
+        if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+            showToast('La cámara requiere HTTPS', 'error');
+            return;
+        }
         $('#scannerModal').removeClass('hidden');
-        $('#scannerStatus').text('Iniciando cámara…');
-        ZXingBrowser.BrowserMultiFormatReader.listVideoInputDevices().then(function(devices) {
+        $('#scannerStatus').text('Solicitando permiso de cámara…');
+
+        // Pedir permiso primero: en móvil, sin permiso, enumerateDevices no devuelve labels
+        // ni siempre detecta la cámara trasera correctamente.
+        navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: 'environment' } },
+            audio: false,
+        }).then(function(stream) {
+            // Detener el stream de prueba; el lector abrirá el suyo
+            stream.getTracks().forEach(function(t) { t.stop(); });
+            return ZXingBrowser.BrowserMultiFormatReader.listVideoInputDevices();
+        }).then(function(devices) {
             availableDevices = devices || [];
-            // Prefer back camera
             currentDeviceIdx = 0;
             for (var i = 0; i < availableDevices.length; i++) {
-                if (/back|rear|environment|trasera/i.test(availableDevices[i].label || '')) {
+                if (/back|rear|environment|trasera|principal/i.test(availableDevices[i].label || '')) {
                     currentDeviceIdx = i;
                     break;
                 }
             }
             startDecoding();
         }).catch(function(err) {
-            $('#scannerStatus').text('Error: ' + (err.message || err));
+            handleCameraError(err);
         });
+    }
+
+    function handleCameraError(err) {
+        var name = err && err.name;
+        if (name === 'NotAllowedError' || name === 'SecurityError') {
+            $('#scannerStatus').text('Permiso denegado. Habilítalo en los ajustes del navegador.');
+            showToast('Permiso de cámara denegado', 'error');
+        } else if (name === 'NotFoundError' || name === 'OverconstrainedError') {
+            $('#scannerStatus').text('No se encontró ninguna cámara compatible');
+        } else if (name === 'NotReadableError') {
+            $('#scannerStatus').text('La cámara está siendo usada por otra app');
+        } else {
+            $('#scannerStatus').text('Error: ' + (err && (err.message || err.name) || err));
+        }
     }
 
     function startDecoding() {
@@ -318,27 +345,41 @@
         codeReader = new ZXingBrowser.BrowserMultiFormatReader(undefined, {
             delayBetweenScanAttempts: 120,
         });
-        var deviceId = (availableDevices[currentDeviceIdx] || {}).deviceId;
         var videoEl = document.getElementById('scannerVideo');
-        codeReader.decodeFromVideoDevice(deviceId, videoEl, function(result, err) {
-            if (result) {
-                var text = result.getText();
-                var now = Date.now();
-                // Debounce repeated reads of the same code
-                if (text === lastScannedCode && (now - lastScannedAt) < 1500) return;
-                lastScannedCode = text;
-                lastScannedAt = now;
-                $('#scannerStatus').text('Código: ' + text);
-                if (navigator.vibrate) navigator.vibrate(80);
-                $skuInput.val(text);
-                $btnClear.show();
-                closeScanner();
-                lookupSku();
-            }
-        }).catch(function(err) {
-            $('#scannerStatus').text('Error: ' + (err.message || err));
-        });
+        var deviceId = (availableDevices[currentDeviceIdx] || {}).deviceId || null;
+
+        var decodePromise;
+        if (deviceId) {
+            decodePromise = codeReader.decodeFromVideoDevice(deviceId, videoEl, onDecodeCallback);
+        } else {
+            // Algunos móviles no enumeran bien: usar constraints con facingMode
+            decodePromise = codeReader.decodeFromConstraints({
+                video: {
+                    facingMode: { ideal: 'environment' },
+                    width: { ideal: 1280 },
+                    height: { ideal: 720 },
+                },
+                audio: false,
+            }, videoEl, onDecodeCallback);
+        }
+
+        decodePromise.catch(function(err) { handleCameraError(err); });
         $('#scannerStatus').text('Apunta al código de barras…');
+    }
+
+    function onDecodeCallback(result) {
+        if (!result) return;
+        var text = result.getText();
+        var now = Date.now();
+        if (text === lastScannedCode && (now - lastScannedAt) < 1500) return;
+        lastScannedCode = text;
+        lastScannedAt = now;
+        $('#scannerStatus').text('Código: ' + text);
+        if (navigator.vibrate) navigator.vibrate(80);
+        $skuInput.val(text);
+        $btnClear.show();
+        closeScanner();
+        lookupSku();
     }
 
     function stopDecoding() {
