@@ -85,11 +85,13 @@ var levelNames = { 3: 'Alto', 2: 'Medio', 1: 'Básico' };
 
 var moduleTranslations = {
     'users': 'Usuarios', 'roles': 'Roles', 'products': 'Productos',
-    'categories': 'Categorías', 'brands': 'Marcas', 'security': 'Seguridad'
+    'categories': 'Categorías', 'brands': 'Marcas', 'security': 'Seguridad',
+    'articles': 'Artículos', 'reviews': 'Reseñas'
 };
 var actionTranslations = {
     'view': 'Ver', 'create': 'Crear', 'edit': 'Editar', 'delete': 'Eliminar',
-    'manage': 'Gestionar', 'export': 'Exportar', 'import': 'Importar'
+    'manage': 'Gestionar', 'export': 'Exportar', 'import': 'Importar',
+    'quick-photo': 'Foto rápida (escáner)'
 };
 
 $(function() {

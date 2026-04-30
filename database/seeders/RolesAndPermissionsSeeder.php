@@ -78,6 +78,21 @@ class RolesAndPermissionsSeeder extends Seeder
             ['name' => 'roles.edit', 'display_name' => 'Editar roles', 'module' => 'roles', 'action' => 'edit'],
             ['name' => 'roles.delete', 'display_name' => 'Eliminar roles', 'module' => 'roles', 'action' => 'delete'],
 
+            // Articles
+            ['name' => 'articles.view', 'display_name' => 'Ver artículos', 'module' => 'articles', 'action' => 'view'],
+            ['name' => 'articles.create', 'display_name' => 'Crear artículos', 'module' => 'articles', 'action' => 'create'],
+            ['name' => 'articles.edit', 'display_name' => 'Editar artículos', 'module' => 'articles', 'action' => 'edit'],
+            ['name' => 'articles.delete', 'display_name' => 'Eliminar artículos', 'module' => 'articles', 'action' => 'delete'],
+
+            // Reviews
+            ['name' => 'reviews.view', 'display_name' => 'Ver reseñas', 'module' => 'reviews', 'action' => 'view'],
+            ['name' => 'reviews.create', 'display_name' => 'Crear reseñas', 'module' => 'reviews', 'action' => 'create'],
+            ['name' => 'reviews.edit', 'display_name' => 'Editar reseñas', 'module' => 'reviews', 'action' => 'edit'],
+            ['name' => 'reviews.delete', 'display_name' => 'Eliminar reseñas', 'module' => 'reviews', 'action' => 'delete'],
+
+            // Quick photo (escáner de código de barras + subida rápida de imagen)
+            ['name' => 'products.quick-photo', 'display_name' => 'Subir fotos con escáner', 'module' => 'products', 'action' => 'quick-photo'],
+
         ];
 
         foreach ($permissions as $permissionData) {
@@ -87,8 +102,8 @@ class RolesAndPermissionsSeeder extends Seeder
         // Assign all permissions to admin
         $admin->permissions()->attach(Permission::all());
 
-        // Assign worker permissions (products, categories, brands)
-        $workerPermissions = Permission::whereIn('module', ['products', 'categories', 'brands'])->get();
+        // Assign worker permissions (products, categories, brands, articles, reviews) sin delete sensibles
+        $workerPermissions = Permission::whereIn('module', ['products', 'categories', 'brands', 'articles', 'reviews'])->get();
         $worker->permissions()->attach($workerPermissions);
 
         // Assign apprentice permissions (only view)

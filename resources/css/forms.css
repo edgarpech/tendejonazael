@@ -13,6 +13,28 @@
 .dark .fi:focus { border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.25); }
 textarea.fi { resize: vertical; }
 
+/* Override Chrome/Safari yellow autofill background. Chrome ignores `background`
+   on autofilled inputs, but a long inset box-shadow paints over it. */
+.fi:-webkit-autofill,
+.fi:-webkit-autofill:hover,
+.fi:-webkit-autofill:focus,
+.fi:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #fff inset !important;
+    box-shadow: 0 0 0 1000px #fff inset !important;
+    -webkit-text-fill-color: #111827 !important;
+    caret-color: #111827;
+    transition: background-color 9999s ease-in-out 0s;
+}
+.dark .fi:-webkit-autofill,
+.dark .fi:-webkit-autofill:hover,
+.dark .fi:-webkit-autofill:focus,
+.dark .fi:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #1f2937 inset !important;
+    box-shadow: 0 0 0 1000px #1f2937 inset !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    caret-color: #e2e8f0;
+}
+
 /* Custom styled select */
 select.fi {
     appearance: none;

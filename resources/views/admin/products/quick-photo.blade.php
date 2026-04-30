@@ -46,11 +46,21 @@
     </div>
 
     {{-- Producto encontrado --}}
-    <div id="productCard" class="hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 mb-4">
-        <div class="flex gap-4 items-start">
-            <div class="w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+    <div id="productCard" class="hidden bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 mb-4 relative">
+        <button type="button" id="btnCloseCard"
+                class="absolute top-2 right-2 w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition cursor-pointer"
+                title="Cerrar">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+        <div class="flex gap-4 items-start pr-8">
+            <div class="w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 flex items-center justify-center relative">
                 <img id="pImage" src="" alt="" class="w-full h-full object-cover hidden">
                 <svg id="pNoImage" class="w-10 h-10 text-gray-300 dark:text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <button type="button" id="btnDeleteImage"
+                        class="hidden absolute bottom-1 right-1 w-7 h-7 flex items-center justify-center rounded-full bg-red-600/90 hover:bg-red-700 text-white shadow cursor-pointer"
+                        title="Eliminar imagen">
+                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
             </div>
             <div class="min-w-0 flex-1">
                 <h2 id="pName" class="text-lg font-semibold text-gray-900 dark:text-white truncate"></h2>
@@ -166,6 +176,8 @@
     $('#btnScan').on('click', openScanner);
     $('#btnCloseScanner').on('click', closeScanner);
     $('#btnSwitchCamera').on('click', switchCamera);
+    $('#btnCloseCard').on('click', clearProduct);
+    $('#btnDeleteImage').on('click', deleteImage);
 
     $('#cameraInput, #fileInput').on('change', function(e) {
         var f = e.target.files && e.target.files[0];
@@ -213,13 +225,43 @@
         if (p.main_image_url) {
             $('#pImage').attr('src', p.main_image_url + '?t=' + Date.now()).removeClass('hidden');
             $('#pNoImage').addClass('hidden');
+            $('#btnDeleteImage').removeClass('hidden');
         } else {
             $('#pImage').addClass('hidden').attr('src', '');
             $('#pNoImage').removeClass('hidden');
+            $('#btnDeleteImage').addClass('hidden');
         }
         $('#emptyState').addClass('hidden');
         $('#productCard').removeClass('hidden');
         destroyCropper();
+    }
+
+    function clearProduct() {
+        currentProduct = null;
+        destroyCropper();
+        $('#productCard').addClass('hidden');
+        $('#emptyState').removeClass('hidden');
+        $skuInput.val('').focus();
+        $btnClear.hide();
+    }
+
+    function deleteImage() {
+        if (!currentProduct || !currentProduct.main_image_url) return;
+        confirmAction('¿Eliminar la imagen de este producto?').then(function(r) {
+            if (!r.isConfirmed) return;
+            $.ajax({
+                url: '/admin/products/' + currentProduct.id_product + '/image',
+                method: 'DELETE',
+                success: function(res) {
+                    showToast(res.message || 'Imagen eliminada', 'success');
+                    currentProduct.main_image_url = null;
+                    $('#pImage').addClass('hidden').attr('src', '');
+                    $('#pNoImage').removeClass('hidden');
+                    $('#btnDeleteImage').addClass('hidden');
+                },
+                error: handleAjaxError
+            });
+        });
     }
 
     function loadImageToCropper(file) {
@@ -272,6 +314,7 @@
                         currentProduct.main_image_url = res.data.main_image_url;
                         $('#pImage').attr('src', res.data.main_image_url + '?t=' + Date.now()).removeClass('hidden');
                         $('#pNoImage').addClass('hidden');
+                        $('#btnDeleteImage').removeClass('hidden');
                     }
                     destroyCropper();
                     // Listo para el siguiente producto
