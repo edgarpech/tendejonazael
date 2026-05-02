@@ -521,8 +521,15 @@
 						<template x-if="detailProduct.description">
 							<p class="text-sm text-gray-600 dark:text-gray-400 mb-4 leading-relaxed whitespace-pre-line" x-text="detailProduct.description"></p>
 						</template>
-						<div class="pt-3 border-t border-gray-200 dark:border-gray-700">
+						<div class="pt-3 border-t border-gray-200 dark:border-gray-700 flex flex-col gap-3">
 							<span class="text-2xl font-bold text-cyan-700 dark:text-cyan-400" x-text="'$' + parseFloat(detailProduct.price || 0).toFixed(2) + ' MXN'"></span>
+							<a :href="'https://wa.me/5219911161668?text=' + encodeURIComponent('Hola! Quisiera saber si está disponible: ' + detailProduct.name + (detailProduct.weight ? ' (' + detailProduct.weight + ')' : '') + '. ¿Tienen en existencia?')"
+							   target="_blank" rel="noopener"
+							   @click.stop
+							   class="flex items-center justify-center gap-2 w-full py-2.5 px-4 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-xl transition text-sm cursor-pointer">
+								<i class="fab fa-whatsapp text-lg"></i>
+								Preguntar disponibilidad
+							</a>
 						</div>
 					</div>
 				</div>
@@ -530,16 +537,6 @@
 		</div>
 	</div>
 	</main>
-
-	<!-- Anuncio AdSense horizontal -->
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6 md:my-10">
-		<ins class="adsbygoogle"
-			 style="display:block"
-			 data-ad-client="ca-pub-4900355905448266"
-			 data-ad-slot="6167489182"
-			 data-ad-format="horizontal"
-			 data-full-width-responsive="true"></ins>
-	</div>
 
 	<!-- Pie de página -->
 	@include('partials.footer')
@@ -722,12 +719,6 @@
 			</div>
 		</div>
 	</div>
-
-	<script>
-	document.querySelectorAll('.adsbygoogle').forEach(function() {
-		try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
-	});
-	</script>
 
 	<!-- Datos estructurados para SEO (JSON-LD) -->
 	<script type="application/ld+json">

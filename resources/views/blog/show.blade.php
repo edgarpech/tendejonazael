@@ -52,8 +52,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		.goog-te-gadget { font-size: 0 !important; }
 		.goog-te-gadget span { display: none; }
 	</style>
-	<!-- Google AdSense -->
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4900355905448266" crossorigin="anonymous"></script>
 	<!-- Datos estructurados Article -->
 	<script type="application/ld+json">
 	{
@@ -106,24 +104,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				<img src="{{ asset($article->image) }}" alt="{{ $article->title }}" class="w-full rounded-2xl mb-8 shadow-lg" loading="lazy">
 			@endif
 
-			@php
-				// AdSense recomienda colocar el anuncio in-article ~2 párrafos dentro del contenido.
-				// Inyectamos el bloque de anuncio justo después del 2º cierre de </p>.
-				$inArticleAd = '<div class="my-6 not-prose">'
-					.'<ins class="adsbygoogle" style="display:block; text-align:center;"'
-					." data-ad-layout=\"in-article\" data-ad-format=\"fluid\""
-					." data-ad-client=\"ca-pub-4900355905448266\" data-ad-slot=\"4149189681\"></ins>"
-					.'<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>'
-					.'</div>';
-				$contentWithAd = preg_replace('#(</p>)#i', '$1'.$inArticleAd, $article->content, 2);
-				// Si reemplazó las dos ocurrencias, dejamos solo la 2ª; si no, conservamos la única.
-				if (substr_count($contentWithAd, $inArticleAd) > 1) {
-					$pos = strpos($contentWithAd, $inArticleAd);
-					$contentWithAd = substr_replace($contentWithAd, '', $pos, strlen($inArticleAd));
-				}
-			@endphp
-
-			<!-- Contenido del artículo (con anuncio in-article inyectado tras el 2º párrafo) -->
+			<!-- Contenido del artículo -->
 			<div class="prose prose-lg dark:prose-invert max-w-none
 				prose-headings:text-gray-900 dark:prose-headings:text-white
 				prose-p:text-gray-700 dark:prose-p:text-gray-300
@@ -132,7 +113,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				prose-ul:text-gray-700 dark:prose-ul:text-gray-300
 				prose-ol:text-gray-700 dark:prose-ol:text-gray-300
 				prose-li:text-gray-700 dark:prose-li:text-gray-300">
-				{!! $contentWithAd !!}
+				{!! $article->content !!}
 			</div>
 
 			<!-- Compartir -->
@@ -148,17 +129,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				</div>
 			</div>
 
-			{{-- Anuncio AdSense display responsive al final del artículo --}}
-			<div class="mt-10">
-				<!-- Blog artículo final -->
-				<ins class="adsbygoogle"
-					 style="display:block"
-					 data-ad-client="ca-pub-4900355905448266"
-					 data-ad-slot="9582101887"
-					 data-ad-format="auto"
-					 data-full-width-responsive="true"></ins>
-				<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-			</div>
 		</article>
 
 		<!-- Artículos relacionados -->

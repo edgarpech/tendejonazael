@@ -43,8 +43,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		.goog-te-gadget { font-size: 0 !important; }
 		.goog-te-gadget span { display: none; }
 	</style>
-	<!-- Google AdSense -->
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4900355905448266" crossorigin="anonymous"></script>
 	<!-- Datos estructurados FAQPage -->
 	<script type="application/ld+json">
 	{

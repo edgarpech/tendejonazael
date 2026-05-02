@@ -17,6 +17,7 @@
 	<meta name="author" content="Tendejón Azael">
 	<meta name="application-name" content="Tendejón Azael">
 	<meta name="robots" content="index, follow">
+	<meta name="verification" content="88524012de42e26989a1473f5d7a4ebb">
 	<link rel="canonical" href="{{ url('/') }}">
 
 	<!-- Meta para redes sociales (Open Graph) -->
@@ -46,7 +47,6 @@
 	<link rel="preconnect" href="https://maps.gstatic.com" crossorigin>
 	@vite(['resources/css/app.css', 'resources/js/app.js'])
 	<link rel="stylesheet" href="{{ asset('vendor/font-awesome/css/subset.min.css') }}" />
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4900355905448266" crossorigin="anonymous"></script>
 	<script>
 	if (localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 		document.documentElement.classList.add('dark');
@@ -450,16 +450,6 @@
 	</section>
 	@endif
 
-	<!-- Anuncio AdSense horizontal -->
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6 md:my-10">
-		<ins class="adsbygoogle"
-			 style="display:block"
-			 data-ad-client="ca-pub-4900355905448266"
-			 data-ad-slot="2419815867"
-			 data-ad-format="horizontal"
-			 data-full-width-responsive="true"></ins>
-	</div>
-
 	<!-- Sección para incentivar reseñas en Google -->
 	<section class="py-10 md:py-16 bg-gradient-to-r from-cyan-600 to-blue-700 text-white">
 		<div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -709,11 +699,6 @@
 		</div>
 	</div>
 
-	<script>
-	document.querySelectorAll('.adsbygoogle').forEach(function() {
-		try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
-	});
-	</script>
 
 </body>
 </html>

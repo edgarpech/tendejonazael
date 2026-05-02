@@ -43,8 +43,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		.goog-te-gadget { font-size: 0 !important; }
 		.goog-te-gadget span { display: none; }
 	</style>
-	<!-- Google AdSense -->
-	<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4900355905448266" crossorigin="anonymous"></script>
 </head>
 <body x-data="{ darkMode: document.documentElement.classList.contains('dark'), scrolled: false, lang: document.cookie.match(/googtrans=\/es\/en/) ? 'en' : 'es' }" @scroll.window="scrolled = window.pageYOffset > 50" class="antialiased bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
 
@@ -94,16 +92,38 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					@endforeach
 				</div>
 
-				{{-- Anuncio AdSense Multiplex (autorelaxed) al pie del listado del blog --}}
-				<div class="my-10">
-					<ins class="adsbygoogle"
-						 style="display:block"
-						 data-ad-format="autorelaxed"
-						 data-ad-client="ca-pub-4900355905448266"
-						 data-ad-slot="4645155341"></ins>
-					<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-				</div>
+
 			@endif
+
+			{{-- Sección afiliados: Hoteles cerca de Chabihau (Awin / Booking.com) --}}
+			<div class="mt-16 mb-4">
+				<div class="rounded-2xl overflow-hidden border border-cyan-100 dark:border-cyan-900 bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 shadow-lg">
+					<div class="flex flex-col md:flex-row items-center gap-6 p-6 md:p-8">
+						<div class="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg">
+							<i class="fas fa-umbrella-beach text-white text-2xl md:text-3xl"></i>
+						</div>
+						<div class="flex-1 text-center md:text-left">
+							<p class="text-xs font-semibold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 mb-1">¿Vienes a Chabihau?</p>
+							<h3 class="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-2">Encuentra tu hospedaje ideal en la costa norte</h3>
+							<p class="text-gray-600 dark:text-gray-400 text-sm md:text-base">Casas de playa, cabañas y hoteles cerca de Chabihau, Telchac Puerto y la Riviera Maya. Reserva con la mejor tarifa garantizada.</p>
+						</div>
+						<div class="flex-shrink-0">
+							<a href="https://www.booking.com/searchresults.es.html?aid=2879491&ss=Chabihau%2C+Yucat%C3%A1n%2C+M%C3%A9xico&lang=es"
+							   target="_blank" rel="noopener sponsored"
+							   class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-700 hover:to-blue-800 text-white font-bold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-[transform,box-shadow] hover:scale-105 whitespace-nowrap text-sm md:text-base">
+								<i class="fas fa-search"></i>
+								Ver hospedajes
+							</a>
+						</div>
+					</div>
+					{{-- Descomentar cuando Booking.com apruebe tu solicitud en Awin:
+					<div class="px-6 md:px-8 pb-3 flex items-center gap-2">
+						<i class="fas fa-info-circle text-gray-400 text-xs"></i>
+						<p class="text-xs text-gray-400 dark:text-gray-500">Este sitio puede recibir una comisión si reservas a través de este enlace, sin costo adicional para ti.</p>
+					</div>
+					--}}
+				</div>
+			</div>
 		</div>
 	</main>
 
