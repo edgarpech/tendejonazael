@@ -9,5 +9,3 @@ User-agent: Mediapartners-Google
 Allow: /
 
 Sitemap: https://tendejonazael.com.mx/sitemap.xml
-
-Sitemap: https://www.tendejonazael.com.mx/sitemap.xml
