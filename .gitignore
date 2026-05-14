@@ -30,6 +30,8 @@ npm-debug.log
 /eleventa/*.fdb
 /eleventa/SYNC.md
 yarn-error.log
+package-lock.json
+yarn.lock
 phpDocumentor.phar
 /docs/api
 
